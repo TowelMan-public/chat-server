@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <context id="context1" targetRuntime="MyBatis3">
+    <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+        connectionURL="jdbc:mysql://localhost:3306/chat_server"
+        userId="chat_server_root"
+        password="RKh9hrTcHyRAmV5t">
+    </jdbcConnection>
+    
+    <!-- SELECT 結果等を格納するドメインモデルを生成する設定 -->
+    <javaModelGenerator targetPackage="com.example.demo.entity" targetProject="chat-server/src/main/java">
+      <property name="enableSubPackages" value="true" />
+      <property name="trimStrings" value="false" />
+    </javaModelGenerator>
+
+    <!-- SQL 設定が記述された XML を生成する設定 -->
+    <sqlMapGenerator targetPackage="com.example.demo.repository" targetProject="chat-server/src/main/resources">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+    <!-- マッパークラスを生成する設定 -->
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.example.demo.repository" targetProject="chat-server/src/main/java">
+      <property name="enableSubPackages" value="true" />
+    </javaClientGenerator>
+    
+    <table schema="chat_server" tableName="users"
+     	domainObjectName="ParentUserEntity"
+     	enableInsert="true"
+	    enableSelectByPrimaryKey="true"
+	    enableSelectByExample="true"
+	    enableUpdateByPrimaryKey="true"
+	    enableUpdateByExample="true"
+	    enableDeleteByPrimaryKey="true"
+	    enableDeleteByExample="true"
+	    enableCountByExample="true"
+	    selectByExampleQueryId="true"
+	    modelType="flat">
+    </table>
+    
+    <table schema="chat_server" tableName="users_deleted"
+     	domainObjectName="DeletedUserEntity"
+     	enableInsert="true"
+	    enableSelectByPrimaryKey="true"
+	    enableSelectByExample="true"
+	    enableUpdateByPrimaryKey="true"
+	    enableUpdateByExample="true"
+	    enableDeleteByPrimaryKey="true"
+	    enableDeleteByExample="true"
+	    enableCountByExample="true"
+	    selectByExampleQueryId="true"
+	    modelType="flat">
+    </table>
+    
+    <table schema="chat_server" tableName="users_details"
+     	domainObjectName="UserEntity"
+     	enableInsert="true"
+	    enableSelectByPrimaryKey="true"
+	    enableSelectByExample="true"
+	    enableUpdateByPrimaryKey="true"
+	    enableUpdateByExample="true"
+	    enableDeleteByPrimaryKey="true"
+	    enableDeleteByExample="true"
+	    enableCountByExample="true"
+	    selectByExampleQueryId="true"
+	    modelType="flat">
+    </table>
+    
+    <table schema="chat_server" tableName="have_user_list"
+     	domainObjectName="HaveUserEntity"
+     	enableInsert="true"
+	    enableSelectByPrimaryKey="true"
+	    enableSelectByExample="true"
+	    enableUpdateByPrimaryKey="true"
+	    enableUpdateByExample="true"
+	    enableDeleteByPrimaryKey="true"
+	    enableDeleteByExample="true"
+	    enableCountByExample="true"
+	    selectByExampleQueryId="true"
+	    modelType="flat">
+    </table>
+    
+    <table schema="chat_server" tableName="have_user_desire_list"
+     	domainObjectName="DesireHaveUserEntity"
+     	enableInsert="true"
+	    enableSelectByPrimaryKey="true"
+	    enableSelectByExample="true"
+	    enableUpdateByPrimaryKey="true"
+	    enableUpdateByExample="true"
+	    enableDeleteByPrimaryKey="true"
+	    enableDeleteByExample="true"
+	    enableCountByExample="true"
+	    selectByExampleQueryId="true"
+	    modelType="flat">
+    </table>
+    
+    <table schema="chat_server" tableName="group_desire"
+     	domainObjectName="DesireUserInGroupEntity"
+     	enableInsert="true"
+	    enableSelectByPrimaryKey="true"
+	    enableSelectByExample="true"
+	    enableUpdateByPrimaryKey="true"
+	    enableUpdateByExample="true"
+	    enableDeleteByPrimaryKey="true"
+	    enableDeleteByExample="true"
+	    enableCountByExample="true"
+	    selectByExampleQueryId="true"
+	    modelType="flat">
+    </table>
+    
+    <table schema="chat_server" tableName="talk_room"
+     	domainObjectName="ParentTalkRoomEntity"
+     	enableInsert="true"
+	    enableSelectByPrimaryKey="true"
+	    enableSelectByExample="true"
+	    enableUpdateByPrimaryKey="true"
+	    enableUpdateByExample="true"
+	    enableDeleteByPrimaryKey="true"
+	    enableDeleteByExample="true"
+	    enableCountByExample="true"
+	    selectByExampleQueryId="true"
+	    modelType="flat">
+    </table>
+    
+    <table schema="chat_server" tableName="dialogue"
+     	domainObjectName="DialogueTalkRoomEntity"
+     	enableInsert="true"
+	    enableSelectByPrimaryKey="true"
+	    enableSelectByExample="true"
+	    enableUpdateByPrimaryKey="true"
+	    enableUpdateByExample="true"
+	    enableDeleteByPrimaryKey="true"
+	    enableDeleteByExample="true"
+	    enableCountByExample="true"
+	    selectByExampleQueryId="true"
+	    modelType="flat">
+    </table>
+    
+    <table schema="chat_server" tableName="groups"
+     	domainObjectName="GroupTalkRoomEntity"
+     	enableInsert="true"
+	    enableSelectByPrimaryKey="true"
+	    enableSelectByExample="true"
+	    enableUpdateByPrimaryKey="true"
+	    enableUpdateByExample="true"
+	    enableDeleteByPrimaryKey="true"
+	    enableDeleteByExample="true"
+	    enableCountByExample="true"
+	    selectByExampleQueryId="true"
+	    modelType="flat">
+    </table>
+    
+    <table schema="chat_server" tableName="talk_room_deleted"
+     	domainObjectName="DeletedTalkRoomEntity"
+     	enableInsert="true"
+	    enableSelectByPrimaryKey="true"
+	    enableSelectByExample="true"
+	    enableUpdateByPrimaryKey="true"
+	    enableUpdateByExample="true"
+	    enableDeleteByPrimaryKey="true"
+	    enableDeleteByExample="true"
+	    enableCountByExample="true"
+	    selectByExampleQueryId="true"
+	    modelType="flat">
+    </table>
+    
+    <table schema="chat_server" tableName="user_in_group"
+     	domainObjectName="UserInGroupEntity"
+     	enableInsert="true"
+	    enableSelectByPrimaryKey="true"
+	    enableSelectByExample="true"
+	    enableUpdateByPrimaryKey="true"
+	    enableUpdateByExample="true"
+	    enableDeleteByPrimaryKey="true"
+	    enableDeleteByExample="true"
+	    enableCountByExample="true"
+	    selectByExampleQueryId="true"
+	    modelType="flat">
+    </table>
+    
+    <table schema="chat_server" tableName="talk"
+     	domainObjectName="TalkEntity"
+     	enableInsert="true"
+	    enableSelectByPrimaryKey="true"
+	    enableSelectByExample="true"
+	    enableUpdateByPrimaryKey="true"
+	    enableUpdateByExample="true"
+	    enableDeleteByPrimaryKey="true"
+	    enableDeleteByExample="true"
+	    enableCountByExample="true"
+	    selectByExampleQueryId="true"
+	    modelType="flat">
+    </table>
+    
+  </context>
+</generatorConfiguration>
