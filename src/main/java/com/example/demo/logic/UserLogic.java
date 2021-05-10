@@ -53,9 +53,9 @@ public class UserLogic {
 	}
 	
 	public void validationIsFound(Integer userId) throws UnEnableException, NotFoundException {
-		ParentUserEntity parentEntity = parentUserEntityMapper.selectByPrimaryKey(userId);
+		UserEntity entity = userEntityMapper.selectByPrimaryKey(userId);
 		
-		if(parentEntity != null && parentEntity.getUserId() != null) {
+		if(entity != null && entity.getUserId() != null) {
 			validationIsEnable(userId);
 		}else {
 			throw new NotFoundException("userId");
