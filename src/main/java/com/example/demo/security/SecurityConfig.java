@@ -15,6 +15,11 @@ import org.springframework.security.web.authentication.logout.HttpStatusReturnin
 
 import com.example.demo.configurer.UrlConfing;
 
+/**
+ * SpringSecurityの全体的な設定<br>
+ * WebSecurityConfigurerAdapterを実装している
+ * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+ */
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	// ログイン以降の認証認可のためのFilter
@@ -23,6 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	AuthenticationEntryPointImp authenticationEntryPointImp;
 
+	/**
+	 * 認証を無視するURLの設定
+	 */
     @Override
     public void configure(WebSecurity web) throws Exception { 
     	web
@@ -31,6 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	            .antMatchers(UrlConfing.ROOT_URL + "/user/insert");
     }
     
+    /**
+     * 認証・URLのアクセス設定・Filterの設定など多くの設定を行っている
+     */
     @Override
     protected void configure(final HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -58,7 +69,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
     
-    //パスワードのアルゴリズムをBCryptに設定
+    /**
+     * パスワードのアルゴリズムをBCryptに設定
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

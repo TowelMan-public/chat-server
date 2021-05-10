@@ -14,6 +14,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
+/**
+ * このサーバにアクセスしてきたときに、かなり最初の方に実行する共通処理を書くFilterクラスの一つである。<br>
+ * GenericFilterBeanを実装することにより、認証されているかのフィルタリングを行う。つまり、認証されているかを実際に判定するところである。<br>
+ * 
+ * @see org.springframework.web.filter.GenericFilterBean
+ */
 @Component
 public class JWTAuthenticationFilter extends GenericFilterBean {
 
@@ -21,7 +27,9 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
 	@Autowired
     private JWTProvider provider;
 
-    // ログインに対するフィルタリングを行う
+    /**
+     * 認証されているかのフィルタリング処理を実際に書くところ。
+     */
     @Override
     public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain filterChain) 
     		throws IOException, ServletException {

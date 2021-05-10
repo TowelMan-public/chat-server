@@ -10,6 +10,11 @@ import com.example.demo.entity.UserEntity;
 
 import lombok.Data;
 
+/**
+ * ユーザー情報を認証処理等で使うときのためのユーザー情報オブジェクト<br>
+ * UserDetailsを実装している
+ * @see org.springframework.security.core.userdetails.UserDetails
+ */
 @Data
 public class UserDetailsImp implements UserDetails {
 	//シリアライズ
@@ -21,7 +26,11 @@ public class UserDetailsImp implements UserDetails {
 	private String userIdName;
 	private boolean isEnabled;
 	
-	//UserEntityとの互換用のコンストラクタ
+	/**
+	 * UserEntityとの互換用のコンストラクタ
+	 * @param entity ユーザー情報の入ったUserEntity
+	 * @see com.example.demo.entity.UserEntity
+	 */
 	public UserDetailsImp(UserEntity entity) {
 		this.setPassword(entity.getPassword());
 		this.setUserId(entity.getUserId());

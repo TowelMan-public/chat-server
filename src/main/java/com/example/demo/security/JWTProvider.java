@@ -21,6 +21,9 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+/**
+ * 認証用トークンを実際に扱う機能を提供するクラスである。
+ */
 @Component
 public class JWTProvider {
 
@@ -36,7 +39,11 @@ public class JWTProvider {
     @Autowired
 	PasswordEncoder passwordEncoder;
 
-    // UserオブジェクトからJWTを作成する
+    /**
+     * User情報からJWT（認証用トークン）を作成する
+     * @param user Userオブジェクト
+     * @return JWT（認証用トークン）
+     */
     public String createToken(UserDetailsImp user) {
     	
         // ClaimとしてIDとユーザ名を載せる
@@ -59,6 +66,13 @@ public class JWTProvider {
                 .compact();
     }
 
+    /**
+     * ログイン処理としてユーザーID名と生パスワードからJWT（認証用トークン）を提供する。<br>
+     * @param userIdName ユーザーID名
+     * @param password 生パスワード（暗号化等されていないパスワードのこと）
+     * @return JWT（認証用トークン）
+     * @throws LoginException　ログイン処理に失敗した
+     */
     public String loginAndGetToken(String userIdName, String password) throws LoginException {
     	UserDetailsImp user;
     	
@@ -76,7 +90,12 @@ public class JWTProvider {
     	return createToken(user);
     }
     
-    // トークンからユーザ情報を取得する
+    /**
+     * 認証用トークンからユーザー情報を取得する
+     * @param token JWT（認証用トークン）
+     * @return 成功ならユーザー情報を返す。<br>
+     *	 失敗ならnullを返す。
+     */
     public Authentication getAuthentication(final String token) {
     	try {
 		    final UserDetails userDetails = service.loadUserByUserId(getUserId(token));
@@ -87,27 +106,11 @@ public class JWTProvider {
     	}
     }
     
-    // トークンからユーザ名を取得する
-    public String getUsername(final String token) {
-        return String.valueOf(
-        		Jwts.parser()
-        			.setSigningKey(TOKEN_SECRET_KEY)
-	        		.parseClaimsJws(token)
-		        		.getBody()
-		        		.get(USER_NAME));
-    }
-    
-    //トークンからユーザーId名を取得する
-    public String getUserIdName(final String token) {
-    	return String.valueOf(
-    			Jwts.parser()
-	    			.setSigningKey(TOKEN_SECRET_KEY)
-	        		.parseClaimsJws(token)
-		        		.getBody()
-		        		.get(USER_ID_NAME));
-    }
-    
-    //トークンからユーザーIDを取得する
+    /**
+     * 認証用トークンからユーザーIDを取得する
+     * @param token 認証用トークン
+     * @return ユーザーID
+     */
     public Integer getUserId(final String token) {
     	return Integer.valueOf(
     			Jwts.parser()
@@ -117,12 +120,21 @@ public class JWTProvider {
 		        		.getSubject());
     }
 
-    // リクエストのHeaderからトークンを取得する
+    /**
+     * リクエストのヘッダーから認証用トークンを取得する
+     * @param request リクエスト
+     * @return 認証用トークン
+     */
     public String resolveToken(final HttpServletRequest request) {
         return request.getHeader("X-AUTH-TOKEN");
     }
 
-    // トークンの有効期間と実際に存在するかを検証する
+    /**
+     * 認証用トークンについて、機関と、ユーザーが有効なものであるかをチェックする
+     * @param token 認証用トークン
+     * @return 成功ならtrue<br>
+     *	 失敗ならfalse
+     */
     public boolean validateToken(final String token) {
         try {
             final Jws<Claims> claims = Jwts.parser().setSigningKey(TOKEN_SECRET_KEY).parseClaimsJws(token);

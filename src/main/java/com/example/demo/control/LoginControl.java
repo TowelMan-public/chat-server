@@ -13,15 +13,25 @@ import com.example.demo.form.Groups;
 import com.example.demo.form.UserForm;
 import com.example.demo.security.JWTProvider;
 
+/**
+ * ログイン用のアクセスポイントクラス
+ */
 @RequestMapping(UrlConfing.ROOT_URL)
 @RestController
 public class LoginControl {
 	@Autowired
 	JWTProvider provider;
 	
-	//ログイン・認証トークンを返す
+	/**
+	 * apiの呼び出し: /user/login(POST)<br>
+	 * ログイン・認証トークンを返す
+	 * @param form リクエストのパラメター<br>
+	 * 	ここで入力ﾁｪｯｸも行う
+	 * @return 認証トークン<br>
+	 *	これをクライアント側が使うことによりログイン状態と識別することができる
+	*/
 	@PostMapping("user/login")
-	public String insertUser(@RequestBody @Validated(Groups.Login.class) UserForm form) throws LoginException {
+	public String login(@RequestBody @Validated(Groups.Login.class) UserForm form) throws LoginException {
 		return provider.loginAndGetToken(form.getUserIdName(), form.getPassword());
 	}
 }
