@@ -30,11 +30,6 @@ public class UserControl {
 		//TODO
 	}
 	
-	@GetMapping("gets/groups")
-	public void getGroups(@AuthenticationPrincipal UserDetailsImp user) {
-		//TODO
-	}
-	
 	@PostMapping("update/id-name")
 	public void updateUserIdName(@AuthenticationPrincipal UserDetailsImp user,@RequestBody @Validated(Groups.UpdateIdName.class) UserForm form) {
 		//TODO

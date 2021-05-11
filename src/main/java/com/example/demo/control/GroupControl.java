@@ -23,6 +23,11 @@ public class GroupControl {
 		//TODO
 	}
 	
+	@GetMapping("gets")
+	public void getGroups(@AuthenticationPrincipal UserDetailsImp user) {
+		//TODO
+	}
+	
 	@PostMapping("update/name")
 	public void updateGroupName(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.UpdateName.class) GroupForm form) {
 		//TODO
