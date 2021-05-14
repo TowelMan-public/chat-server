@@ -39,10 +39,10 @@ public class UserLogic {
 			.andIsEnabledEqualTo(true);
 		
 		List<UserEntity> list = userEntityMapper.selectByExample(dto);
-		if(list.size() == 1) {
-			return list.get(0);
-		}else {
+		if(list.isEmpty()) {
 			throw new NotFoundException("userIdName");
+		}else {
+			return list.get(0);
 		}
 	}
 
@@ -60,10 +60,10 @@ public class UserLogic {
 			.andIsEnabledEqualTo(true);
 		
 		List<UserEntity> list = userEntityMapper.selectByExample(dto);
-		if(list.size() == 1) {
-			return list.get(0);
-		}else {
+		if(list.isEmpty()) {
 			throw new NotFoundException("userId");
+		}else {
+			return list.get(0);
 		}
 	}
 	
@@ -84,7 +84,13 @@ public class UserLogic {
 	 * @return 成功ならtrue、失敗ならfalse
 	 */
 	public boolean isFound(Integer userId){
-		return userEntityMapper.selectByPrimaryKey(userId) != null;
+		var dto = new UserEntityExample();
+		dto
+			.or()
+			.andUserIdEqualTo(userId)
+			.andIsEnabledEqualTo(true);
+		
+		return userEntityMapper.countByExample(dto) != 0;
 	}
 
 	/**
