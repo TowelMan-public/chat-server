@@ -13,11 +13,11 @@ import com.example.demo.form.TalkForm;
 import com.example.demo.security.UserDetailsImp;
 
 /**
- * トーク単体に関するAPIのアクセスポイントクラス
+ * グループトーク単体に関するAPIのアクセスポイントクラス
  */
-@RequestMapping(UrlConfing.ROOT_URL + "/talk")
+@RequestMapping(UrlConfing.ROOT_URL + "/group/talk")
 @RestController
-public class TalkControl {
+public class GroupTalkControl {
 	@PostMapping("insert")
 	public void insertTalk(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Insert.class) TalkForm form) {
 		//TODO
