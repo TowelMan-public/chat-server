@@ -68,6 +68,27 @@ public class UserLogic {
 	}
 	
 	/**
+	 * ユーザーIdからユーザ情報の取得<br>
+	 * 例外を投げない
+	 * @param userId　ユーザーId
+	 * @return ユーザ情報。見つからなかったらnull。
+	*/
+	public UserEntity getUserByUserIdNonThrow(Integer userId) {
+		var dto = new UserEntityExample();
+		dto
+			.or()
+			.andUserIdEqualTo(userId)
+			.andIsEnabledEqualTo(true);
+		
+		List<UserEntity> list = userEntityMapper.selectByExample(dto);
+		if(list.isEmpty()) {
+			return null;
+		}else {
+			return list.get(0);
+		}
+	}
+	
+	/**
 	 * ユーザーIdが実際に存在してるユーザーのもので、さらに有効なものであるかのチェック<br>
 	 * チェックでひっかかっから例外が投げられる。
 	 * @param userId　ユーザーId
