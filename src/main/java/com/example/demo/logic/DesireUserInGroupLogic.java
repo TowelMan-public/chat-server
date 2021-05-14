@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.dto.DesireUserInGroupEntityExample;
 import com.example.demo.entity.DesireUserInGroupEntity;
 import com.example.demo.exception.NotFoundException;
+import com.example.demo.exception.NotInsertedGroupDesireException;
 import com.example.demo.repository.DesireUserInGroupEntityMapper;
 
 /**
@@ -82,5 +83,43 @@ public class DesireUserInGroupLogic {
 			return entity;
 		else
 			throw new NotFoundException("DesireUserInGroup");
+	}
+
+	/**
+	 * グループ加入してほしい申請の追加
+	 * @param talkRoomId グループトークルームID
+	 * @param userId ユーザーID
+	 * @param lastIndex グループトークルームの最後のトークインデックス
+	 */
+	public void insert(Integer talkRoomId, Integer userId, Integer lastIndex) {
+		//データ作成
+		var entity = new DesireUserInGroupEntity();
+		entity.setTalkRoomId(talkRoomId);
+		entity.setUserId(userId);
+		entity.setLastTalkIndex(lastIndex);
+		
+		//処理
+		desireUserInGroupEntityMapper.insert(entity);
+	}
+
+	/**
+	 * グループに加入してほしい申請が出されているかのチェック
+	 * @param talkRoomId グループトークルームID
+	 * @param userId　ユーザーID
+	 * @throws NotInsertedGroupDesireException 申請が出されてない
+	 */
+	public void validationInserted(Integer talkRoomId, Integer userId) throws NotInsertedGroupDesireException {
+		if(!isInserted(talkRoomId, userId))
+			throw new NotInsertedGroupDesireException();
+	}
+	
+	/**
+	 * グループに加入してほしい申請が出されているかのチェック
+	 * @param talkRoomId グループトークルームID
+	 * @param userId　ユーザーID
+	 * @return 成功ならtrue、失敗ならfalse
+	 */
+	public boolean isInserted(Integer talkRoomId, Integer userId) {
+		return desireUserInGroupEntityMapper.selectByPrimaryKey(userId, talkRoomId) != null;
 	}
 }

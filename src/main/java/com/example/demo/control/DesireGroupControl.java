@@ -31,7 +31,7 @@ public class DesireGroupControl {
 	 * APIの呼び出し: /desire/group/gets(GET)<br>
 	 * グループ加入申請一覧取得<br>
 	 * @param user アクセスしたユーザーの情報
-	 * @return
+	 * @return グループ加入申請一覧
 	 */
 	@GetMapping("gets")
 	public List<DesireUserInGroupResponce> getDesireGroup(@AuthenticationPrincipal UserDetailsImp user) {

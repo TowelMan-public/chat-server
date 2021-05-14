@@ -12,7 +12,7 @@ import com.example.demo.entity.response.DesireUserInGroupResponce;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.logic.DesireUserInGroupLogic;
 import com.example.demo.logic.GroupLogic;
-import com.example.demo.logic.UserInGroupLodic;
+import com.example.demo.logic.UserInGroupLogic;
 import com.example.demo.logic.UserLogic;
 import com.example.demo.security.UserDetailsImp;
 
@@ -26,7 +26,7 @@ public class DesireGroupService {
 	@Autowired
 	DesireUserInGroupLogic desireUserInGroupLogic;
 	@Autowired
-	UserInGroupLodic userInGroupLodic;
+	UserInGroupLogic userInGroupLogic;
 	@Autowired
 	GroupLogic groupLogic;
 
@@ -79,7 +79,7 @@ public class DesireGroupService {
 		
 		DesireUserInGroupEntity desireEntity = desireUserInGroupLogic.getDesireGroup(user.getUserId(), talkRoomId);
 		desireUserInGroupLogic.delete(user.getUserId(),talkRoomId);
-		userInGroupLodic.joinGroup(desireEntity);
+		userInGroupLogic.joinGroup(desireEntity);
 	}
 	
 }
