@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.configurer.UrlConfing;
 import com.example.demo.entity.response.DesireUserInGroupResponce;
+import com.example.demo.exception.NotFoundException;
 import com.example.demo.form.DesireGroupForm;
 import com.example.demo.form.Groups;
 import com.example.demo.security.UserDetailsImp;
@@ -26,18 +27,40 @@ public class DesireGroupControl {
 	@Autowired
 	DesireGroupService desireGroupService;
 	
+	/**
+	 * APIの呼び出し: /desire/group/gets(GET)<br>
+	 * グループ加入申請一覧取得<br>
+	 * @param user アクセスしたユーザーの情報
+	 * @return
+	 */
 	@GetMapping("gets")
 	public List<DesireUserInGroupResponce> getDesireGroup(@AuthenticationPrincipal UserDetailsImp user) {
 		return desireGroupService.getDesireGroup(user);
 	}
 	
+	/**
+	 * APIの呼び出し: /desire/group/delete(POST)<br>
+	 * グループ加入申請削除<br>
+	 * @param user アクセスしたユーザーの情報
+	 * @param form リクエストのパラメター<br>
+	 * 	ここで入力ﾁｪｯｸも行う
+	 * @throws NotFoundException
+	 */
 	@PostMapping("delete")
-	public void deleteDesireGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Delete.class) DesireGroupForm form) {
+	public void deleteDesireGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Delete.class) DesireGroupForm form) throws NotFoundException {
 		desireGroupService.deleteDesireGroup(user,form.getTalkRoomId());
 	}
 	
+	/**
+	 * APIの呼び出し: /desire/group/join(POST)<br>
+	 * グループ加入申請を受ける<br>
+	 * @param user アクセスしたユーザーの情報
+	 * @param form リクエストのパラメター<br>
+	 * 	ここで入力ﾁｪｯｸも行う
+	 * @throws NotFoundException
+	 */
 	@PostMapping("join")
-	public void joinGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Join.class) DesireGroupForm form) {
+	public void joinGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Join.class) DesireGroupForm form) throws NotFoundException {
 		desireGroupService.joinGroup(user,form.getTalkRoomId());
 	}
 }
