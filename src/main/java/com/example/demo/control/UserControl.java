@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.configurer.UrlConfing;
 import com.example.demo.entity.UserEntity;
+import com.example.demo.exception.AlreadyUsedUserIdNameException;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.form.Groups;
 import com.example.demo.form.UserForm;
@@ -33,9 +34,10 @@ public class UserControl {
 	 * 認証無でアクセス
 	 * @param form リクエストのパラメター<br>
 	 * 	ここで入力ﾁｪｯｸも行う
+	 * @throws AlreadyUsedUserIdNameException 
 	*/
 	@PostMapping("insert")
-	public void insertUser(@RequestBody @Validated(Groups.Insert.class) UserForm form) {
+	public void insertUser(@RequestBody @Validated(Groups.Insert.class) UserForm form) throws AlreadyUsedUserIdNameException {
 		userService.insertUser(form);
 	}
 	
@@ -59,9 +61,10 @@ public class UserControl {
 	 * @param user アクセスしたユーザーの情報
 	 * @param form リクエストのパラメター<br>
 	 * 	ここで入力ﾁｪｯｸも行う
+	 * @throws AlreadyUsedUserIdNameException 
 	 */
 	@PostMapping("update/id-name")
-	public void updateUserIdName(@AuthenticationPrincipal UserDetailsImp user,@RequestBody @Validated(Groups.UpdateIdName.class) UserForm form) {
+	public void updateUserIdName(@AuthenticationPrincipal UserDetailsImp user,@RequestBody @Validated(Groups.UpdateIdName.class) UserForm form) throws AlreadyUsedUserIdNameException {
 		userService.updateUserIdName(user,form.getUserIdName());
 	}
 	

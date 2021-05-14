@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.dto.UserEntityExample;
 import com.example.demo.entity.ParentUserEntity;
 import com.example.demo.entity.UserEntity;
+import com.example.demo.exception.AlreadyUsedUserIdNameException;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.form.UserForm;
 import com.example.demo.repository.ParentUserEntityMapper;
@@ -195,5 +196,20 @@ public class UserLogic {
 		var entity = new UserEntity();
 		entity.setUserId(userId);
 		entity.setIsEnabled(false);
+	}
+
+	/**
+	 * ユーザーID名が使われてないかのチェック
+	 * @param userIdName ユーザーID名
+	 * @throws AlreadyUsedUserIdNameException 使われている
+	 */
+	public void validationNotUsedIdName(String userIdName) throws AlreadyUsedUserIdNameException {
+		var dto = new UserEntityExample();
+		dto
+			.or()
+				.andUserIdNameEqualTo(userIdName);
+		
+		if(userEntityMapper.countByExample(dto) != 0)
+			throw new AlreadyUsedUserIdNameException();
 	}
 }

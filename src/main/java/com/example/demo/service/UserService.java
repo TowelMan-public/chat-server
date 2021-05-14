@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.UserEntity;
+import com.example.demo.exception.AlreadyUsedUserIdNameException;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.form.UserForm;
 import com.example.demo.logic.UserLogic;
@@ -25,9 +26,14 @@ public class UserService {
 	/**
 	 * ユーザーを追加する
 	 * @param form 追加するユーザー情報
+	 * @throws AlreadyUsedUserIdNameException 
 	 */
 	@Transactional(rollbackForClassName = "Exception")
-	public void insertUser(UserForm form) {
+	public void insertUser(UserForm form) throws AlreadyUsedUserIdNameException {
+		//チェック
+		userLogic.validationNotUsedIdName(form.getUserIdName());
+		
+		//処理
 		form.setPassword(
 				passwordEncoder.encode(form.getPassword()));
 		userLogic.insertUser(form);
@@ -48,9 +54,14 @@ public class UserService {
 	 * ユーザーID名を変更する
 	 * @param user アクセスしたユーザーの情報
 	 * @param userIdName ユーザーID名
+	 * @throws AlreadyUsedUserIdNameException 
 	 */
 	@Transactional(rollbackForClassName = "Exception")
-	public void updateUserIdName(UserDetailsImp user, String userIdName) {
+	public void updateUserIdName(UserDetailsImp user, String userIdName) throws AlreadyUsedUserIdNameException {
+		//チェック
+		userLogic.validationNotUsedIdName(userIdName);
+		
+		//処理
 		userLogic.updateUserIdName(user,userIdName);
 	}
 
