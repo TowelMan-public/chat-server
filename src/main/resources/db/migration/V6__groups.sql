@@ -6,6 +6,7 @@ CREATE TABLE groups(
 	talk_room_id INT PRIMARY KEY,
 	group_name VARCHAR(100) NOT NULL,
 	last_talk_index INT NOT NULL,
+	is_enabled TINYINT(1) DEFAULT 1,
 	
 	CONSTRAINT fk_talk_room_id2
 	    FOREIGN KEY (talk_room_id) 

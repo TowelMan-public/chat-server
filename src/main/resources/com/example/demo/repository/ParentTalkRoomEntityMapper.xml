@@ -141,16 +141,21 @@
       This element was generated on Sun May 09 20:59:53 JST 2021.
     -->
     insert into talk_room
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="talkRoomId != null">
-        talk_room_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="talkRoomId != null">
-        #{talkRoomId,jdbcType=INTEGER},
-      </if>
-    </trim>
+     (
+	    <trim prefix="" suffix="" suffixOverrides=",">
+	      <if test="talkRoomId != null">
+	        talk_room_id,
+	      </if>
+	    </trim>
+	 )
+
+	 VALUES(
+	    <trim prefix="" suffix="" suffixOverrides=",">
+	      <if test="talkRoomId != null">
+	        #{talkRoomId,jdbcType=INTEGER},
+	      </if>
+	    </trim>
+    )
   </insert>
   <select id="countByExample" parameterType="com.example.demo.dto.ParentTalkRoomEntityExample" resultType="java.lang.Long">
     <!--

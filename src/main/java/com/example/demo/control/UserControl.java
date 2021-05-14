@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.configurer.UrlConfing;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.exception.NotFoundException;
-import com.example.demo.exception.UnEnableException;
 import com.example.demo.form.Groups;
 import com.example.demo.form.UserForm;
 import com.example.demo.security.UserDetailsImp;
@@ -50,7 +49,7 @@ public class UserControl {
 	 * @throws UnEnableException
 	 */
 	@GetMapping("get")
-	public UserEntity getUser(@Validated(Groups.Get.class) UserForm form) throws NotFoundException, UnEnableException {
+	public UserEntity getUser(@Validated(Groups.Get.class) UserForm form) throws NotFoundException {
 		return userService.getUser(form.getUserIdName());
 	}
 	

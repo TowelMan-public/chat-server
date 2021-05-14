@@ -7,6 +7,7 @@ CREATE TABLE users_details(
 	user_id_name VARCHAR(100) NOT NULL UNIQUE,
 	user_name VARCHAR(100) NOT NULL,
 	password VARCHAR(100) NOT NULL,
+	is_enabled TINYINT(1) DEFAULT 1,
 	
 	CONSTRAINT fk_user_id1
 	    FOREIGN KEY (user_id) 

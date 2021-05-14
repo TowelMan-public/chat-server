@@ -5,15 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.example.demo.dto.DeletedUserEntityExample;
 import com.example.demo.dto.UserEntityExample;
-import com.example.demo.entity.DeletedUserEntity;
 import com.example.demo.entity.ParentUserEntity;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.exception.NotFoundException;
-import com.example.demo.exception.UnEnableException;
 import com.example.demo.form.UserForm;
-import com.example.demo.repository.DeletedUserEntityMapper;
 import com.example.demo.repository.ParentUserEntityMapper;
 import com.example.demo.repository.UserEntityMapper;
 import com.example.demo.security.UserDetailsImp;
@@ -28,27 +24,23 @@ public class UserLogic {
 	ParentUserEntityMapper parentUserEntityMapper;
 	@Autowired
 	UserEntityMapper userEntityMapper;
-	@Autowired
-	DeletedUserEntityMapper deletedUserEntityMapper;
 	
 	/**
 	 * ユーザーId名からユーザ情報の取得
 	 * @param userIdName　ユーザーId名
 	 * @return ユーザ情報
 	 * @throws com.example.demo.exception.NotFoundException ユーザーIdが存在しない
-	 * @throws com.example.demo.exception.UnEnableException ユーザーIdが無効なものである
 	*/
-	public UserEntity getUserByUserIdName(String userIdName) throws NotFoundException, UnEnableException {
-		UserEntityExample dto = new UserEntityExample();
+	public UserEntity getUserByUserIdName(String userIdName) throws NotFoundException{
+		var dto = new UserEntityExample();
 		dto
 			.or()
-			.andUserIdNameEqualTo(userIdName);
+			.andUserIdNameEqualTo(userIdName)
+			.andIsEnabledEqualTo(true);
 		
 		List<UserEntity> list = userEntityMapper.selectByExample(dto);
 		if(list.size() == 1) {
-			UserEntity entity = list.get(0);
-			validationIsEnable(entity.getUserId());
-			return entity;
+			return list.get(0);
 		}else {
 			throw new NotFoundException("userIdName");
 		}
@@ -59,14 +51,17 @@ public class UserLogic {
 	 * @param userId　ユーザーId
 	 * @return ユーザ情報
 	 * @throws com.example.demo.exception.NotFoundException ユーザーIdが存在しない
-	 * @throws com.example.demo.exception.UnEnableException ユーザーIdが無効なものである
 	*/
-	public UserEntity getUserByUserId(Integer userId) throws UnEnableException, NotFoundException {
-		UserEntity entity = userEntityMapper.selectByPrimaryKey(userId);
+	public UserEntity getUserByUserId(Integer userId) throws NotFoundException {
+		var dto = new UserEntityExample();
+		dto
+			.or()
+			.andUserIdEqualTo(userId)
+			.andIsEnabledEqualTo(true);
 		
-		if(entity != null) {
-			validationIsEnable(entity.getUserId());
-			return entity;
+		List<UserEntity> list = userEntityMapper.selectByExample(dto);
+		if(list.size() == 1) {
+			return list.get(0);
 		}else {
 			throw new NotFoundException("userId");
 		}
@@ -77,16 +72,10 @@ public class UserLogic {
 	 * チェックでひっかかっから例外が投げられる。
 	 * @param userId　ユーザーId
 	 * @throws com.example.demo.exception.NotFoundException ユーザーIdが存在しない
-	 * @throws com.example.demo.exception.UnEnableException ユーザーIdが無効なものである
 	*/
-	public void validationIsFound(Integer userId) throws UnEnableException, NotFoundException {
-		UserEntity entity = userEntityMapper.selectByPrimaryKey(userId);
-		
-		if(entity != null && entity.getUserId() != null) {
-			validationIsEnable(userId);
-		}else {
+	public void validationIsFound(Integer userId) throws NotFoundException {		
+		if(!isFound(userId))
 			throw new NotFoundException("userId");
-		}
 	}
 	
 	/**
@@ -95,43 +84,7 @@ public class UserLogic {
 	 * @return 成功ならtrue、失敗ならfalse
 	 */
 	public boolean isFound(Integer userId){
-		UserEntity entity = userEntityMapper.selectByPrimaryKey(userId);
-		
-		if(entity != null && entity.getUserId() != null) {
-			return isEnable(userId);
-		}else {
-			return false;
-		}
-	}
-	
-	/**
-	 * ユーザーIdが有効なものであるかのチェック
-	 * @param userId　ユーザーId
-	 * @return ユーザ情報
-	 * @throws com.example.demo.exception.UnEnableException ユーザーIdが無効なものである
-	*/
-	public void validationIsEnable(Integer userId) throws UnEnableException {
-		DeletedUserEntityExample dto = new DeletedUserEntityExample();
-		dto
-			.or()
-			.andUserIdEqualTo(userId);
-		
-		if(deletedUserEntityMapper.countByExample(dto) != 0)
-			throw new UnEnableException("UserEntity");
-	}
-	
-	/**
-	 * ユーザーIdが有効なものであるかのチェック
-	 * @param userId ユーザーId
-	 * @return 成功ならtrue、失敗ならfalse
-	 */
-	public boolean isEnable(Integer userId){
-		DeletedUserEntityExample dto = new DeletedUserEntityExample();
-		dto
-			.or()
-			.andUserIdEqualTo(userId);
-		
-		return deletedUserEntityMapper.countByExample(dto) != 0;
+		return userEntityMapper.selectByPrimaryKey(userId) != null;
 	}
 
 	/**
@@ -140,11 +93,11 @@ public class UserLogic {
 	 */
 	public void insertUser(UserForm form) {
 		//userIdの取得
-		ParentUserEntity parentEntity = new ParentUserEntity();
+		var parentEntity = new ParentUserEntity();
 		parentUserEntityMapper.insertSelective(parentEntity);
 		
 		//データ作成
-		UserEntity insertEntity = new UserEntity();
+		var insertEntity = new UserEntity();
 		insertEntity.setUserId(
 				parentEntity.getUserId());
 		insertEntity.setUserIdName(
@@ -153,6 +106,7 @@ public class UserLogic {
 				form.getUserName());
 		insertEntity.setPassword(
 				form.getPassword());
+		insertEntity.setIsEnabled(true);
 		
 		//実行
 		userEntityMapper.insert(insertEntity);
@@ -165,7 +119,7 @@ public class UserLogic {
 	 */
 	public void updateUserIdName(UserDetailsImp user, String userIdName) {
 		//データ作成
-		UserEntity insertEntity = new UserEntity();
+		var insertEntity = new UserEntity();
 		insertEntity.setUserId(
 				user.getUserId());
 		insertEntity.setUserIdName(userIdName);
@@ -181,7 +135,7 @@ public class UserLogic {
 	 */
 	public void updateUserName(UserDetailsImp user, String userName) {
 		//データ作成
-		UserEntity insertEntity = new UserEntity();
+		var insertEntity = new UserEntity();
 		insertEntity.setUserId(
 				user.getUserId());
 		insertEntity.setUserName(userName);
@@ -197,7 +151,7 @@ public class UserLogic {
 	 */
 	public void updatePassword(UserDetailsImp user, String password) {
 		//データ作成
-		UserEntity insertEntity = new UserEntity();
+		var insertEntity = new UserEntity();
 		insertEntity.setUserId(
 				user.getUserId());
 		insertEntity.setPassword(password);
@@ -210,12 +164,9 @@ public class UserLogic {
 	 * ユーザーを削除する（物理的には残ってたりする）
 	 * @param user アクセスしたユーザーの情報
 	 */
-	public void deleteUser(UserDetailsImp user) {
-		userEntityMapper.deleteByPrimaryKey(user.getUserId());
-		if(isEnable(user.getUserId())) {
-			DeletedUserEntity entity = new DeletedUserEntity();
-			entity.setUserId(user.getUserId());
-			deletedUserEntityMapper.insert(entity);
-		}
+	public void deleteUser(Integer userId) {
+		var entity = new UserEntity();
+		entity.setUserId(userId);
+		entity.setIsEnabled(false);
 	}
 }

@@ -5,7 +5,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.exception.NotFoundException;
-import com.example.demo.exception.UnEnableException;
 import com.example.demo.logic.UserLogic;
 import com.example.demo.security.UserDetailsImp;
 
@@ -25,7 +24,7 @@ public class UserDetailsServiceImp {
 	 * @throws com.example.demo.exception.NotFoundException ユーザーIdが存在しない
 	 * @throws com.example.demo.exception.UnEnableException ユーザーIdが無効なものである
 	*/
-	public UserDetailsImp loadUserByUserIdName(String userIdName) throws NotFoundException, UnEnableException {
+	public UserDetailsImp loadUserByUserIdName(String userIdName) throws NotFoundException {
 		return new UserDetailsImp(
 				userLogic.getUserByUserIdName(userIdName));
 	}
@@ -37,7 +36,7 @@ public class UserDetailsServiceImp {
 	 * @throws com.example.demo.exception.NotFoundException ユーザーIdが存在しない
 	 * @throws com.example.demo.exception.UnEnableException ユーザーIdが無効なものである
 	*/
-	public UserDetails loadUserByUserId(Integer userId) throws NotFoundException, UnEnableException {		
+	public UserDetails loadUserByUserId(Integer userId) throws NotFoundException {		
 		return new UserDetailsImp(
 				userLogic.getUserByUserId(userId));
 	}

@@ -37,20 +37,6 @@
 	    modelType="flat">
     </table>
     
-    <table schema="chat_server" tableName="users_deleted"
-     	domainObjectName="DeletedUserEntity"
-     	enableInsert="true"
-	    enableSelectByPrimaryKey="true"
-	    enableSelectByExample="true"
-	    enableUpdateByPrimaryKey="true"
-	    enableUpdateByExample="true"
-	    enableDeleteByPrimaryKey="true"
-	    enableDeleteByExample="true"
-	    enableCountByExample="true"
-	    selectByExampleQueryId="true"
-	    modelType="flat">
-    </table>
-    
     <table schema="chat_server" tableName="users_details"
      	domainObjectName="UserEntity"
      	enableInsert="true"
@@ -137,20 +123,6 @@
     
     <table schema="chat_server" tableName="groups"
      	domainObjectName="GroupTalkRoomEntity"
-     	enableInsert="true"
-	    enableSelectByPrimaryKey="true"
-	    enableSelectByExample="true"
-	    enableUpdateByPrimaryKey="true"
-	    enableUpdateByExample="true"
-	    enableDeleteByPrimaryKey="true"
-	    enableDeleteByExample="true"
-	    enableCountByExample="true"
-	    selectByExampleQueryId="true"
-	    modelType="flat">
-    </table>
-    
-    <table schema="chat_server" tableName="talk_room_deleted"
-     	domainObjectName="DeletedTalkRoomEntity"
      	enableInsert="true"
 	    enableSelectByPrimaryKey="true"
 	    enableSelectByExample="true"

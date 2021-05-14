@@ -5,6 +5,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 CREATE TABLE dialogue(
 	talk_room_id INT PRIMARY KEY,
 	last_talk_index INT NOT NULL,
+	is_enabled TINYINT(1) DEFAULT 1,
 	
 	CONSTRAINT fk_talk_room_id1
 	    FOREIGN KEY (talk_room_id) 

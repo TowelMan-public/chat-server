@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.UserEntity;
 import com.example.demo.exception.NotFoundException;
-import com.example.demo.exception.UnEnableException;
 import com.example.demo.form.UserForm;
 import com.example.demo.logic.UserLogic;
 import com.example.demo.security.UserDetailsImp;
@@ -41,7 +40,7 @@ public class UserService {
 	 * @throws com.example.demo.exception.NotFoundException ユーザーIdが存在しない
 	 * @throws com.example.demo.exception.UnEnableException ユーザーIdが無効なものである
 	*/
-	public UserEntity getUser(String userIdName) throws NotFoundException, UnEnableException {
+	public UserEntity getUser(String userIdName) throws NotFoundException{
 		return userLogic.getUserByUserIdName(userIdName);
 	}
 
@@ -81,6 +80,6 @@ public class UserService {
 	 */
 	@Transactional(rollbackForClassName = "Exception")
 	public void deleteUser(UserDetailsImp user) {
-		userLogic.deleteUser(user);
+		userLogic.deleteUser(user.getUserId());
 	}
 }
