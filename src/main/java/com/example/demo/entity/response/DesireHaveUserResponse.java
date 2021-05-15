@@ -11,6 +11,7 @@ import lombok.Data;
 @Data
 public class DesireHaveUserResponse {
 	private String haveUserIdName;
+	private String haveUserName;
 	private Integer talkRoomId;
 	private Integer lastTalkIndex;
 	
@@ -22,6 +23,7 @@ public class DesireHaveUserResponse {
 	 */
 	public DesireHaveUserResponse(DesireHaveUserEntity desireEntity, UserEntity haveEntity) {
 		haveUserIdName = haveEntity.getUserIdName();
+		haveUserName = haveEntity.getUserName();
 		talkRoomId = desireEntity.getTalkRoomId();
 		lastTalkIndex = desireEntity.getLastTalkIndex();
 	}
