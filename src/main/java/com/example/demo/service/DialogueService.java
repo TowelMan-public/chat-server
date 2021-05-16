@@ -6,10 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entity.DesireHaveUserEntity;
+import com.example.demo.entity.HaveUserEntity;
 import com.example.demo.entity.TalkEntity;
 import com.example.demo.entity.response.TalkResponse;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.exception.NotHaveUserException;
+import com.example.demo.logic.DesireUserLogic;
 import com.example.demo.logic.DialogueLogic;
 import com.example.demo.logic.HaveUserLogic;
 import com.example.demo.logic.Talklogic;
@@ -25,6 +28,8 @@ public class DialogueService {
 	UserLogic userLogic;
 	@Autowired
 	HaveUserLogic haveUserLogic;
+	@Autowired
+	DesireUserLogic desireUserLogic;
 	@Autowired
 	DialogueLogic dialogueLogic;
 	@Autowired
@@ -45,8 +50,15 @@ public class DialogueService {
 		//チェック・必要データ取得
 		Integer haveUserId = userLogic.getUserByUserIdName(haveUserIdName)
 									  .getUserId();
-		Integer diarogueTalkRoomId = haveUserLogic.getHaveUser(user.getUserId(), haveUserId)
-												  .getTalkRoomId();
+		Integer diarogueTalkRoomId;
+		HaveUserEntity haveUserEntity = haveUserLogic.getHaveUserNonThrow(user.getUserId(), haveUserId);
+		DesireHaveUserEntity desireHaveUserEntity = desireUserLogic.getDesireUserNonThorw(user.getUserId(), haveUserId);
+		if(haveUserEntity != null)
+			diarogueTalkRoomId = haveUserEntity.getTalkRoomId();
+		else if(desireHaveUserEntity != null)
+			diarogueTalkRoomId = desireHaveUserEntity.getTalkRoomId();
+		else
+			throw new NotHaveUserException();
 		
 		//データ取得・宣言
 		List<TalkEntity> talkList = talklogic.getTalks(diarogueTalkRoomId, startIndex, maxSize);

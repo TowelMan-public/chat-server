@@ -67,6 +67,17 @@ public class DesireUserLogic {
 	}
 
 	/**
+	 * 友達追加申請を取得する<br>
+	 * 例外を投げない
+	 * @param userId 友達追加申請を受けてるユーザーID
+	 * @param haveUserId 友達追加申請をしてるユーザーID
+	 * @return 友達追加申請。失敗するとnull
+	 */
+	public DesireHaveUserEntity getDesireUserNonThorw(Integer userId, Integer haveUserId) {
+		return desireHaveUserEntityMapper.selectByPrimaryKey(userId, haveUserId);
+	}
+	
+	/**
 	 * 友達追加申請リストを取得する
 	 * @param userId 友達追加申請を受けてるユーザーID
 	 * @return 友達追加申請リスト

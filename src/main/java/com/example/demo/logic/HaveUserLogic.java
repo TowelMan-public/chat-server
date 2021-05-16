@@ -126,6 +126,29 @@ public class HaveUserLogic {
 	}
 
 	/**
+	 * 友達を取得する<br>
+	 * 例外を投げない
+	 * @param userId 友達登録する側のユーザーID
+	 * @param haveUserId 友達登録される側のユーザーID
+	 * @return 友達。失敗するとnull
+	 */
+	public HaveUserEntity getHaveUserNonThrow(Integer userId, Integer haveUserId) {
+		//SQL作成
+		var dto = new HaveUserEntityExample();
+		dto
+			.or()
+				.andUserIdEqualTo(userId)
+				.andHaveUserIdEqualTo(haveUserId);
+		
+		List<HaveUserEntity> list = haveUserEntityMapper.selectByExample(dto);
+		
+		if(list.isEmpty())
+			return null;
+		else
+			return list.get(0);
+	}
+	
+	/**
 	 * 友達を削除する
 	 * @param userId 友達登録する側のユーザーID
 	 * @param haveUserId 友達登録される側のユーザーID
