@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entity.DialogueTalkRoomEntity;
 import com.example.demo.entity.HaveUserEntity;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.entity.response.HaveUserResponse;
@@ -46,8 +47,10 @@ public class UserInDialogueService {
 		for(HaveUserEntity haveUserEntity : haveUserList) {
 			UserEntity userEntity = 
 					userLogic.getUserByUserIdNonThrow(haveUserEntity.getUserId());
-			if(userEntity != null)
-				responselist.add(new HaveUserResponse(haveUserEntity,userEntity));
+			DialogueTalkRoomEntity dialogueEntity =
+					dialogueLogic.getDialogueNonThrow(haveUserEntity.getTalkRoomId());
+			if(userEntity != null || dialogueEntity != null)
+				responselist.add(new HaveUserResponse(haveUserEntity, userEntity, dialogueEntity));
 		}
 		
 		return responselist;

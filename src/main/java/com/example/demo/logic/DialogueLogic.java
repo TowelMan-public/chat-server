@@ -42,4 +42,8 @@ public class DialogueLogic {
 			return entity;
 	}
 
+	public DialogueTalkRoomEntity getDialogueNonThrow(Integer dialogueTalkRoomId) {
+		return dialogueTalkRoomEntityMapper.selectByPrimaryKey(dialogueTalkRoomId);
+	}
+
 }
