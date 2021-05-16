@@ -60,6 +60,15 @@ public class DialogueService {
 				responseList.add(new TalkResponse(talkEntity,userEntity));
 		}
 		
+		//後処理
+		Integer userLastTalkIndex = startIndex + maxSize - 1;
+		Integer talkRoomLastTalkIndex = dialogueLogic.getDialogue(diarogueTalkRoomId)
+							 						 .getLastTalkIndex();
+		if(userLastTalkIndex > talkRoomLastTalkIndex)
+			haveUserLogic.updateLastTalkIndex(user.getUserId(), haveUserId, talkRoomLastTalkIndex);
+		else
+			haveUserLogic.updateLastTalkIndex(user.getUserId(), haveUserId, userLastTalkIndex);
+		
 		return responseList;
 	}
 }

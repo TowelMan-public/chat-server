@@ -157,4 +157,21 @@ public class HaveUserLogic {
 		//処理
 		return haveUserEntityMapper.selectByExample(dto);
 	}
+
+	public void updateLastTalkIndex(Integer userId, Integer haveUserId, Integer lastTalkIndex) {
+		//データ作成
+		var entity = new HaveUserEntity();
+		entity.setLastTalkIndex(lastTalkIndex);
+		
+		//SQL作成
+		var dto = new HaveUserEntityExample();
+		dto
+			.or()
+				.andUserIdEqualTo(userId)
+				.andHaveUserIdEqualTo(haveUserId)
+				.andLastTalkIndexLessThan(lastTalkIndex);
+		
+		//処理
+		haveUserEntityMapper.updateByExampleSelective(entity, dto);
+	}
 }
