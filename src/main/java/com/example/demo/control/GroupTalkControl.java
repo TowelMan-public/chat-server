@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.configurer.UrlConfing;
 import com.example.demo.form.Groups;
-import com.example.demo.form.TalkForm;
+import com.example.demo.form.GroupTalkForm;
 import com.example.demo.security.UserDetailsImp;
 
 /**
@@ -19,22 +19,22 @@ import com.example.demo.security.UserDetailsImp;
 @RestController
 public class GroupTalkControl {
 	@PostMapping("insert")
-	public void insertTalk(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Insert.class) TalkForm form) {
+	public void insertTalk(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Insert.class) GroupTalkForm form) {
 		//TODO
 	}
 	
 	@GetMapping("get")
-	public void getTalk(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Get.class) TalkForm form) {
+	public void getTalk(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Get.class) GroupTalkForm form) {
 		//TODO
 	}
 	
 	@PostMapping("update")
-	public void updateTalk(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Update.class) TalkForm form) {
+	public void updateTalk(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Update.class) GroupTalkForm form) {
 		//TODO
 	}
 	
 	@PostMapping("delete")
-	public void deleteTalk(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Delete.class) TalkForm form) {
+	public void deleteTalk(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Delete.class) GroupTalkForm form) {
 		//TODO
 	}
 }

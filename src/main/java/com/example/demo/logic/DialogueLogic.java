@@ -45,8 +45,22 @@ public class DialogueLogic {
 			return entity;
 	}
 
+	/**
+	 *  ユーザートークルームの取得<br>
+	 *  例外を投げない
+	 * @param dialogueTalkRoomId ユーザートークルーム
+	 * @return ユーザートークルーム。失敗ならnull
+	 */
 	public DialogueTalkRoomEntity getDialogueNonThrow(Integer dialogueTalkRoomId) {
 		return dialogueTalkRoomEntityMapper.selectByPrimaryKey(dialogueTalkRoomId);
+	}
+
+	/**
+	 * lastTalkIndexをインクリメントする
+	 * @param dialogueTalkRoomId 友達トークルームID
+	 */
+	public void incrementLastTalkIndex(Integer dialogueTalkRoomId) {
+		dialogueTalkRoomEntityMapper.incrementLastTalkIndex(dialogueTalkRoomId);
 	}
 
 }
