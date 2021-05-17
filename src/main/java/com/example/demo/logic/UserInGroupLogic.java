@@ -104,7 +104,7 @@ public class UserInGroupLogic {
 	 * @param userId ユーザーID
 	 * @param lastTalkIndex ラストトークインデックス 
 	 */
-	public void joinGroup(Integer talkRoomId, Integer userId, int lastTalkIndex) {
+	public void joinGroup(Integer talkRoomId, Integer userId, Integer lastTalkIndex) {
 		//データセット
 		var entity = new UserInGroupEntity();
 		entity.setTalkRoomId(talkRoomId);
