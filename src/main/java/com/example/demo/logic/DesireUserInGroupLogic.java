@@ -44,28 +44,6 @@ public class DesireUserInGroupLogic {
 		//処理
 		return desireUserInGroupEntityMapper.selectByExample(dto);
 	}
-
-	/**
-	 * グループに入ってほしい申請が実際に存在するかのチェック<br>
-	 * 失敗すると例外を投げる
-	 * @param talkRoomId グループトークルームID
-	 * @param userId ユーザーID
-	 * @throws NotFoundException 見つからない
-	 */
-	public void validationIsFound(Integer talkRoomId, Integer userId) throws NotFoundException {
-		if(!isFound(talkRoomId, userId))
-			throw new NotFoundException("DesireUserInGroup");
-	}
-
-	/**
-	 * グループに入ってほしい申請が実際に存在するかのチェック
-	 * @param talkRoomId グループトークルームID
-	 * @param userId ユーザーID
-	 * @return 成功ならtrue、失敗ならfalse
-	 */
-	public boolean isFound(Integer talkRoomId, Integer userId) {
-		return desireUserInGroupEntityMapper.selectByPrimaryKey(userId, talkRoomId) != null;
-	}
 	
 	/**
 	 * グループに入ってほしい申請の取得

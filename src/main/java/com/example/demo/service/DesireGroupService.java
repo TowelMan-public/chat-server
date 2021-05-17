@@ -10,6 +10,7 @@ import com.example.demo.entity.DesireUserInGroupEntity;
 import com.example.demo.entity.GroupTalkRoomEntity;
 import com.example.demo.entity.response.DesireUserInGroupResponce;
 import com.example.demo.exception.NotFoundException;
+import com.example.demo.exception.NotInsertedGroupDesireException;
 import com.example.demo.logic.DesireUserInGroupLogic;
 import com.example.demo.logic.GroupLogic;
 import com.example.demo.logic.UserInGroupLogic;
@@ -57,11 +58,12 @@ public class DesireGroupService {
 	 * @param user ユーザー情報
 	 * @param talkRoomId グループトークルームID
 	 * @throws NotFoundException 見つからなかったものがある
+	 * @throws NotInsertedGroupDesireException 
 	 */
-	public void deleteDesireGroup(UserDetailsImp user, Integer talkRoomId) throws NotFoundException {
+	public void deleteDesireGroup(UserDetailsImp user, Integer talkRoomId) throws NotFoundException, NotInsertedGroupDesireException {
 		//バリデーションチェック
 		groupLogic.validationIsFound(talkRoomId);
-		desireUserInGroupLogic.validationIsFound(talkRoomId,user.getUserId());
+		desireUserInGroupLogic.validationInserted(talkRoomId,user.getUserId());
 		
 		//処理
 		desireUserInGroupLogic.delete(user.getUserId(),talkRoomId);

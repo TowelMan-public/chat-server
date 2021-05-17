@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.configurer.UrlConfing;
 import com.example.demo.entity.response.DesireUserInGroupResponce;
 import com.example.demo.exception.NotFoundException;
+import com.example.demo.exception.NotInsertedGroupDesireException;
 import com.example.demo.form.DesireGroupForm;
 import com.example.demo.form.Groups;
 import com.example.demo.security.UserDetailsImp;
@@ -45,9 +46,10 @@ public class DesireGroupControl {
 	 * @param form リクエストのパラメター<br>
 	 * 	ここで入力ﾁｪｯｸも行う
 	 * @throws NotFoundException
+	 * @throws NotInsertedGroupDesireException 
 	 */
 	@PostMapping("delete")
-	public void deleteDesireGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Delete.class) DesireGroupForm form) throws NotFoundException {
+	public void deleteDesireGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Delete.class) DesireGroupForm form) throws NotFoundException, NotInsertedGroupDesireException {
 		desireGroupService.deleteDesireGroup(user,form.getTalkRoomId());
 	}
 	
