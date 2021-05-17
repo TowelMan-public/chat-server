@@ -90,4 +90,21 @@ public class DesireUserLogic {
 		
 		return desireHaveUserEntityMapper.selectByExample(dto);
 	}
+
+	public void updateLastTalkIndex(Integer userId, Integer haveUserId, Integer lastTalkIndex) {
+		//データ作成
+		var entity = new DesireHaveUserEntity();
+		entity.setLastTalkIndex(lastTalkIndex);
+		
+		//SQL作成
+		var dto = new DesireHaveUserEntityExample();
+		dto
+			.or()
+				.andUserIdEqualTo(userId)
+				.andHaveUserIdEqualTo(haveUserId)
+				.andLastTalkIndexLessThan(lastTalkIndex);
+		
+		//処理
+		desireHaveUserEntityMapper.updateByExampleSelective(entity, dto);
+	}
 }

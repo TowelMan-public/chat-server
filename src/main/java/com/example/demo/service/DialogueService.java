@@ -18,6 +18,7 @@ import com.example.demo.logic.HaveUserLogic;
 import com.example.demo.logic.Talklogic;
 import com.example.demo.logic.UserLogic;
 import com.example.demo.security.UserDetailsImp;
+import com.example.demo.utility.CommonUtility;
 
 /**
  * 友達トークに関するAPIのサービスロジック
@@ -34,6 +35,8 @@ public class DialogueService {
 	DialogueLogic dialogueLogic;
 	@Autowired
 	Talklogic talklogic;
+	@Autowired
+	CommonUtility commonUtility;
 
 	/**
 	 * レスポンス向けのトークリストを取得する
@@ -76,10 +79,10 @@ public class DialogueService {
 		Integer userLastTalkIndex = startIndex + maxSize - 1;
 		Integer talkRoomLastTalkIndex = dialogueLogic.getDialogue(diarogueTalkRoomId)
 							 						 .getLastTalkIndex();
-		if(userLastTalkIndex > talkRoomLastTalkIndex)
-			haveUserLogic.updateLastTalkIndex(user.getUserId(), haveUserId, talkRoomLastTalkIndex);
+		if(haveUserEntity != null)
+			haveUserLogic.updateLastTalkIndex(user.getUserId(), haveUserId, commonUtility.min(userLastTalkIndex, talkRoomLastTalkIndex));
 		else
-			haveUserLogic.updateLastTalkIndex(user.getUserId(), haveUserId, userLastTalkIndex);
+			desireUserLogic.updateLastTalkIndex(user.getUserId(), haveUserId, commonUtility.min(userLastTalkIndex, talkRoomLastTalkIndex));
 		
 		return responseList;
 	}
