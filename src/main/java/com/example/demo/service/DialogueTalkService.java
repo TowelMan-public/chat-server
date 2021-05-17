@@ -72,7 +72,7 @@ public class DialogueTalkService {
 		
 		//処理
 		TalkEntity talkEntity = talklogic.getTalk(bindHaveUserAndTalkRom.getTalkRoomId(), talkIndex);
-		UserEntity userEntity = userLogic.getUserByUserId(bindHaveUserAndTalkRom.getHaveUserId());
+		UserEntity userEntity = userLogic.getUserByUserId(talkEntity.getUserId());
 		return new TalkResponse(talkEntity, userEntity);
 	}
 
