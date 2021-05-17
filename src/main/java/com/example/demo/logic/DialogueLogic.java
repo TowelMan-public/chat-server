@@ -25,7 +25,10 @@ public class DialogueLogic {
 	 * @return トークルームID
 	 */
 	public Integer createTalkRoom() {
-		return parentTalkRoomEntityMapper.insertSelective(new ParentTalkRoomEntity());
+		var entity = new ParentTalkRoomEntity();
+		parentTalkRoomEntityMapper.insertSelective(entity);
+		
+		return entity.getTalkRoomId();
 	}
 
 	/**
