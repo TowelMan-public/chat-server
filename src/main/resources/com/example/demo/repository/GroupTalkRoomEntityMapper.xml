@@ -269,4 +269,13 @@
       is_enabled = #{isEnabled,jdbcType=BIT}
     where talk_room_id = #{talkRoomId,jdbcType=INTEGER}
   </update>
+  
+  <!--自作-->
+  <update id="updateByPrimaryKey" parameterType="java.lang.Integer">
+    UPDATE groups
+    SET
+    	last_talk_index = last_talk_index + 1
+    WHERE
+    	talk_room_id = #{talkRoomId,jdbcType=INTEGER}
+  </update>
 </mapper>

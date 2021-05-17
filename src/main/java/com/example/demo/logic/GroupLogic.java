@@ -145,4 +145,12 @@ public class GroupLogic {
 		groupTalkRoomEntityMapper.insertSelective(groupEntity);
 		return parentEntity.getTalkRoomId();
 	}
+
+	/**
+	 * lastTalkIndexをインクリメントする
+	 * @param groupTalkRoomId グループトークルームID
+	 */
+	public void incrementLastTalkIndex(Integer groupTalkRoomId) {
+		groupTalkRoomEntityMapper.incrementLastTalkIndex(groupTalkRoomId);
+	}
 }

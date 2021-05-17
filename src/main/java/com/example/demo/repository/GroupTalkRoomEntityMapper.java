@@ -97,4 +97,12 @@ public interface GroupTalkRoomEntityMapper {
      * @mbg.generated Sun May 09 20:59:53 JST 2021
      */
     int updateByPrimaryKey(GroupTalkRoomEntity record);
+    
+    /**
+     * 自作<br>
+     * last_talk_indexカラムをインクリメントする
+     * 
+     * @param talkRoomId talk_room_id の値
+     */
+    void incrementLastTalkIndex(Integer talkRoomId);
 }
