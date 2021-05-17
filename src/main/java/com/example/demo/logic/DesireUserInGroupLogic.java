@@ -122,4 +122,27 @@ public class DesireUserInGroupLogic {
 	public boolean isInserted(Integer talkRoomId, Integer userId) {
 		return desireUserInGroupEntityMapper.selectByPrimaryKey(userId, talkRoomId) != null;
 	}
+
+	/**
+	 * ラストトークインデックスの更新
+	 * @param userId ユーザーID
+	 * @param talkRoomId グループトークルームID
+	 * @param lastTalkIndex ラストトークインデックス
+	 */
+	public void updateLastTalkIndex(Integer userId, Integer talkRoomId, Integer lastTalkIndex) {
+		//データ作成
+		var entity = new DesireUserInGroupEntity();
+		entity.setLastTalkIndex(lastTalkIndex);
+		
+		//SQL作成
+		var dto = new DesireUserInGroupEntityExample();
+		dto
+			.or()
+				.andUserIdEqualTo(userId)
+				.andTalkRoomIdEqualTo(talkRoomId)
+				.andLastTalkIndexLessThan(lastTalkIndex);
+		
+		//処理
+		desireUserInGroupEntityMapper.updateByExample(entity, dto);
+	}
 }

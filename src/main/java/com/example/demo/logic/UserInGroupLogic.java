@@ -82,4 +82,60 @@ public class UserInGroupLogic {
 		userInGroupEntityMapper.deleteByPrimaryKey(talkRoomId, userId);
 	}
 
+	/**
+	 * 加入しているグループリストの取得
+	 * @param userId ユーザーID
+	 * @return グループリスト
+	 */
+	public List<UserInGroupEntity> getGroupList(Integer userId) {
+		//SQL作成
+		var dto = new UserInGroupEntityExample();
+		dto
+			.or()
+				.andUserIdEqualTo(userId);
+		
+		//処理
+		return userInGroupEntityMapper.selectByExample(dto);
+	}
+
+	/**
+	 * グループに加入する
+	 * @param talkRoomId グループトークルームID
+	 * @param userId ユーザーID
+	 * @param lastTalkIndex ラストトークインデックス 
+	 */
+	public void joinGroup(Integer talkRoomId, Integer userId, int lastTalkIndex) {
+		//データセット
+		var entity = new UserInGroupEntity();
+		entity.setTalkRoomId(talkRoomId);
+		entity.setUserId(userId);
+		entity.setLastTalkIndex(lastTalkIndex);
+		
+		//処理
+		userInGroupEntityMapper.insert(entity);
+	}
+	
+	/**
+	 * ラストトークインデックスの更新
+	 * @param userId ユーザーID
+	 * @param talkRoomId グループトークルームID
+	 * @param lastTalkIndex ラストトークインデックス
+	 */
+	public void updateLastTalkIndex(Integer userId, Integer talkRoomId, Integer lastTalkIndex) {
+		//データ作成
+		var entity = new UserInGroupEntity();
+		entity.setLastTalkIndex(lastTalkIndex);
+		
+		//SQL作成
+		var dto = new UserInGroupEntityExample();
+		dto
+			.or()
+				.andUserIdEqualTo(userId)
+				.andTalkRoomIdEqualTo(talkRoomId)
+				.andLastTalkIndexLessThan(lastTalkIndex);
+		
+		//処理
+		userInGroupEntityMapper.updateByExample(entity, dto);
+	}
+
 }

@@ -7,8 +7,10 @@ import org.springframework.stereotype.Component;
 
 import com.example.demo.dto.GroupTalkRoomEntityExample;
 import com.example.demo.entity.GroupTalkRoomEntity;
+import com.example.demo.entity.ParentTalkRoomEntity;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.repository.GroupTalkRoomEntityMapper;
+import com.example.demo.repository.ParentTalkRoomEntityMapper;
 
 /**
  * グループ周りの共通処理クラス
@@ -18,6 +20,8 @@ public class GroupLogic {
 
 	@Autowired
 	GroupTalkRoomEntityMapper groupTalkRoomEntityMapper;
+	@Autowired
+	ParentTalkRoomEntityMapper parentTalkRoomEntityMapper;
 	
 	/**
 	 * グループが見つかるかのチェック<br>
@@ -89,5 +93,56 @@ public class GroupLogic {
 			return null;
 		else
 			return entityList.get(0);
+	}
+
+	/**
+	 * グループ名の更新
+	 * @param talkRoomId グループトークルームID
+	 * @param groupName グループ名
+	 */
+	public void updateGroupName(Integer talkRoomId, String groupName) {
+		//データ作成
+		var entity = new GroupTalkRoomEntity();
+		entity.setTalkRoomId(talkRoomId);
+		entity.setGroupName(groupName);
+		
+		//処理
+		groupTalkRoomEntityMapper.updateByPrimaryKeySelective(entity);
+	}
+
+	/**
+	 * グループの削除
+	 * @param talkRoomId グループトークルームID
+	 */
+	public void delete(Integer talkRoomId) {
+		//データ作成
+		var entity = new GroupTalkRoomEntity();
+		entity.setTalkRoomId(talkRoomId);
+		entity.setIsEnabled(false);
+		
+		//処理
+		groupTalkRoomEntityMapper.updateByPrimaryKeySelective(entity);
+	}
+
+	/**
+	 * グループ作成
+	 * @param groupName グループ名
+	 * @return 新しいグループトークルームID
+	 */
+	public Integer insert(String groupName) {
+		//トークルームIDの作成・取得
+		var parentEntity = new ParentTalkRoomEntity();
+		parentTalkRoomEntityMapper.insertSelective(parentEntity);
+		
+		//データ作成
+		var groupEntity = new GroupTalkRoomEntity();
+		groupEntity.setTalkRoomId(
+				parentEntity.getTalkRoomId());
+		groupEntity.setGroupName(groupName);
+		groupEntity.setLastTalkIndex(0);
+		
+		//処理
+		groupTalkRoomEntityMapper.insertSelective(groupEntity);
+		return parentEntity.getTalkRoomId();
 	}
 }
