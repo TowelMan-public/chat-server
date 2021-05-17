@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.GroupTalkRoomEntity;
 import com.example.demo.entity.TalkEntity;
@@ -85,6 +86,7 @@ public class GroupService {
 	 * @throws NotJoinGroupException
 	 * @throws NotFoundException
 	 */
+	@Transactional(rollbackForClassName = "Exception")
 	public void updateGroupName(UserDetailsImp user, Integer talkRoomId, String groupName) throws NotJoinGroupException, NotFoundException {
 		//チェック
 		groupLogic.validationIsFound(talkRoomId);
@@ -105,6 +107,7 @@ public class GroupService {
 	 * @throws NotFoundException
 	 * @throws NotJoinGroupException
 	 */
+	@Transactional(rollbackForClassName = "Exception")
 	public List<TalkResponse> getGroupTalks(UserDetailsImp user, Integer talkRoomId, Integer startIndex, Integer maxSize)
 			throws NotFoundException, NotJoinGroupException {		
 		//チェック
@@ -144,6 +147,7 @@ public class GroupService {
 	 * @throws NotJoinGroupException
 	 * @throws NotFoundException
 	 */
+	@Transactional(rollbackForClassName = "Exception")
 	public void deleteGroup(UserDetailsImp user, Integer talkRoomId) throws NotJoinGroupException, NotFoundException {
 		//チェック
 		groupLogic.validationIsFound(talkRoomId);
@@ -158,6 +162,7 @@ public class GroupService {
 	 * @param user ユーザー情報
 	 * @param groupName グループ名
 	 */
+	@Transactional(rollbackForClassName = "Exception")
 	public void insertGroup(UserDetailsImp user, String groupName) {
 		//処理
 		Integer talkRoomId = groupLogic.insert(groupName);

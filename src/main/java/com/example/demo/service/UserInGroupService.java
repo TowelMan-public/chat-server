@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.UserInGroupEntity;
 import com.example.demo.entity.response.UserInGroupResponse;
@@ -41,6 +42,7 @@ public class UserInGroupService {
 	 * @throws NotJoinGroupException
 	 * @throws NotInsertedGroupDesireException
 	 */
+	@Transactional(rollbackForClassName = "Exception")
 	public void insertUserInGroup(UserDetailsImp user, Integer talkRoomId, String userIdNameInGroup) throws NotFoundException, NotJoinGroupException, NotInsertedGroupDesireException {
 		//チェック・データ取得
 		userInGroupLogic.validationJoinGroup(talkRoomId,user.getUserId());
@@ -89,6 +91,7 @@ public class UserInGroupService {
 	 * @throws NotFoundException
 	 * @throws NotJoinGroupException
 	 */
+	@Transactional(rollbackForClassName = "Exception")
 	public void deleteUserInGroup(UserDetailsImp user, Integer talkRoomId, String userIdNameInGroup) throws NotFoundException, NotJoinGroupException {
 		//チェック
 		userInGroupLogic.validationJoinGroup(talkRoomId,user.getUserId());
@@ -106,6 +109,7 @@ public class UserInGroupService {
 	 * @param talkRoomId グループトークルームId
 	 * @throws NotJoinGroupException
 	 */
+	@Transactional(rollbackForClassName = "Exception")
 	public void exitGroup(UserDetailsImp user, Integer talkRoomId) throws NotJoinGroupException {
 		//チェック
 		userInGroupLogic.validationJoinGroup(talkRoomId,user.getUserId());

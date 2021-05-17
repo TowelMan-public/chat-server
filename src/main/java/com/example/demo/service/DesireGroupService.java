@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.DesireUserInGroupEntity;
 import com.example.demo.entity.GroupTalkRoomEntity;
@@ -60,6 +61,7 @@ public class DesireGroupService {
 	 * @throws NotFoundException 見つからなかったものがある
 	 * @throws NotInsertedGroupDesireException 
 	 */
+	@Transactional(rollbackForClassName = "Exception")
 	public void deleteDesireGroup(UserDetailsImp user, Integer talkRoomId) throws NotFoundException, NotInsertedGroupDesireException {
 		//バリデーションチェック
 		groupLogic.validationIsFound(talkRoomId);
@@ -75,6 +77,7 @@ public class DesireGroupService {
 	 * @param talkRoomId グループトークルームID
 	 * @throws NotFoundException 見つからなかったものがある
 	 */
+	@Transactional(rollbackForClassName = "Exception")
 	public void joinGroup(UserDetailsImp user, Integer talkRoomId) throws NotFoundException {
 		//バリデーションチェック
 		groupLogic.validationIsFound(talkRoomId);

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.DialogueTalkRoomEntity;
 import com.example.demo.entity.HaveUserEntity;
@@ -64,6 +65,7 @@ public class UserInDialogueService {
 	 * @throws AlreadyHaveUserException
 	 * @throws NotHaveUserException
 	 */
+	@Transactional(rollbackForClassName = "Exception")
 	public void insertUserInDiarogue(UserDetailsImp user, String haveUserIdName) throws NotFoundException, AlreadyHaveUserException, NotHaveUserException {
 		//チェック・必要データ取得
 		Integer haveUserId = userLogic.getUserByUserIdName(haveUserIdName)
@@ -100,6 +102,7 @@ public class UserInDialogueService {
 	 * @throws NotFoundException
 	 * @throws NotHaveUserException
 	 */
+	@Transactional(rollbackForClassName = "Exception")
 	public void deleteUserInDiarogue(UserDetailsImp user, String haveUserIdName) throws NotFoundException, NotHaveUserException {
 		//チェック・必要データ取得
 		Integer haveUserId = userLogic.getUserByUserIdName(haveUserIdName)

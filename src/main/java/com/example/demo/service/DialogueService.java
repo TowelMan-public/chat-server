@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.DesireHaveUserEntity;
 import com.example.demo.entity.HaveUserEntity;
@@ -48,6 +49,7 @@ public class DialogueService {
 	 * @throws NotFoundException
 	 * @throws NotHaveUserException
 	 */
+	@Transactional(rollbackForClassName = "Exception")
 	public List<TalkResponse> getDiarogueTalks(UserDetailsImp user, String haveUserIdName, Integer startIndex, Integer maxSize)
 			throws NotFoundException, NotHaveUserException {
 		//チェック・必要データ取得

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.DesireHaveUserEntity;
 import com.example.demo.entity.response.DesireHaveUserResponse;
@@ -53,6 +54,7 @@ public class DesireUserService {
 	 * @param haveUserIdName 友達申請をしているユーザーID名
 	 * @throws NotFoundException 見つからない
 	 */
+	@Transactional(rollbackForClassName = "Exception")
 	public void deleteDesireUser(UserDetailsImp user, String haveUserIdName) throws NotFoundException {
 		//チェック
 		var userEntity = userLogic.getUserByUserIdName(haveUserIdName);
@@ -68,6 +70,7 @@ public class DesireUserService {
 	 * @param haveUserIdName 友達申請をしているユーザーID名
 	 * @throws NotFoundException 見つからない
 	 */
+	@Transactional(rollbackForClassName = "Exception")
 	public void joinUser(UserDetailsImp user, String haveUserIdName) throws NotFoundException {
 		//チェック
 		var userEntity = userLogic.getUserByUserIdName(haveUserIdName);

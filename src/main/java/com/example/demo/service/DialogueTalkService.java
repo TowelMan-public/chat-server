@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.TalkEntity;
 import com.example.demo.entity.UserEntity;
@@ -40,6 +41,7 @@ public class DialogueTalkService {
 	 * @throws NotFoundException
 	 * @throws NotHaveUserException
 	 */
+	@Transactional(rollbackForClassName = "Exception")
 	public void insertTalk(UserDetailsImp user, String haveUserIdName, String talkContentText) 
 			throws NotFoundException, NotHaveUserException {
 		//チェック・必要データ取得
@@ -86,6 +88,7 @@ public class DialogueTalkService {
 	 * @throws NotHaveUserException
 	 * @throws BadRequestFormException
 	 */
+	@Transactional(rollbackForClassName = "Exception")
 	public void updateTalk(UserDetailsImp user, String haveUserIdName, Integer talkIndex, String talkContentText) 
 			throws NotFoundException, NotHaveUserException, BadRequestFormException {
 		//チェック・必要データ取得
@@ -105,6 +108,7 @@ public class DialogueTalkService {
 	 * @throws NotHaveUserException
 	 * @throws BadRequestFormException
 	 */
+	@Transactional(rollbackForClassName = "Exception")
 	public void deleteTalk(UserDetailsImp user, String haveUserIdName, Integer talkIndex)
 			throws NotFoundException, NotHaveUserException, BadRequestFormException {
 		//チェック・必要データ取得

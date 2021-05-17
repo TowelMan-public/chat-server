@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.TalkEntity;
 import com.example.demo.entity.UserEntity;
@@ -37,6 +38,7 @@ public class GroupTalkService {
 	 * @throws NotJoinGroupException
 	 * @throws NotFoundException
 	 */
+	@Transactional(rollbackForClassName = "Exception")
 	public void insertTalk(UserDetailsImp user, Integer talkRoomId, String talkContentText)
 			throws NotJoinGroupException, NotFoundException {
 		//チェック・必要データ習得
@@ -83,6 +85,7 @@ public class GroupTalkService {
 	 * @throws NotFoundException
 	 * @throws BadRequestFormException
 	 */
+	@Transactional(rollbackForClassName = "Exception")
 	public void updateTalk(UserDetailsImp user, Integer talkRoomId, Integer talkIndex, String talkContentText)
 			throws NotJoinGroupException, NotFoundException, BadRequestFormException {
 		//チェック
@@ -102,6 +105,7 @@ public class GroupTalkService {
 	 * @throws NotFoundException
 	 * @throws BadRequestFormException
 	 */
+	@Transactional(rollbackForClassName = "Exception")
 	public void deleteTalk(UserDetailsImp user, Integer talkRoomId, Integer talkIndex) 
 			throws NotJoinGroupException, NotFoundException, BadRequestFormException {
 		//チェック
