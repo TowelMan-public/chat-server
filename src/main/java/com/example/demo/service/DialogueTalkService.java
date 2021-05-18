@@ -12,7 +12,7 @@ import com.example.demo.exception.NotFoundException;
 import com.example.demo.exception.NotHaveUserException;
 import com.example.demo.logic.DialogueLogic;
 import com.example.demo.logic.HaveUserLogic;
-import com.example.demo.logic.Talklogic;
+import com.example.demo.logic.TalkLogic;
 import com.example.demo.logic.UserLogic;
 import com.example.demo.security.UserDetailsImp;
 
@@ -27,7 +27,7 @@ public class DialogueTalkService {
 	@Autowired
 	UserLogic userLogic;
 	@Autowired
-	Talklogic talklogic;
+	TalkLogic talkLogic;
 	@Autowired
 	HaveUserLogic haveUserLogic;
 	@Autowired
@@ -50,7 +50,7 @@ public class DialogueTalkService {
 													 .getLastTalkIndex();
 		
 		//処理
-		talklogic.insert(bindHaveUserAndTalkRom.getTalkRoomId(), user.getUserId(), talkContentText, talkRoomLastTalkIndex + 1);
+		talkLogic.insert(bindHaveUserAndTalkRom.getTalkRoomId(), user.getUserId(), talkContentText, talkRoomLastTalkIndex + 1);
 		
 		//後処理
 		dialogueLogic.incrementLastTalkIndex(bindHaveUserAndTalkRom.getTalkRoomId());
@@ -70,10 +70,10 @@ public class DialogueTalkService {
 			throws NotFoundException, NotHaveUserException {
 		//チェック・必要データ取得
 		BindHaveUserAndTalkRom bindHaveUserAndTalkRom = getTalkRoomIdAndValidationTalkRoom(user.getUserId(), haveUserIdName);
-		talklogic.validationIsFound(bindHaveUserAndTalkRom.getTalkRoomId(), talkIndex);
+		talkLogic.validationIsFound(bindHaveUserAndTalkRom.getTalkRoomId(), talkIndex);
 		
 		//処理
-		TalkEntity talkEntity = talklogic.getTalk(bindHaveUserAndTalkRom.getTalkRoomId(), talkIndex);
+		TalkEntity talkEntity = talkLogic.getTalk(bindHaveUserAndTalkRom.getTalkRoomId(), talkIndex);
 		UserEntity userEntity = userLogic.getUserByUserId(talkEntity.getUserId());
 		return new TalkResponse(talkEntity, userEntity);
 	}
@@ -93,10 +93,10 @@ public class DialogueTalkService {
 			throws NotFoundException, NotHaveUserException, BadRequestFormException {
 		//チェック・必要データ取得
 		BindHaveUserAndTalkRom bindHaveUserAndTalkRom = getTalkRoomIdAndValidationTalkRoom(user.getUserId(), haveUserIdName);
-		talklogic.validationIsEnabled(bindHaveUserAndTalkRom.getTalkRoomId(), talkIndex, user.getUserId());
+		talkLogic.validationIsEnabled(bindHaveUserAndTalkRom.getTalkRoomId(), talkIndex, user.getUserId());
 		
 		//処理
-		talklogic.update(bindHaveUserAndTalkRom.getTalkRoomId(), talkIndex, talkContentText);
+		talkLogic.update(bindHaveUserAndTalkRom.getTalkRoomId(), talkIndex, talkContentText);
 	}
 
 	/**
@@ -113,10 +113,10 @@ public class DialogueTalkService {
 			throws NotFoundException, NotHaveUserException, BadRequestFormException {
 		//チェック・必要データ取得
 		BindHaveUserAndTalkRom bindHaveUserAndTalkRom = getTalkRoomIdAndValidationTalkRoom(user.getUserId(), haveUserIdName);
-		talklogic.validationIsEnabled(bindHaveUserAndTalkRom.getTalkRoomId(), talkIndex, bindHaveUserAndTalkRom.getHaveUserId());
+		talkLogic.validationIsEnabled(bindHaveUserAndTalkRom.getTalkRoomId(), talkIndex, bindHaveUserAndTalkRom.getHaveUserId());
 		
 		//処理
-		talklogic.delete(bindHaveUserAndTalkRom.getTalkRoomId(), talkIndex);
+		talkLogic.delete(bindHaveUserAndTalkRom.getTalkRoomId(), talkIndex);
 	}
 	
 	/**

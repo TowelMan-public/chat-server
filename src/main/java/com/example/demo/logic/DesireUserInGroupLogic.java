@@ -30,22 +30,6 @@ public class DesireUserInGroupLogic {
 	}
 
 	/**
-	 * グループに入ってほしい申請リストの取得
-	 * @param userId ユーザーID
-	 * @return グループに入ってほしい申請者リスト
-	 */
-	public List<DesireUserInGroupEntity> getDesireGroupList(Integer userId) {
-		//SQL作成
-		var dto = new DesireUserInGroupEntityExample();
-		dto
-			.or()
-				.andUserIdEqualTo(userId);
-		
-		//処理
-		return desireUserInGroupEntityMapper.selectByExample(dto);
-	}
-	
-	/**
 	 * グループに入ってほしい申請の取得
 	 * @param userId ユーザーID
 	 * @param talkRoomId グループトークルームID
@@ -61,6 +45,22 @@ public class DesireUserInGroupLogic {
 			return entity;
 		else
 			throw new NotFoundException("DesireUserInGroup");
+	}
+	
+	/**
+	 * グループに入ってほしい申請リストの取得
+	 * @param userId ユーザーID
+	 * @return グループに入ってほしい申請者リスト
+	 */
+	public List<DesireUserInGroupEntity> getDesireGroupList(Integer userId) {
+		//SQL作成
+		var dto = new DesireUserInGroupEntityExample();
+		dto
+			.or()
+				.andUserIdEqualTo(userId);
+		
+		//処理
+		return desireUserInGroupEntityMapper.selectByExample(dto);
 	}
 
 	/**
@@ -84,6 +84,16 @@ public class DesireUserInGroupLogic {
 	 * グループに加入してほしい申請が出されているかのチェック
 	 * @param talkRoomId グループトークルームID
 	 * @param userId　ユーザーID
+	 * @return 成功ならtrue、失敗ならfalse
+	 */
+	public boolean isInserted(Integer talkRoomId, Integer userId) {
+		return desireUserInGroupEntityMapper.selectByPrimaryKey(userId, talkRoomId) != null;
+	}
+	
+	/**
+	 * グループに加入してほしい申請が出されているかのチェック
+	 * @param talkRoomId グループトークルームID
+	 * @param userId　ユーザーID
 	 * @throws NotInsertedGroupDesireException 申請が出されてない
 	 */
 	public void validationInserted(Integer talkRoomId, Integer userId) throws NotInsertedGroupDesireException {
@@ -91,16 +101,6 @@ public class DesireUserInGroupLogic {
 			throw new NotInsertedGroupDesireException();
 	}
 	
-	/**
-	 * グループに加入してほしい申請が出されているかのチェック
-	 * @param talkRoomId グループトークルームID
-	 * @param userId　ユーザーID
-	 * @return 成功ならtrue、失敗ならfalse
-	 */
-	public boolean isInserted(Integer talkRoomId, Integer userId) {
-		return desireUserInGroupEntityMapper.selectByPrimaryKey(userId, talkRoomId) != null;
-	}
-
 	/**
 	 * ラストトークインデックスの更新
 	 * @param userId ユーザーID

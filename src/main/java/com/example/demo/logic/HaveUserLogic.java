@@ -22,53 +22,11 @@ public class HaveUserLogic {
 	HaveUserEntityMapper haveUserEntityMapper;
 	
 	/**
-	 * 友達追加を受ける（友達追加をする）
-	 * @param desireEntity 友達追加申請
+	 * 友達を削除する
+	 * @param userId 友達登録する側のユーザーID
+	 * @param haveUserId 友達登録される側のユーザーID
 	 */
-	public void join(DesireHaveUserEntity desireEntity) {
-		//データ作成
-		var entity = new HaveUserEntity();
-		entity.setUserId(
-				desireEntity.getUserId());
-		entity.setHaveUserId(
-				desireEntity.getHaveUserId());
-		entity.setTalkRoomId(
-				desireEntity.getTalkRoomId());
-		entity.setLastTalkIndex(
-				desireEntity.getLastTalkIndex());
-		
-		haveUserEntityMapper.insertSelective(entity);
-	}
-
-	/**
-	 * 友達登録していないかかのチェック
-	 * @param userId 友達登録している側のユーザーID
-	 * @param haveUserId 友達登録されている側のユーザーID
-	 * @throws AlreadyHaveUserException 既に登録している
-	 */
-	public void validationNotInsertedOne(Integer userId, Integer haveUserId) throws AlreadyHaveUserException {
-		if(isInsertedOne(userId, haveUserId))
-			throw new AlreadyHaveUserException();
-	}
-
-	/**
-	 * 友達登録しているかのチェック
-	 * @param userId 友達登録している側のユーザーID
-	 * @param haveUserId 友達登録されている側のユーザーID
-	 * @throws NotHaveUserException 登録してない
-	 */
-	public void validationInsertedOne(Integer userId, Integer haveUserId) throws NotHaveUserException {
-		if(!isInsertedOne(userId, haveUserId))
-			throw new NotHaveUserException();
-	}
-	
-	/**
-	 * 友達登録しているかのチェック
-	 * @param userId 友達登録している側のユーザーID
-	 * @param haveUserId 友達登録されている側のユーザーID
-	 * @return 登録してればtrue、してなければfalse
-	 */
-	public boolean isInsertedOne(Integer userId, Integer haveUserId) {
+	public void delete(Integer userId, Integer haveUserId) {
 		//SQL作成
 		var dto = new HaveUserEntityExample();
 		dto
@@ -77,8 +35,61 @@ public class HaveUserLogic {
 				.andHaveUserIdEqualTo(haveUserId);
 		
 		//処理
-		return !haveUserEntityMapper.selectByExample(dto)
-									.isEmpty();
+		haveUserEntityMapper.deleteByExample(dto);
+	}
+
+	/**
+	 * 友達を取得する
+	 * @param userId 友達登録する側のユーザーID
+	 * @param haveUserId 友達登録される側のユーザーID
+	 * @return 友達
+	 * @throws NotHaveUserException 登録されてない
+	 */
+	public HaveUserEntity getHaveUser(Integer userId, Integer haveUserId) throws NotHaveUserException {
+		HaveUserEntity entity = getHaveUserNonThrow(userId, haveUserId);
+		if(entity == null)
+			throw new NotHaveUserException();
+		else
+			return entity;
+	}
+
+	/**
+	 * 友達リストを取得する
+	 * @param userId ユーザーID
+	 * @return 友達リスト
+	 */
+	public List<HaveUserEntity> getHaveUserList(Integer userId) {
+		//SQL作成
+		var dto = new HaveUserEntityExample();
+		dto
+			.or()
+				.andUserIdEqualTo(userId);
+		
+		//処理
+		return haveUserEntityMapper.selectByExample(dto);
+	}
+	
+	/**
+	 * 友達を取得する<br>
+	 * 例外を投げない
+	 * @param userId 友達登録する側のユーザーID
+	 * @param haveUserId 友達登録される側のユーザーID
+	 * @return 友達。失敗するとnull
+	 */
+	public HaveUserEntity getHaveUserNonThrow(Integer userId, Integer haveUserId) {
+		//SQL作成
+		var dto = new HaveUserEntityExample();
+		dto
+			.or()
+				.andUserIdEqualTo(userId)
+				.andHaveUserIdEqualTo(haveUserId);
+		
+		List<HaveUserEntity> list = haveUserEntityMapper.selectByExample(dto);
+		
+		if(list.isEmpty())
+			return null;
+		else
+			return list.get(0);
 	}
 
 	/**
@@ -103,84 +114,56 @@ public class HaveUserLogic {
 
 	
 	/**
-	 * 友達を取得する
-	 * @param userId 友達登録する側のユーザーID
-	 * @param haveUserId 友達登録される側のユーザーID
-	 * @return 友達
-	 * @throws NotHaveUserException 登録されてない
+	 * 友達登録しているかのチェック
+	 * @param userId 友達登録している側のユーザーID
+	 * @param haveUserId 友達登録されている側のユーザーID
+	 * @return 登録してればtrue、してなければfalse
 	 */
-	public HaveUserEntity getHaveUser(Integer userId, Integer haveUserId) throws NotHaveUserException {
-		//SQL作成
-		var dto = new HaveUserEntityExample();
-		dto
-			.or()
-				.andUserIdEqualTo(userId)
-				.andHaveUserIdEqualTo(haveUserId);
-		
-		List<HaveUserEntity> list = haveUserEntityMapper.selectByExample(dto);
-		
-		if(list.isEmpty())
-			throw new NotHaveUserException();
-		else
-			return list.get(0);
+	public boolean isInsertedOne(Integer userId, Integer haveUserId) {
+		return getHaveUserNonThrow(userId, haveUserId) != null;
 	}
 
 	/**
-	 * 友達を取得する<br>
-	 * 例外を投げない
-	 * @param userId 友達登録する側のユーザーID
-	 * @param haveUserId 友達登録される側のユーザーID
-	 * @return 友達。失敗するとnull
+	 * 友達登録しているかのチェック
+	 * @param userId 友達登録している側のユーザーID
+	 * @param haveUserId 友達登録されている側のユーザーID
+	 * @throws NotHaveUserException 登録してない
 	 */
-	public HaveUserEntity getHaveUserNonThrow(Integer userId, Integer haveUserId) {
-		//SQL作成
-		var dto = new HaveUserEntityExample();
-		dto
-			.or()
-				.andUserIdEqualTo(userId)
-				.andHaveUserIdEqualTo(haveUserId);
-		
-		List<HaveUserEntity> list = haveUserEntityMapper.selectByExample(dto);
-		
-		if(list.isEmpty())
-			return null;
-		else
-			return list.get(0);
+	public void validationInsertedOne(Integer userId, Integer haveUserId) throws NotHaveUserException {
+		if(!isInsertedOne(userId, haveUserId))
+			throw new NotHaveUserException();
+	}
+
+	/**
+	 * 友達登録していないかかのチェック
+	 * @param userId 友達登録している側のユーザーID
+	 * @param haveUserId 友達登録されている側のユーザーID
+	 * @throws AlreadyHaveUserException 既に登録している
+	 */
+	public void validationNotInsertedOne(Integer userId, Integer haveUserId) throws AlreadyHaveUserException {
+		if(isInsertedOne(userId, haveUserId))
+			throw new AlreadyHaveUserException();
 	}
 	
 	/**
-	 * 友達を削除する
-	 * @param userId 友達登録する側のユーザーID
-	 * @param haveUserId 友達登録される側のユーザーID
+	 * 友達追加を受ける（友達追加をする）
+	 * @param desireEntity 友達追加申請
 	 */
-	public void delete(Integer userId, Integer haveUserId) {
-		//SQL作成
-		var dto = new HaveUserEntityExample();
-		dto
-			.or()
-				.andUserIdEqualTo(userId)
-				.andHaveUserIdEqualTo(haveUserId);
+	public void join(DesireHaveUserEntity desireEntity) {
+		//データ作成
+		var entity = new HaveUserEntity();
+		entity.setUserId(
+				desireEntity.getUserId());
+		entity.setHaveUserId(
+				desireEntity.getHaveUserId());
+		entity.setTalkRoomId(
+				desireEntity.getTalkRoomId());
+		entity.setLastTalkIndex(
+				desireEntity.getLastTalkIndex());
 		
-		//処理
-		haveUserEntityMapper.deleteByExample(dto);
+		haveUserEntityMapper.insertSelective(entity);
 	}
-
-	/**
-	 * 友達リストを取得する
-	 * @param userId ユーザーID
-	 * @return 友達リスト
-	 */
-	public List<HaveUserEntity> getHaveUserList(Integer userId) {
-		//SQL作成
-		var dto = new HaveUserEntityExample();
-		dto
-			.or()
-				.andUserIdEqualTo(userId);
-		
-		//処理
-		return haveUserEntityMapper.selectByExample(dto);
-	}
-
+	
 	public void updateLastTalkIndex(Integer userId, Integer haveUserId, Integer lastTalkIndex) {
 		//データ作成
 		var entity = new HaveUserEntity();

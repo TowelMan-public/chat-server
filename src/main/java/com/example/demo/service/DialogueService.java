@@ -16,7 +16,7 @@ import com.example.demo.exception.NotHaveUserException;
 import com.example.demo.logic.DesireUserLogic;
 import com.example.demo.logic.DialogueLogic;
 import com.example.demo.logic.HaveUserLogic;
-import com.example.demo.logic.Talklogic;
+import com.example.demo.logic.TalkLogic;
 import com.example.demo.logic.UserLogic;
 import com.example.demo.security.UserDetailsImp;
 import com.example.demo.utility.CommonUtility;
@@ -35,7 +35,7 @@ public class DialogueService {
 	@Autowired
 	DialogueLogic dialogueLogic;
 	@Autowired
-	Talklogic talklogic;
+	TalkLogic talkLogic;
 	@Autowired
 	CommonUtility commonUtility;
 
@@ -66,7 +66,7 @@ public class DialogueService {
 			throw new NotHaveUserException();
 		
 		//データ取得・宣言
-		List<TalkEntity> talkList = talklogic.getTalks(diarogueTalkRoomId, startIndex, maxSize);
+		List<TalkEntity> talkList = talkLogic.getTalks(diarogueTalkRoomId, startIndex, maxSize);
 		List<TalkResponse> responseList = new ArrayList<>();
 		
 		//処理

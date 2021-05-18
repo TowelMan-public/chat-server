@@ -16,7 +16,7 @@ import com.example.demo.exception.NotFoundException;
 import com.example.demo.exception.NotJoinGroupException;
 import com.example.demo.logic.DesireUserInGroupLogic;
 import com.example.demo.logic.GroupLogic;
-import com.example.demo.logic.Talklogic;
+import com.example.demo.logic.TalkLogic;
 import com.example.demo.logic.UserInGroupLogic;
 import com.example.demo.logic.UserLogic;
 import com.example.demo.security.UserDetailsImp;
@@ -36,7 +36,7 @@ public class GroupService {
 	@Autowired
 	DesireUserInGroupLogic desireUserInGroupLogic;
 	@Autowired
-	Talklogic talklogic;
+	TalkLogic talkLogic;
 	@Autowired
 	CommonUtility commonUtility;
 	
@@ -118,7 +118,7 @@ public class GroupService {
 			throw new NotJoinGroupException();
 		
 		//データ取得・宣言
-		List<TalkEntity> talkList = talklogic.getTalks(talkRoomId, startIndex, maxSize);
+		List<TalkEntity> talkList = talkLogic.getTalks(talkRoomId, startIndex, maxSize);
 		List<TalkResponse> responseList = new ArrayList<>();
 		
 		//処理

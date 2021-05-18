@@ -38,7 +38,7 @@ public class DialogueLogic {
 	 * @throws NotFoundException 見つからない
 	 */
 	public DialogueTalkRoomEntity getDialogue(Integer dialogueTalkRoomId) throws NotFoundException {
-		var entity = dialogueTalkRoomEntityMapper.selectByPrimaryKey(dialogueTalkRoomId);
+		var entity = getDialogueNonThrow(dialogueTalkRoomId);
 		if(entity == null)
 			throw new NotFoundException("dialogueTalkRoomId");
 		else

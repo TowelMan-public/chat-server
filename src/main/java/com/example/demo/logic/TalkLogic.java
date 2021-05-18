@@ -17,11 +17,35 @@ import com.example.demo.repository.TalkEntityMapper;
  * トーク周りの共通処理クラス
  */
 @Component
-public class Talklogic {
+public class TalkLogic {
 
 	@Autowired
 	TalkEntityMapper talkEntityMapper;
 	
+	/**
+	 * トークの削除
+	 * @param talkRoomId トークルームID
+	 * @param talkIndex　トークインデックス
+	 */
+	public void delete(Integer talkRoomId, Integer talkIndex) {
+		talkEntityMapper.deleteByPrimaryKey(talkRoomId, talkIndex);
+	}
+
+	/**
+	 * トークを取得する
+	 * @param talkRoomId トークルームID
+	 * @param talkIndex　トークインデックス
+	 * @return トーク
+	 * @throws NotFoundException 見つからない
+	 */
+	public TalkEntity getTalk(Integer talkRoomId, Integer talkIndex) throws NotFoundException {
+		TalkEntity entity = talkEntityMapper.selectByPrimaryKey(talkRoomId, talkIndex);
+		if(entity == null)
+			throw new NotFoundException("talkIndex");
+		else
+			return entity;
+	}
+
 	/**
 	 * トークリストを取得する
 	 * @param talkRoomId トークルームID 
@@ -82,27 +106,6 @@ public class Talklogic {
 	}
 
 	/**
-	 * トークの削除
-	 * @param talkRoomId トークルームID
-	 * @param talkIndex　トークインデックス
-	 */
-	public void delete(Integer talkRoomId, Integer talkIndex) {
-		talkEntityMapper.deleteByPrimaryKey(talkRoomId, talkIndex);
-	}
-
-	/**
-	 * トークがあるかを検証する
-	 * @param talkRoomId トークルームID
-	 * @param talkIndex　トークインデックス
-	 * @throws NotFoundException 見つからない
-	 */
-	public void validationIsFound(Integer talkRoomId, Integer talkIndex) throws NotFoundException {
-		TalkEntity entity = talkEntityMapper.selectByPrimaryKey(talkRoomId, talkIndex);
-		if(entity == null)
-			throw new NotFoundException("talkIndex");
-	}
-
-	/**
 	 * トークルームがあり、かつ指定されたユーザーが作ったかを検証
 	 * @param talkRoomId トークルームID
 	 * @param talkIndex　トークインデックス
@@ -119,17 +122,14 @@ public class Talklogic {
 	}
 
 	/**
-	 * トークを取得する
+	 * トークがあるかを検証する
 	 * @param talkRoomId トークルームID
 	 * @param talkIndex　トークインデックス
-	 * @return トーク
 	 * @throws NotFoundException 見つからない
 	 */
-	public TalkEntity getTalk(Integer talkRoomId, Integer talkIndex) throws NotFoundException {
+	public void validationIsFound(Integer talkRoomId, Integer talkIndex) throws NotFoundException {
 		TalkEntity entity = talkEntityMapper.selectByPrimaryKey(talkRoomId, talkIndex);
 		if(entity == null)
 			throw new NotFoundException("talkIndex");
-		else
-			return entity;
 	}
 }

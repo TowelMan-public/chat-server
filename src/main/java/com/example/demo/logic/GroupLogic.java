@@ -24,33 +24,19 @@ public class GroupLogic {
 	ParentTalkRoomEntityMapper parentTalkRoomEntityMapper;
 	
 	/**
-	 * グループが見つかるかのチェック<br>
-	 * 失敗なら例外を投げる
+	 * グループの削除
 	 * @param talkRoomId グループトークルームID
-	 * @throws NotFoundException 見つからない
 	 */
-	public void validationIsFound(Integer talkRoomId) throws NotFoundException {
-		if(isFound(talkRoomId))
-			throw new NotFoundException("talkRoomId");
-	}
-	
-	/**
-	 * グループが見つかるかのチェック
-	 * @param talkRoomId グループトークルームID
-	 * @return 成功ならtrue、失敗ならfalse
-	 */
-	public boolean isFound(Integer talkRoomId) {
-		//SQL作成
-		var dto = new GroupTalkRoomEntityExample();
-		dto
-			.or()
-				.andTalkRoomIdEqualTo(talkRoomId)
-				.andIsEnabledEqualTo(true);
+	public void delete(Integer talkRoomId) {
+		//データ作成
+		var entity = new GroupTalkRoomEntity();
+		entity.setTalkRoomId(talkRoomId);
+		entity.setIsEnabled(false);
 		
 		//処理
-		return groupTalkRoomEntityMapper.countByExample(dto) != 0;
+		groupTalkRoomEntityMapper.updateByPrimaryKeySelective(entity);
 	}
-
+	
 	/**
 	 * グループを取得する
 	 * @param talkRoomId グループトークルームID
@@ -58,19 +44,11 @@ public class GroupLogic {
 	 * @throws NotFoundException 見つからない
 	 */
 	public GroupTalkRoomEntity getGroup(Integer talkRoomId) throws NotFoundException {
-		//SQL作成
-		var dto = new GroupTalkRoomEntityExample();
-		dto
-			.or()
-				.andTalkRoomIdEqualTo(talkRoomId)
-				.andIsEnabledEqualTo(true);
-		
-		//処理
-		List<GroupTalkRoomEntity> entityList = groupTalkRoomEntityMapper.selectByExample(dto);
-		if(entityList.isEmpty())
+		GroupTalkRoomEntity entity = getGroupNonThrows(talkRoomId);
+		if(entity == null)
 			throw new NotFoundException("talkRoomId");
 		else
-			return entityList.get(0);
+			return entity;
 	}
 
 	/**
@@ -96,32 +74,11 @@ public class GroupLogic {
 	}
 
 	/**
-	 * グループ名の更新
-	 * @param talkRoomId グループトークルームID
-	 * @param groupName グループ名
+	 * lastTalkIndexをインクリメントする
+	 * @param groupTalkRoomId グループトークルームID
 	 */
-	public void updateGroupName(Integer talkRoomId, String groupName) {
-		//データ作成
-		var entity = new GroupTalkRoomEntity();
-		entity.setTalkRoomId(talkRoomId);
-		entity.setGroupName(groupName);
-		
-		//処理
-		groupTalkRoomEntityMapper.updateByPrimaryKeySelective(entity);
-	}
-
-	/**
-	 * グループの削除
-	 * @param talkRoomId グループトークルームID
-	 */
-	public void delete(Integer talkRoomId) {
-		//データ作成
-		var entity = new GroupTalkRoomEntity();
-		entity.setTalkRoomId(talkRoomId);
-		entity.setIsEnabled(false);
-		
-		//処理
-		groupTalkRoomEntityMapper.updateByPrimaryKeySelective(entity);
+	public void incrementLastTalkIndex(Integer groupTalkRoomId) {
+		groupTalkRoomEntityMapper.incrementLastTalkIndex(groupTalkRoomId);
 	}
 
 	/**
@@ -147,10 +104,37 @@ public class GroupLogic {
 	}
 
 	/**
-	 * lastTalkIndexをインクリメントする
-	 * @param groupTalkRoomId グループトークルームID
+	 * グループが見つかるかのチェック
+	 * @param talkRoomId グループトークルームID
+	 * @return 成功ならtrue、失敗ならfalse
 	 */
-	public void incrementLastTalkIndex(Integer groupTalkRoomId) {
-		groupTalkRoomEntityMapper.incrementLastTalkIndex(groupTalkRoomId);
+	public boolean isFound(Integer talkRoomId) {
+		return getGroupNonThrows(talkRoomId) != null;
+	}
+
+	/**
+	 * グループが見つかるかのチェック<br>
+	 * 失敗なら例外を投げる
+	 * @param talkRoomId グループトークルームID
+	 * @throws NotFoundException 見つからない
+	 */
+	public void validationIsFound(Integer talkRoomId) throws NotFoundException {
+		if(isFound(talkRoomId))
+			throw new NotFoundException("talkRoomId");
+	}
+	
+	/**
+	 * グループ名の更新
+	 * @param talkRoomId グループトークルームID
+	 * @param groupName グループ名
+	 */
+	public void updateGroupName(Integer talkRoomId, String groupName) {
+		//データ作成
+		var entity = new GroupTalkRoomEntity();
+		entity.setTalkRoomId(talkRoomId);
+		entity.setGroupName(groupName);
+		
+		//処理
+		groupTalkRoomEntityMapper.updateByPrimaryKeySelective(entity);
 	}
 }

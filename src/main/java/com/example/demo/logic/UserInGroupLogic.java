@@ -21,59 +21,6 @@ public class UserInGroupLogic {
 	UserInGroupEntityMapper userInGroupEntityMapper;
 	
 	/**
-	 * グループに加入してほしい申請を出されたユーザーがグループに入る
-	 * @param desireEntity グループに加入してほしい申請
-	 */
-	public void joinGroup(DesireUserInGroupEntity desireEntity) {
-		//データセット
-		var entity = new UserInGroupEntity();
-		entity.setTalkRoomId(
-				desireEntity.getTalkRoomId());
-		entity.setUserId(
-				desireEntity.getUserId());
-		entity.setLastTalkIndex(
-				desireEntity.getLastTalkIndex());
-		
-		//処理
-		userInGroupEntityMapper.insert(entity);
-	}
-
-	/**
-	 * グループに加入しているかのチェック
-	 * @param talkRoomId グループトークルームId
-	 * @param userId ユーザーID
-	 * @throws NotJoinGroupException グループに加入してない
-	 */
-	public void validationJoinGroup(Integer talkRoomId, Integer userId) throws NotJoinGroupException {
-		if(!isJoinGroup(talkRoomId, userId))
-			throw new NotJoinGroupException();
-	}
-
-	/**
-	 * グループに加入しているかのチェック
-	 * @param talkRoomId グループトークルームId
-	 * @param userId ユーザーID
-	 * @return 成功ならtrue、失敗ならfalse
-	 */
-	public boolean isJoinGroup(Integer talkRoomId, Integer userId) {
-		return userInGroupEntityMapper.selectByPrimaryKey(talkRoomId, userId) != null;
-	}
-	
-	/**
-	 * グループに加入しているユーザーリストを取得する
-	 * @param talkRoomId グループトークルームID
-	 * @return グループに加入しているユーザーリスト
-	 */
-	public List<UserInGroupEntity> getUserInGroupList(Integer talkRoomId) {
-		var dto = new UserInGroupEntityExample();
-		dto
-			.or()
-				.andTalkRoomIdEqualTo(talkRoomId);
-		
-		return userInGroupEntityMapper.selectByExample(dto);
-	}
-
-	/**
 	 * グループに加入しているユーザーを削除する（脱退させる）
 	 * @param talkRoomId グループトークルームID
 	 * @param userId ユーザーID
@@ -99,6 +46,59 @@ public class UserInGroupLogic {
 	}
 
 	/**
+	 * グループに加入しているユーザーリストを取得する
+	 * @param talkRoomId グループトークルームID
+	 * @return グループに加入しているユーザーリスト
+	 */
+	public List<UserInGroupEntity> getUserInGroupList(Integer talkRoomId) {
+		var dto = new UserInGroupEntityExample();
+		dto
+			.or()
+				.andTalkRoomIdEqualTo(talkRoomId);
+		
+		return userInGroupEntityMapper.selectByExample(dto);
+	}
+	
+	/**
+	 * グループに加入しているかのチェック
+	 * @param talkRoomId グループトークルームId
+	 * @param userId ユーザーID
+	 * @return 成功ならtrue、失敗ならfalse
+	 */
+	public boolean isJoinGroup(Integer talkRoomId, Integer userId) {
+		return userInGroupEntityMapper.selectByPrimaryKey(talkRoomId, userId) != null;
+	}
+
+	/**
+	 * グループに加入しているかのチェック
+	 * @param talkRoomId グループトークルームId
+	 * @param userId ユーザーID
+	 * @throws NotJoinGroupException グループに加入してない
+	 */
+	public void validationJoinGroup(Integer talkRoomId, Integer userId) throws NotJoinGroupException {
+		if(!isJoinGroup(talkRoomId, userId))
+			throw new NotJoinGroupException();
+	}
+	
+	/**
+	 * グループに加入してほしい申請を出されたユーザーがグループに入る
+	 * @param desireEntity グループに加入してほしい申請
+	 */
+	public void joinGroup(DesireUserInGroupEntity desireEntity) {
+		//データセット
+		var entity = new UserInGroupEntity();
+		entity.setTalkRoomId(
+				desireEntity.getTalkRoomId());
+		entity.setUserId(
+				desireEntity.getUserId());
+		entity.setLastTalkIndex(
+				desireEntity.getLastTalkIndex());
+		
+		//処理
+		userInGroupEntityMapper.insert(entity);
+	}
+
+	/**
 	 * グループに加入する
 	 * @param talkRoomId グループトークルームID
 	 * @param userId ユーザーID
@@ -114,7 +114,7 @@ public class UserInGroupLogic {
 		//処理
 		userInGroupEntityMapper.insert(entity);
 	}
-	
+
 	/**
 	 * ラストトークインデックスの更新
 	 * @param userId ユーザーID
@@ -137,5 +137,5 @@ public class UserInGroupLogic {
 		//処理
 		userInGroupEntityMapper.updateByExample(entity, dto);
 	}
-
+	
 }

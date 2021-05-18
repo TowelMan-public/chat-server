@@ -11,7 +11,7 @@ import com.example.demo.exception.BadRequestFormException;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.exception.NotJoinGroupException;
 import com.example.demo.logic.GroupLogic;
-import com.example.demo.logic.Talklogic;
+import com.example.demo.logic.TalkLogic;
 import com.example.demo.logic.UserInGroupLogic;
 import com.example.demo.logic.UserLogic;
 import com.example.demo.security.UserDetailsImp;
@@ -24,7 +24,7 @@ public class GroupTalkService {
 	@Autowired
 	UserLogic userLogic;
 	@Autowired
-	Talklogic talklogic;
+	TalkLogic talkLogic;
 	@Autowired
 	GroupLogic groupLogic;
 	@Autowired
@@ -47,7 +47,7 @@ public class GroupTalkService {
 												  .getLastTalkIndex();
 		
 		//処理
-		talklogic.insert(talkRoomId, user.getUserId(), talkContentText, talkRoomLastTalkIndex + 1);
+		talkLogic.insert(talkRoomId, user.getUserId(), talkContentText, talkRoomLastTalkIndex + 1);
 		
 		//後処理
 		groupLogic.incrementLastTalkIndex(talkRoomId);
@@ -67,10 +67,10 @@ public class GroupTalkService {
 			throws NotJoinGroupException, NotFoundException {
 		//チェック
 		validationTalkRoom(user.getUserId(), talkRoomId);
-		talklogic.validationIsFound(talkRoomId, talkIndex);
+		talkLogic.validationIsFound(talkRoomId, talkIndex);
 		
 		//処理
-		TalkEntity talkEntity = talklogic.getTalk(talkRoomId, talkIndex);
+		TalkEntity talkEntity = talkLogic.getTalk(talkRoomId, talkIndex);
 		UserEntity userEntity = userLogic.getUserByUserIdNonThrow(talkEntity.getUserId());
 		return new TalkResponse(talkEntity, userEntity);
 	}
@@ -90,10 +90,10 @@ public class GroupTalkService {
 			throws NotJoinGroupException, NotFoundException, BadRequestFormException {
 		//チェック
 		validationTalkRoom(user.getUserId(), talkRoomId);
-		talklogic.validationIsEnabled(talkRoomId, talkIndex, user.getUserId());
+		talkLogic.validationIsEnabled(talkRoomId, talkIndex, user.getUserId());
 		
 		//処理
-		talklogic.update(talkRoomId, talkIndex, talkContentText);
+		talkLogic.update(talkRoomId, talkIndex, talkContentText);
 	}
 	
 	/**
@@ -110,10 +110,10 @@ public class GroupTalkService {
 			throws NotJoinGroupException, NotFoundException, BadRequestFormException {
 		//チェック
 		validationTalkRoom(user.getUserId(), talkRoomId);
-		talklogic.validationIsEnabled(talkRoomId, talkIndex, user.getUserId());
+		talkLogic.validationIsEnabled(talkRoomId, talkIndex, user.getUserId());
 		
 		//処理
-		talklogic.delete(talkRoomId, talkIndex);
+		talkLogic.delete(talkRoomId, talkIndex);
 	}
 	
 	/**
