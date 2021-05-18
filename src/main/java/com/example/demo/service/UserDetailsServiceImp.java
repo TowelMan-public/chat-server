@@ -22,7 +22,6 @@ public class UserDetailsServiceImp {
 	 * @param userIdName　ユーザーId名
 	 * @return ユーザ情報
 	 * @throws com.example.demo.exception.NotFoundException ユーザーIdが存在しない
-	 * @throws com.example.demo.exception.UnEnableException ユーザーIdが無効なものである
 	*/
 	public UserDetailsImp loadUserByUserIdName(String userIdName) throws NotFoundException {
 		return new UserDetailsImp(
@@ -34,7 +33,6 @@ public class UserDetailsServiceImp {
 	 * @param userId　ユーザーId
 	 * @return ユーザ情報
 	 * @throws com.example.demo.exception.NotFoundException ユーザーIdが存在しない
-	 * @throws com.example.demo.exception.UnEnableException ユーザーIdが無効なものである
 	*/
 	public UserDetails loadUserByUserId(Integer userId) throws NotFoundException {		
 		return new UserDetailsImp(

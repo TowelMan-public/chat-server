@@ -52,9 +52,11 @@ public class DialogueService {
 	@Transactional(rollbackForClassName = "Exception")
 	public List<TalkResponse> getDiarogueTalks(UserDetailsImp user, String haveUserIdName, Integer startIndex, Integer maxSize)
 			throws NotFoundException, NotHaveUserException {
-		//チェック・必要データ取得
+		//haveUserIdName -> haveUserId
 		Integer haveUserId = userLogic.getUserByUserIdName(haveUserIdName)
 									  .getUserId();
+		
+		//チェックをしながらdiarogueTalkRoomIdを取得
 		Integer diarogueTalkRoomId;
 		HaveUserEntity haveUserEntity = haveUserLogic.getHaveUserNonThrow(user.getUserId(), haveUserId);
 		DesireHaveUserEntity desireHaveUserEntity = desireUserLogic.getDesireUserNonThorw(user.getUserId(), haveUserId);
@@ -77,7 +79,7 @@ public class DialogueService {
 				responseList.add(new TalkResponse(talkEntity,userEntity));
 		}
 		
-		//後処理
+		//後処理（LastTalkIndexの更新）
 		Integer userLastTalkIndex = startIndex + maxSize - 1;
 		Integer talkRoomLastTalkIndex = dialogueLogic.getDialogue(diarogueTalkRoomId)
 							 						 .getLastTalkIndex();

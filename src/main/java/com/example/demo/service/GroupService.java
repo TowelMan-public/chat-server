@@ -129,7 +129,7 @@ public class GroupService {
 				responseList.add(new TalkResponse(talkEntity,userEntity));
 		}
 		
-		//後処理
+		//後処理（LastTalkIndexの更新）
 		Integer userLastTalkIndex = startIndex + maxSize - 1;
 		Integer talkRoomLastTalkIndex = groupLogic.getGroupNonThrows(talkRoomId)
 												  .getLastTalkIndex();

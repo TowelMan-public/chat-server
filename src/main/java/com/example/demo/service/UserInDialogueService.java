@@ -63,10 +63,9 @@ public class UserInDialogueService {
 	 * @param haveUserIdName 追加するユーザーID名
 	 * @throws NotFoundException
 	 * @throws AlreadyHaveUserException
-	 * @throws NotHaveUserException
 	 */
 	@Transactional(rollbackForClassName = "Exception")
-	public void insertUserInDiarogue(UserDetailsImp user, String haveUserIdName) throws NotFoundException, AlreadyHaveUserException, NotHaveUserException {
+	public void insertUserInDiarogue(UserDetailsImp user, String haveUserIdName) throws NotFoundException, AlreadyHaveUserException {
 		//チェック・必要データ取得
 		Integer haveUserId = userLogic.getUserByUserIdName(haveUserIdName)
 									   .getUserId();
@@ -79,7 +78,7 @@ public class UserInDialogueService {
 		//分岐処理
 		if(haveUserLogic.isInsertedOne(haveUserId,user.getUserId())) {
 			//相手が友達に追加している
-			dialogueTalkRoomId = haveUserLogic.getHaveUser(haveUserId,user.getUserId())
+			dialogueTalkRoomId = haveUserLogic.getHaveUserNonThrow(haveUserId,user.getUserId())
 											  .getTalkRoomId();
 			lastTalkIndex = dialogueLogic.getDialogue(dialogueTalkRoomId)
 										 .getLastTalkIndex();

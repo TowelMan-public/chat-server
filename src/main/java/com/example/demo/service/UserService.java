@@ -44,7 +44,6 @@ public class UserService {
 	 * @param userIdName　ユーザーId名
 	 * @return ユーザ情報
 	 * @throws com.example.demo.exception.NotFoundException ユーザーIdが存在しない
-	 * @throws com.example.demo.exception.UnEnableException ユーザーIdが無効なものである
 	*/
 	public UserEntity getUser(String userIdName) throws NotFoundException{
 		return userLogic.getUserByUserIdName(userIdName);
