@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.demo.dto.DesireUserInGroupEntityExample;
 import com.example.demo.entity.DesireUserInGroupEntity;
+import com.example.demo.exception.AlreadyInsertedGroupDesireException;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.exception.NotInsertedGroupDesireException;
 import com.example.demo.repository.DesireUserInGroupEntityMapper;
@@ -122,5 +123,10 @@ public class DesireUserInGroupLogic {
 		
 		//処理
 		desireUserInGroupEntityMapper.updateByExample(entity, dto);
+	}
+
+	public void validationNotInserted(Integer talkRoomId, Integer userId) throws AlreadyInsertedGroupDesireException {
+		if(isInserted(talkRoomId, userId))
+			throw new AlreadyInsertedGroupDesireException();
 	}
 }

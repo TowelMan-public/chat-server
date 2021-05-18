@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.configurer.UrlConfing;
 import com.example.demo.entity.response.UserInGroupResponse;
+import com.example.demo.exception.AlreadyInsertedGroupDesireException;
 import com.example.demo.exception.NotFoundException;
-import com.example.demo.exception.NotInsertedGroupDesireException;
 import com.example.demo.exception.NotJoinGroupException;
 import com.example.demo.form.Groups;
 import com.example.demo.form.UserInGroupForm;
@@ -35,10 +35,13 @@ public class UserInGroupControl {
 	 * グループにユーザーを加入させる
 	 * @param user アクセスしたユーザーの情報
 	 * @return グループ加入申請一覧
+	 * @throws NotFoundException
+	 * @throws NotJoinGroupException
+	 * @throws AlreadyInsertedGroupDesireException 
 	 */
 	@PostMapping("insert")
 	public void insertUserInGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Insert.class) UserInGroupForm form)
-			throws NotFoundException, NotJoinGroupException, NotInsertedGroupDesireException {
+			throws NotFoundException, NotJoinGroupException, AlreadyInsertedGroupDesireException {
 		userInGroupService.insertUserInGroup(user,form.getTalkRoomId(),form.getUserIdName());
 	}
 	
@@ -59,6 +62,8 @@ public class UserInGroupControl {
 	 * グループ加入者削除
 	 * @param user アクセスしたユーザーの情報
 	 * @return グループ加入申請一覧
+	 * @throws NotFoundException
+	 * @throws NotJoinGroupException
 	 */
 	@PostMapping("delete")
 	public void deleteUserInGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Delete.class) UserInGroupForm form)
@@ -71,6 +76,7 @@ public class UserInGroupControl {
 	 * グループから抜ける
 	 * @param user アクセスしたユーザーの情報
 	 * @return グループ加入申請一覧
+	 * @throws NotJoinGroupException
 	 */
 	@PostMapping("exit")
 	public void exitGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Exit.class) UserInGroupForm form)

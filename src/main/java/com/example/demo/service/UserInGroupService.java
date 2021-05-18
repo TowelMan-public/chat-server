@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.UserInGroupEntity;
 import com.example.demo.entity.response.UserInGroupResponse;
+import com.example.demo.exception.AlreadyInsertedGroupDesireException;
 import com.example.demo.exception.NotFoundException;
-import com.example.demo.exception.NotInsertedGroupDesireException;
 import com.example.demo.exception.NotJoinGroupException;
 import com.example.demo.logic.DesireUserInGroupLogic;
 import com.example.demo.logic.GroupLogic;
@@ -40,15 +40,15 @@ public class UserInGroupService {
 	 * @param userIdNameInGroup グループに加入させたいユーザーID
 	 * @throws NotFoundException
 	 * @throws NotJoinGroupException
-	 * @throws NotInsertedGroupDesireException
+	 * @throws AlreadyInsertedGroupDesireException 
 	 */
 	@Transactional(rollbackForClassName = "Exception")
-	public void insertUserInGroup(UserDetailsImp user, Integer talkRoomId, String userIdNameInGroup) throws NotFoundException, NotJoinGroupException, NotInsertedGroupDesireException {
+	public void insertUserInGroup(UserDetailsImp user, Integer talkRoomId, String userIdNameInGroup) throws NotFoundException, NotJoinGroupException, AlreadyInsertedGroupDesireException {
 		//チェック・データ取得
 		userInGroupLogic.validationJoinGroup(talkRoomId,user.getUserId());
 		Integer userIdInGroup = userLogic.getUserByUserIdName(userIdNameInGroup)
 											.getUserId();
-		desireUserInGroupLogic.validationInserted(talkRoomId, userIdInGroup);
+		desireUserInGroupLogic.validationNotInserted(talkRoomId, userIdInGroup);
 		
 		//データ取得
 		Integer lastIndex = groupLogic.getGroupNonThrows(talkRoomId)
