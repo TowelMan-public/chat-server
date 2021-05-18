@@ -1,12 +1,12 @@
 package com.example.demo.repository;
 
-import com.example.demo.dto.TalkEntityExample;
-import com.example.demo.entity.TalkEntity;
-
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import com.example.demo.dto.TalkEntityExample;
+import com.example.demo.entity.TalkEntity;
 
 @Mapper
 public interface TalkEntityMapper {

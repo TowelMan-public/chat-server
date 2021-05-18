@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import com.example.demo.dto.TalkEntityExample;
 import com.example.demo.entity.TalkEntity;
-import com.example.demo.entity.response.TalkResponse;
 import com.example.demo.exception.BadRequestFormException;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.repository.TalkEntityMapper;
