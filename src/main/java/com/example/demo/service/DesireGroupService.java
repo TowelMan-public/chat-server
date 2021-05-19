@@ -59,7 +59,7 @@ public class DesireGroupService {
 	 * @param user ユーザー情報
 	 * @param talkRoomId グループトークルームID
 	 * @throws NotFoundException 見つからなかったものがある
-	 * @throws NotInsertedGroupDesireException 
+	 * @throws NotInsertedGroupDesireException 申請出てない
 	 */
 	@Transactional(rollbackForClassName = "Exception")
 	public void deleteDesireGroup(UserDetailsImp user, Integer talkRoomId) throws NotFoundException, NotInsertedGroupDesireException {
@@ -76,11 +76,13 @@ public class DesireGroupService {
 	 * @param user ユーザー情報
 	 * @param talkRoomId グループトークルームID
 	 * @throws NotFoundException 見つからなかったものがある
+	 * @throws NotInsertedGroupDesireException 申請出てない
 	 */
 	@Transactional(rollbackForClassName = "Exception")
-	public void joinGroup(UserDetailsImp user, Integer talkRoomId) throws NotFoundException {
+	public void joinGroup(UserDetailsImp user, Integer talkRoomId) throws NotFoundException, NotInsertedGroupDesireException {
 		//バリデーションチェック
 		groupLogic.validationIsFound(talkRoomId);
+		desireUserInGroupLogic.validationInserted(talkRoomId,user.getUserId());
 		
 		DesireUserInGroupEntity desireEntity = desireUserInGroupLogic.getDesireGroup(user.getUserId(), talkRoomId);
 		desireUserInGroupLogic.delete(user.getUserId(),talkRoomId);

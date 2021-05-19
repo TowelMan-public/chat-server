@@ -18,4 +18,9 @@ public class GroupTalkRoomResponse {
 		groupLastTalkIndex = groupEntity.getLastTalkIndex();
 		userLastTalkIndex = userInGroupEntity.getLastTalkIndex();
 	}
+
+	/**
+	 * テスト用
+	 */
+	public GroupTalkRoomResponse() {}
 }

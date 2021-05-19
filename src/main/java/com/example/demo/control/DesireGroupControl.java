@@ -60,9 +60,10 @@ public class DesireGroupControl {
 	 * @param form リクエストのパラメター<br>
 	 * 	ここで入力ﾁｪｯｸも行う
 	 * @throws NotFoundException
+	 * @throws NotInsertedGroupDesireException 
 	 */
 	@PostMapping("join")
-	public void joinGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Join.class) DesireGroupForm form) throws NotFoundException {
+	public void joinGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Join.class) DesireGroupForm form) throws NotFoundException, NotInsertedGroupDesireException {
 		desireGroupService.joinGroup(user,form.getTalkRoomId());
 	}
 }

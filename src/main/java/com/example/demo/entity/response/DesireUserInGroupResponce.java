@@ -25,4 +25,9 @@ public class DesireUserInGroupResponce {
 		lastTalkIndex = desireEntity.getLastTalkIndex();
 		groupName = groupEntity.getGroupName();
 	}
+
+	/**
+	 * テスト用
+	 */
+	public DesireUserInGroupResponce() {}
 }

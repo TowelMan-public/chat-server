@@ -74,6 +74,7 @@ public class DesireUserService {
 	public void joinUser(UserDetailsImp user, String haveUserIdName) throws NotFoundException {
 		//チェック
 		var userEntity = userLogic.getUserByUserIdName(haveUserIdName);
+		desireUserLogic.validationIsFound(user.getUserId(), userEntity.getUserId());
 		//処理
 		var desireEntity = desireUserLogic.getDesireUser(user.getUserId(), userEntity.getUserId());
 		desireUserLogic.delete(user.getUserId(), userEntity.getUserId());

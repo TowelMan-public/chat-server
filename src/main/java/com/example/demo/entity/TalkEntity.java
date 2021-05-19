@@ -2,6 +2,9 @@ package com.example.demo.entity;
 
 import java.util.Date;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode(exclude={"timestamp"})
 public class TalkEntity {
     /**
      *

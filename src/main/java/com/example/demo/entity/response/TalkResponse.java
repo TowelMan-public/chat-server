@@ -27,7 +27,12 @@ public class TalkResponse {
 		talkIndex = talkEntity.getTalkIndex();
 		userIdName = userEntity.getUserIdName();
 		content = talkEntity.getContent();
-		var format = new SimpleDateFormat("yyy/M/d/HH/m");
+		var format = new SimpleDateFormat("yyyy/M/d/HH/mm");
 		timestampString = format.format(talkEntity.getTimestamp());
 	}
+
+	/**
+	 * テスト用
+	 */
+	public TalkResponse() {}
 }

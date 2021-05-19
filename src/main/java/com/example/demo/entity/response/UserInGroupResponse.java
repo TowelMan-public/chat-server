@@ -25,4 +25,9 @@ public class UserInGroupResponse {
 		lastTalkIndex = userInGroupEntity.getLastTalkIndex();
 		userIdName = userEntity.getUserIdName();
 	}
+
+	/**
+	 * テスト用
+	 */
+	public UserInGroupResponse() {}
 }

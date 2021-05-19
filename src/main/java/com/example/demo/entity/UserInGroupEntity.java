@@ -1,5 +1,8 @@
 package com.example.demo.entity;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public class UserInGroupEntity {
     /**
      *

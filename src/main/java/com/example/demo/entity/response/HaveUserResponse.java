@@ -31,4 +31,9 @@ public class HaveUserResponse {
 		myLastTalkIndex = haveUserEntity.getLastTalkIndex();
 		talkLastTalkIndex = dialogueEntity.getLastTalkIndex();
 	}
+
+	/**
+	 * テスト用
+	 */
+	public HaveUserResponse() {}
 }

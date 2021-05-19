@@ -39,6 +39,11 @@ public class UserDetailsImp implements UserDetails {
 		this.setEnabled(true);
 	}
 	
+	/**
+	 * テスト用
+	 */
+	public UserDetailsImp() {}
+
 	//権限(これは関係ない)
     @Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

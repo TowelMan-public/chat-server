@@ -27,4 +27,9 @@ public class DesireHaveUserResponse {
 		talkRoomId = desireEntity.getTalkRoomId();
 		lastTalkIndex = desireEntity.getLastTalkIndex();
 	}
+
+	/**
+	 * テスト用
+	 */
+	public DesireHaveUserResponse() {}
 }
