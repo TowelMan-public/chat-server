@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.configurer.UrlConfing;
 import com.example.demo.entity.response.UserInGroupResponse;
 import com.example.demo.exception.AlreadyInsertedGroupDesireException;
+import com.example.demo.exception.AlreadyInsertedGroupException;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.exception.NotJoinGroupException;
 import com.example.demo.form.Groups;
@@ -38,10 +39,11 @@ public class UserInGroupControl {
 	 * @throws NotFoundException
 	 * @throws NotJoinGroupException
 	 * @throws AlreadyInsertedGroupDesireException 
+	 * @throws AlreadyInsertedGroupException 
 	 */
 	@PostMapping("insert")
 	public void insertUserInGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Insert.class) UserInGroupForm form)
-			throws NotFoundException, NotJoinGroupException, AlreadyInsertedGroupDesireException {
+			throws NotFoundException, NotJoinGroupException, AlreadyInsertedGroupDesireException, AlreadyInsertedGroupException {
 		userInGroupService.insertUserInGroup(user,form.getTalkRoomId(),form.getUserIdName());
 	}
 	
@@ -50,10 +52,11 @@ public class UserInGroupControl {
 	 * グループ加入者取得
 	 * @param user アクセスしたユーザーの情報
 	 * @return グループ加入申請一覧
+	 * @throws NotFoundException 
 	 */
 	@GetMapping("gets")
 	public List<UserInGroupResponse> getUsersInGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Gets.class) UserInGroupForm form)
-			throws NotJoinGroupException {
+			throws NotJoinGroupException, NotFoundException {
 		return userInGroupService.getUsersInGroup(user,form.getTalkRoomId());
 	}
 	
@@ -77,10 +80,11 @@ public class UserInGroupControl {
 	 * @param user アクセスしたユーザーの情報
 	 * @return グループ加入申請一覧
 	 * @throws NotJoinGroupException
+	 * @throws NotFoundException 
 	 */
 	@PostMapping("exit")
 	public void exitGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Exit.class) UserInGroupForm form)
-			throws NotJoinGroupException {
+			throws NotJoinGroupException, NotFoundException {
 		userInGroupService.exitGroup(user,form.getTalkRoomId());
 	}
 }

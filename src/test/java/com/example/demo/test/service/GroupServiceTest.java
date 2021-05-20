@@ -19,8 +19,6 @@ import com.example.demo.exception.NotFoundException;
 import com.example.demo.exception.NotJoinGroupException;
 import com.example.demo.security.UserDetailsImp;
 import com.example.demo.service.GroupService;
-import com.github.springtestdbunit.annotation.ExpectedDatabase;
-import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 
 @SpringBootTest
 class GroupServiceTest {
@@ -30,15 +28,6 @@ class GroupServiceTest {
 	private static final String TIMESTAMP_STRING_TEMPLATE = "2020/9/9/00/00";
 	
 	private static final String CONTENT_TEXT_FIREST = "test";
-	
-	/*
-	 * @BeforeEach
-	 * @Test
-	 * @Transactional
-	 * @ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/GroupServiceTest/T01.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-	 */
 	
 	//getGroup
 	//正常
@@ -118,9 +107,6 @@ class GroupServiceTest {
 	//正常
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/GroupServiceTest/T04.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T04_updateGroupName_1() {
 		//テストパラメータ作成
 		final Integer GROUP_TALK_ROOM_ID = 6;
@@ -159,9 +145,6 @@ class GroupServiceTest {
 	//正常　申請されているユーザー
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/GroupServiceTest/T07.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T07_getGroupTalks_2() {
 		//テストパラメータ作成
 		final Integer GROUP_TALK_ROOM_ID = 6;
@@ -200,9 +183,6 @@ class GroupServiceTest {
 	//正常 過去・ラストトークインデックスの更新無
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/GroupServiceTest/T08.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T08_getGroupTalks_3() {
 		//テストパラメータ作成
 		final Integer GROUP_TALK_ROOM_ID = 6;
@@ -217,8 +197,8 @@ class GroupServiceTest {
 		var entity = new TalkResponse();
 		entity.setUserIdName("3");
 		entity.setTimestampString(TIMESTAMP_STRING_TEMPLATE);
-		entity.setTalkIndex(1);
-		entity.setContent(CONTENT_TEXT_FIREST + "1");
+		entity.setTalkIndex(2);
+		entity.setContent(CONTENT_TEXT_FIREST + "2");
 		expect.add(entity);
 		
 		//実行
@@ -234,9 +214,6 @@ class GroupServiceTest {
 	//正常 範囲外で0件の取得
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/GroupServiceTest/T09.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T09_getGroupTalks_4() {
 		//テストパラメータ作成
 		final Integer GROUP_TALK_ROOM_ID = 6;
@@ -259,9 +236,6 @@ class GroupServiceTest {
 	//正常 トークルームのラストトークインデックス以下で、ユーザーのラストトークインデックスが更新される
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/GroupServiceTest/T10.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T10_getGroupTalks_5() {
 		//テストパラメータ作成
 		final Integer GROUP_TALK_ROOM_ID = 5;
@@ -274,13 +248,6 @@ class GroupServiceTest {
 		//期待値作成
 		List<TalkResponse> expect = new ArrayList<>();
 		var entity = new TalkResponse();
-		entity.setUserIdName("4");
-		entity.setTimestampString(TIMESTAMP_STRING_TEMPLATE);
-		entity.setTalkIndex(3);
-		entity.setContent(CONTENT_TEXT_FIREST + "3");
-		expect.add(entity);
-		
-		entity = new TalkResponse();
 		entity.setUserIdName("3");
 		entity.setTimestampString(TIMESTAMP_STRING_TEMPLATE);
 		entity.setTalkIndex(4);
@@ -300,9 +267,6 @@ class GroupServiceTest {
 	//正常 トークルームのラストトークインデックスを超えて、ユーザーのラストトークインデックスが更新される
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/GroupServiceTest/T11.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T11_getGroupTalks_6() {
 		//テストパラメータ作成
 		final Integer GROUP_TALK_ROOM_ID = 5;
@@ -315,13 +279,6 @@ class GroupServiceTest {
 		//期待値作成
 		List<TalkResponse> expect = new ArrayList<>();
 		var entity = new TalkResponse();
-		entity.setUserIdName("4");
-		entity.setTimestampString(TIMESTAMP_STRING_TEMPLATE);
-		entity.setTalkIndex(3);
-		entity.setContent(CONTENT_TEXT_FIREST + "3");
-		expect.add(entity);
-		
-		entity = new TalkResponse();
 		entity.setUserIdName("3");
 		entity.setTimestampString(TIMESTAMP_STRING_TEMPLATE);
 		entity.setTalkIndex(4);
@@ -381,9 +338,6 @@ class GroupServiceTest {
 	//正常
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/GroupServiceTest/T13.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T13_deleteGroup_1() {
 		//テストパラメータ作成
 		final Integer GROUP_TALK_ROOM_ID = 6;
@@ -420,9 +374,6 @@ class GroupServiceTest {
 	//成功
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/GroupServiceTest/T15.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T15_insertGroup_1() {
 		//テストパラメータ作成
 		final String GROUP_NAME = "group_created_by_tester";

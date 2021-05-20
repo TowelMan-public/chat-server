@@ -117,7 +117,7 @@ public class TalkLogic {
 		TalkEntity entity = talkEntityMapper.selectByPrimaryKey(talkRoomId, talkIndex);
 		if(entity == null)
 			throw new NotFoundException("talkIndex");
-		else if(entity.getUserId().equals(userId))
+		else if(!entity.getUserId().equals(userId))
 			throw new BadRequestFormException("This talk's user is not match your 'haveUserIdName'!");
 	}
 

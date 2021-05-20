@@ -1,10 +1,11 @@
 package com.example.demo.test.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertThrows;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,23 +18,12 @@ import com.example.demo.exception.NotFoundException;
 import com.example.demo.exception.NotHaveUserException;
 import com.example.demo.security.UserDetailsImp;
 import com.example.demo.service.UserInDialogueService;
-import com.github.springtestdbunit.annotation.ExpectedDatabase;
-import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 
 @SpringBootTest
 class UserInDialogueServiceTest {
 	@Autowired
 	UserInDialogueService userInDialogueService;
-	
-	/*
-	 * @BeforeEach
-	 * @Test
-	 * @Transactional
-	 * @ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/UserInDialogueServiceTest/T01.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-	 */
-	
+
 	//getUserInDiarogueList
 	//正常 削除されているのが含まれる
 	@Test
@@ -67,7 +57,7 @@ class UserInDialogueServiceTest {
 		entity.setHaveUserName("1");
 		entity.setMyLastTalkIndex(20);
 		entity.setTalkLastTalkIndex(30);
-		entity.setTalkRoomId(0);
+		entity.setTalkRoomId(70);
 		expect.add(entity);
 		
 		//実行
@@ -104,9 +94,6 @@ class UserInDialogueServiceTest {
 	//正常 相手も友達登録してない
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/UserInDialogueServiceTest/T03.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T03_insertUserInDiarogue_1() {
 		//テストパラメータ作成
 		final String HAVE_USER_ID_NAME = "2";
@@ -127,9 +114,6 @@ class UserInDialogueServiceTest {
 	//正常 相手は友達登録してる
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/UserInDialogueServiceTest/T04.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T04_insertUserInDiarogue_2() {
 		//テストパラメータ作成
 		final String HAVE_USER_ID_NAME = "1";
@@ -166,9 +150,6 @@ class UserInDialogueServiceTest {
 	//正常
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/UserInDialogueServiceTest/T06.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T06_deleteUserInDiarogue_1() {
 		//テストパラメータ作成
 		final String HAVE_USER_ID_NAME = "3";

@@ -256,7 +256,7 @@
   </update>
   
   <!--自作-->
-  <update id="updateByPrimaryKey" parameterType="java.lang.Integer">
+  <update id="incrementLastTalkIndex" parameterType="java.lang.Integer">
     UPDATE dialogue
     SET
     	last_talk_index = last_talk_index + 1

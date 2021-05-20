@@ -16,23 +16,11 @@ import com.example.demo.entity.response.DesireHaveUserResponse;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.security.UserDetailsImp;
 import com.example.demo.service.DesireUserService;
-import com.github.springtestdbunit.annotation.ExpectedDatabase;
-import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 
 @SpringBootTest
 class DesireUserServiceTest {
 	@Autowired
 	DesireUserService desireUserService;
-	
-	/*
-	 * expect
-	 * @BeforeEach
-	 * @Test
-	 * @Transactional
-	 * @ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/DesireUserServiceTest/T01.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-	 */
 	
 	//getDesireUser
 	//正常1
@@ -65,7 +53,7 @@ class DesireUserServiceTest {
 		entity.setHaveUserIdName("1");
 		entity.setHaveUserName("1");
 		entity.setTalkRoomId(3);
-		entity.setLastTalkIndex(1);
+		entity.setLastTalkIndex(0);
 		expect.add(entity);
 		
 		//実行
@@ -77,9 +65,6 @@ class DesireUserServiceTest {
 	//正常
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/DesireUserServiceTest/T03.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T03_deleteDesireUser_1() {
 		//テストパラメータ作成
 		final String DESIRE_HAVE_USER_ID_NAME = "1";
@@ -132,9 +117,6 @@ class DesireUserServiceTest {
 	//正常
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/DesireUserServiceTest/T06.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T06_joinUser_1() {
 		//テストパラメータ作成
 		final String DESIRE_HAVE_USER_ID_NAME = "1";

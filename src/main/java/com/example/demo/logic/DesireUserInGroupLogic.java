@@ -111,6 +111,8 @@ public class DesireUserInGroupLogic {
 	public void updateLastTalkIndex(Integer userId, Integer talkRoomId, Integer lastTalkIndex) {
 		//データ作成
 		var entity = new DesireUserInGroupEntity();
+		entity.setTalkRoomId(talkRoomId);
+		entity.setUserId(userId);
 		entity.setLastTalkIndex(lastTalkIndex);
 		
 		//SQL作成

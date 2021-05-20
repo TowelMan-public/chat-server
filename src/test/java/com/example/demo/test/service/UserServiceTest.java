@@ -18,8 +18,6 @@ import com.example.demo.form.UserForm;
 import com.example.demo.repository.UserEntityMapper;
 import com.example.demo.security.UserDetailsImp;
 import com.example.demo.service.UserService;
-import com.github.springtestdbunit.annotation.ExpectedDatabase;
-import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 
 @SpringBootTest
 class UserServiceTest {
@@ -34,12 +32,9 @@ class UserServiceTest {
 	//正常
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/UserServiceTest/T01.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T01_insertUser_1() {
 		//テストパラメータ作成
-		final Integer USER_ID = 5;
+		final Integer USER_ID = 71;
 		final String USER_ID_NAME = "tester_spesial";
 		final String PASSWORD = "test1";
 		var form = new UserForm();
@@ -90,6 +85,7 @@ class UserServiceTest {
 		expect.setUserIdName(USER_ID_NAME);
 		expect.setUserName("1");
 		expect.setIsEnabled(true);
+		expect.setPassword("1");
 		
 		//実行
 		try {
@@ -132,9 +128,6 @@ class UserServiceTest {
 	//正常 
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/UserServiceTest/T06.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T06_updateUserIdName_1() {
 		//テストパラメータ作成
 		final String USER_ID_NAME = "tester";
@@ -154,9 +147,6 @@ class UserServiceTest {
 	//正常
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/UserServiceTest/T07.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T07_updateUserName_1() {
 		//テストパラメータ作成
 		final String USER_NAME = "tester";
@@ -173,9 +163,6 @@ class UserServiceTest {
 	//正常
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/UserServiceTest/T08.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T08_updatePassword_1() {
 		//テストパラメータ作成
 		final String PASSWORD = "tester";
@@ -184,7 +171,7 @@ class UserServiceTest {
 		user.setUserId(USER_ID);
 		
 		//実行
-		userService.updatePassword(null, PASSWORD);
+		userService.updatePassword(user, PASSWORD);
 		
 		//パスワードのチェック
 		UserEntity entity = userEntityMapper.selectByPrimaryKey(USER_ID);
@@ -195,9 +182,6 @@ class UserServiceTest {
 	//正常
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/UserServiceTest/T09.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T09_deleteUser_1() {
 		//テストパラメータ作成
 		final Integer USER_ID = 1;

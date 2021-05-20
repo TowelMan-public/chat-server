@@ -14,34 +14,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.response.UserInGroupResponse;
 import com.example.demo.exception.AlreadyInsertedGroupDesireException;
+import com.example.demo.exception.AlreadyInsertedGroupException;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.exception.NotJoinGroupException;
 import com.example.demo.security.UserDetailsImp;
 import com.example.demo.service.UserInGroupService;
-import com.github.springtestdbunit.annotation.ExpectedDatabase;
-import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 
 @SpringBootTest
 class UserInGroupServiceTest {
 	@Autowired
 	UserInGroupService userInGroupService;
 	
-	/*
-	 * @BeforeEach
-	 * @Test
-	 * @Transactional
-	 * @ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/UserInGroupServiceTest/T01.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-	 */
-	
 	//insertUserInGroup
 	//正常
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/UserInGroupServiceTest/T01.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T01_insertUserInGroup_1() {
 		//テストパラメータ作成
 		final Integer GROUP_TALK_ROOM_ID = 5;
@@ -54,7 +41,7 @@ class UserInGroupServiceTest {
 		try {
 			userInGroupService.insertUserInGroup(user, GROUP_TALK_ROOM_ID, USER_ID_NAME_INSERTED);
 			assertTrue(true);
-		} catch (NotFoundException | NotJoinGroupException | AlreadyInsertedGroupDesireException e) {
+		} catch (NotFoundException | NotJoinGroupException | AlreadyInsertedGroupDesireException | AlreadyInsertedGroupException e) {
 			assertTrue(false);
 		}
 	}
@@ -84,12 +71,12 @@ class UserInGroupServiceTest {
 		//テストパラメータ作成
 		final Integer GROUP_TALK_ROOM_ID = 5;
 		final Integer USER_ID = 1;
-		final String USER_ID_NAME_INSERTED = "1";
+		final String USER_ID_NAME_INSERTED = "3";
 		var user = new UserDetailsImp();
 		user.setUserId(USER_ID);
 		
 		//実行
-		assertThrows(AlreadyInsertedGroupDesireException.class ,
+		assertThrows(AlreadyInsertedGroupException.class ,
 				() -> userInGroupService.insertUserInGroup(user, GROUP_TALK_ROOM_ID, USER_ID_NAME_INSERTED));
 	}
 	
@@ -100,7 +87,7 @@ class UserInGroupServiceTest {
 	void T04_insertUserInGroup_4() {
 		//テストパラメータ作成
 		final Integer GROUP_TALK_ROOM_ID = 6;
-		final Integer USER_ID = 1;
+		final Integer USER_ID = 3;
 		final String USER_ID_NAME_INSERTED = "1";
 		var user = new UserDetailsImp();
 		user.setUserId(USER_ID);
@@ -116,9 +103,9 @@ class UserInGroupServiceTest {
 	@Transactional
 	void T11_insertUserInGroup_5() {
 		//テストパラメータ作成
-		final Integer GROUP_TALK_ROOM_ID = 4;
-		final Integer USER_ID = 3;
-		final String USER_ID_NAME_INSERTED = "4";
+		final Integer GROUP_TALK_ROOM_ID = 7;
+		final Integer USER_ID = 70;
+		final String USER_ID_NAME_INSERTED = "3";
 		var user = new UserDetailsImp();
 		user.setUserId(USER_ID);
 		
@@ -148,12 +135,6 @@ class UserInGroupServiceTest {
 		
 		entity = new UserInGroupResponse();
 		entity.setTalkRoomId(GROUP_TALK_ROOM_ID);
-		entity.setUserIdName("4");
-		entity.setLastTalkIndex(5);
-		expect.add(entity);
-		
-		entity = new UserInGroupResponse();
-		entity.setTalkRoomId(GROUP_TALK_ROOM_ID);
 		entity.setUserIdName("3");
 		entity.setLastTalkIndex(7);
 		expect.add(entity);
@@ -163,7 +144,7 @@ class UserInGroupServiceTest {
 		try {
 			result = userInGroupService.getUsersInGroup(user, GROUP_TALK_ROOM_ID);
 			assertThat(result).containsExactlyElementsOf(expect);
-		} catch (NotJoinGroupException e) {
+		} catch (NotJoinGroupException | NotFoundException e) {
 			assertTrue(false);
 		}		
 	}
@@ -188,9 +169,6 @@ class UserInGroupServiceTest {
 	//正常
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/UserInGroupServiceTest/T07.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T07_deleteUserInGroup_1() {
 		//テストパラメータ作成
 		final Integer GROUP_TALK_ROOM_ID = 5;
@@ -221,7 +199,7 @@ class UserInGroupServiceTest {
 		user.setUserId(USER_ID);
 		
 		//実行
-		assertThrows(NotFoundException.class ,
+		assertThrows(NotJoinGroupException.class ,
 				() -> userInGroupService.deleteUserInGroup(user, GROUP_TALK_ROOM_ID, USER_ID_NAME_INSERTED));
 	}
 	
@@ -229,9 +207,6 @@ class UserInGroupServiceTest {
 	//正常
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/UserInGroupServiceTest/T09.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T09_exitGroup_1() {
 		//テストパラメータ作成
 		final Integer GROUP_TALK_ROOM_ID = 7;
@@ -243,7 +218,7 @@ class UserInGroupServiceTest {
 		try {
 			userInGroupService.exitGroup(user, GROUP_TALK_ROOM_ID);
 			assertTrue(true);
-		} catch (NotJoinGroupException e) {
+		} catch (NotJoinGroupException | NotFoundException e) {
 			assertTrue(false);
 		}
 	}
@@ -260,7 +235,7 @@ class UserInGroupServiceTest {
 		user.setUserId(USER_ID);
 		
 		//実行
-		assertThrows(NotJoinGroupException.class ,
+		assertThrows(NotFoundException.class ,
 				() -> userInGroupService.exitGroup(user, GROUP_TALK_ROOM_ID));
 	}
 }

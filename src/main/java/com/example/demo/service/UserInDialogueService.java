@@ -47,10 +47,10 @@ public class UserInDialogueService {
 		//処理
 		for(HaveUserEntity haveUserEntity : haveUserList) {
 			UserEntity userEntity = 
-					userLogic.getUserByUserIdNonThrow(haveUserEntity.getUserId());
+					userLogic.getUserByUserIdNonThrow(haveUserEntity.getHaveUserId());
 			DialogueTalkRoomEntity dialogueEntity =
 					dialogueLogic.getDialogueNonThrow(haveUserEntity.getTalkRoomId());
-			if(userEntity != null || dialogueEntity != null)
+			if(userEntity != null && dialogueEntity != null)
 				responselist.add(new HaveUserResponse(haveUserEntity, userEntity, dialogueEntity));
 		}
 		

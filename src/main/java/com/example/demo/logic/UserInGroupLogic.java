@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.dto.UserInGroupEntityExample;
 import com.example.demo.entity.DesireUserInGroupEntity;
 import com.example.demo.entity.UserInGroupEntity;
+import com.example.demo.exception.AlreadyInsertedGroupException;
 import com.example.demo.exception.NotJoinGroupException;
 import com.example.demo.repository.UserInGroupEntityMapper;
 
@@ -124,6 +125,8 @@ public class UserInGroupLogic {
 	public void updateLastTalkIndex(Integer userId, Integer talkRoomId, Integer lastTalkIndex) {
 		//データ作成
 		var entity = new UserInGroupEntity();
+		entity.setTalkRoomId(talkRoomId);
+		entity.setUserId(userId);
 		entity.setLastTalkIndex(lastTalkIndex);
 		
 		//SQL作成
@@ -136,6 +139,17 @@ public class UserInGroupLogic {
 		
 		//処理
 		userInGroupEntityMapper.updateByExample(entity, dto);
+	}
+
+	/**
+	 * ユーザーがグループに加入してないことをチェックする
+	 * @param talkRoomId グループトークルームID
+	 * @param userId ユーザーID
+	 * @throws AlreadyInsertedGroupException 既に加入している
+	 */
+	public void validationNotJoinGroup(Integer talkRoomId, Integer userId) throws AlreadyInsertedGroupException {
+		if(isJoinGroup(talkRoomId, userId))
+			throw new AlreadyInsertedGroupException();
 	}
 	
 }

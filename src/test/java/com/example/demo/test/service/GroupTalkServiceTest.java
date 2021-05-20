@@ -15,8 +15,6 @@ import com.example.demo.exception.NotFoundException;
 import com.example.demo.exception.NotJoinGroupException;
 import com.example.demo.security.UserDetailsImp;
 import com.example.demo.service.GroupTalkService;
-import com.github.springtestdbunit.annotation.ExpectedDatabase;
-import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 
 @SpringBootTest
 class GroupTalkServiceTest {
@@ -27,22 +25,10 @@ class GroupTalkServiceTest {
 	
 	private static final String CONTENT_TEXT_FIREST = "test";
 	
-	/*
-	 * @BeforeEach
-	 * @Test
-	 * @Transactional
-	 * @ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/GroupTalkServiceTest/T01.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-	 */
-	
 	//insertTalk
 	//正常
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/GroupTalkServiceTest/T01.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T01_insertTalk_1() {
 		//テストパラメータ作成
 		final Integer GROUP_TALK_ROOM_ID = 5;
@@ -66,9 +52,9 @@ class GroupTalkServiceTest {
 	@Transactional
 	void T02_insertTalk_2() {
 		//テストパラメータ作成
-		final Integer GROUP_TALK_ROOM_ID = 4;
+		final Integer GROUP_TALK_ROOM_ID = 7;
 		final String TALK_CONTENT_TEXT = "test Hey! you!!";
-		final Integer USER_ID = 1;
+		final Integer USER_ID = 2;
 		var user = new UserDetailsImp();
 		user.setUserId(USER_ID);
 		
@@ -126,9 +112,6 @@ class GroupTalkServiceTest {
 	//正常
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/GroupTalkServiceTest/T05.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T05_updateTalk_1() {
 		//テストパラメータ作成
 		final Integer GROUP_TALK_ROOM_ID = 7;
@@ -161,7 +144,7 @@ class GroupTalkServiceTest {
 		user.setUserId(USER_ID);
 		
 		//実行
-		assertThrows(BadRequestFormException.class ,
+		assertThrows(NotFoundException.class ,
 				() -> groupTalkService.updateTalk(user, GROUP_TALK_ROOM_ID, TALK_INDEX, TALK_CONTENT_TEXT));
 	}
 	
@@ -169,9 +152,6 @@ class GroupTalkServiceTest {
 	//正常
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/GroupTalkServiceTest/T07.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T07_deleteTalk_1() {
 		//テストパラメータ作成
 		final Integer GROUP_TALK_ROOM_ID = 7;
@@ -202,7 +182,7 @@ class GroupTalkServiceTest {
 		user.setUserId(USER_ID);
 		
 		//実行
-		assertThrows(NotFoundException.class ,
+		assertThrows(BadRequestFormException.class ,
 				() -> groupTalkService.deleteTalk(user, GROUP_TALK_ROOM_ID, TALK_INDEX));
 	}
 }

@@ -17,22 +17,11 @@ import com.example.demo.exception.NotFoundException;
 import com.example.demo.exception.NotInsertedGroupDesireException;
 import com.example.demo.security.UserDetailsImp;
 import com.example.demo.service.DesireGroupService;
-import com.github.springtestdbunit.annotation.ExpectedDatabase;
-import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 
 @SpringBootTest
 class DesireGroupServiceTest {
 	@Autowired
 	DesireGroupService desireGroupService;
-	
-	/*
-	 * @BeforeEach
-	 * @Test
-	 * @Transactional
-	 * @ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/DesireGroupServiceTest/T01.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-	 */
 	
 	//getDesireGroup
 	//正常1
@@ -71,7 +60,7 @@ class DesireGroupServiceTest {
 		List<DesireUserInGroupResponce> expect = new ArrayList<>();
 		var entity = new DesireUserInGroupResponce();
 		entity.setTalkRoomId(6);
-		entity.setGroupName("test_group6");
+		entity.setGroupName("test_group3");
 		entity.setLastTalkIndex(1);
 		expect.add(entity);
 		
@@ -84,9 +73,6 @@ class DesireGroupServiceTest {
 	//正常
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/DesireGroupServiceTest/T03.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T03_deleteDesireGroup_1() {
 		//テストパラメータ作成
 		final Integer GROUP_TALK_ROOM_ID = 7;
@@ -155,9 +141,6 @@ class DesireGroupServiceTest {
 	//正常
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/DesireGroupServiceTest/T06.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T06_joinGroup_1() {
 		//テストパラメータ作成
 		final Integer GROUP_TALK_ROOM_ID = 6;
@@ -180,8 +163,8 @@ class DesireGroupServiceTest {
 	@Transactional
 	void T07_joinGroup_2() {
 		//テストパラメータ作成
-		final Integer GROUP_TALK_ROOM_ID = 3;
-		final Integer USER_ID = 1;
+		final Integer GROUP_TALK_ROOM_ID = 5;
+		final Integer USER_ID = 70;
 		var user = new UserDetailsImp();
 		user.setUserId(USER_ID);
 		

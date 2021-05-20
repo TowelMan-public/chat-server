@@ -19,15 +19,6 @@ class UserDetailsServiceImpTest {
 	@Autowired
 	UserDetailsServiceImp userDetailsServiceImp;
 	
-	/*
-	 * @BeforeEach
-	 * @Test
-	 * @Transactional
-	 * @ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/UserDetailsServiceImpTest/T01.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-	 */
-	
 	//loadUserByUserIdName
 	//正常
 	@Test

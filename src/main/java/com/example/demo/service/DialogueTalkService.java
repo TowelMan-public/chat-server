@@ -113,7 +113,7 @@ public class DialogueTalkService {
 			throws NotFoundException, NotHaveUserException, BadRequestFormException {
 		//チェック・必要データ取得
 		BindHaveUserAndTalkRom bindHaveUserAndTalkRom = getTalkRoomIdAndValidationTalkRoom(user.getUserId(), haveUserIdName);
-		talkLogic.validationIsEnabled(bindHaveUserAndTalkRom.getTalkRoomId(), talkIndex, bindHaveUserAndTalkRom.getHaveUserId());
+		talkLogic.validationIsEnabled(bindHaveUserAndTalkRom.getTalkRoomId(), talkIndex, user.getUserId());
 		
 		//処理
 		talkLogic.delete(bindHaveUserAndTalkRom.getTalkRoomId(), talkIndex);

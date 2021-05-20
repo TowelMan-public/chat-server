@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.entity.UserInGroupEntity;
 import com.example.demo.entity.response.UserInGroupResponse;
 import com.example.demo.exception.AlreadyInsertedGroupDesireException;
+import com.example.demo.exception.AlreadyInsertedGroupException;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.exception.NotJoinGroupException;
 import com.example.demo.logic.DesireUserInGroupLogic;
@@ -41,14 +42,17 @@ public class UserInGroupService {
 	 * @throws NotFoundException
 	 * @throws NotJoinGroupException
 	 * @throws AlreadyInsertedGroupDesireException 
+	 * @throws AlreadyInsertedGroupException 
 	 */
 	@Transactional(rollbackForClassName = "Exception")
-	public void insertUserInGroup(UserDetailsImp user, Integer talkRoomId, String userIdNameInGroup) throws NotFoundException, NotJoinGroupException, AlreadyInsertedGroupDesireException {
+	public void insertUserInGroup(UserDetailsImp user, Integer talkRoomId, String userIdNameInGroup) throws NotFoundException, NotJoinGroupException, AlreadyInsertedGroupDesireException, AlreadyInsertedGroupException {
 		//チェック・データ取得
+		groupLogic.validationIsFound(talkRoomId);
 		userInGroupLogic.validationJoinGroup(talkRoomId,user.getUserId());
 		Integer userIdInGroup = userLogic.getUserByUserIdName(userIdNameInGroup)
 											.getUserId();
 		desireUserInGroupLogic.validationNotInserted(talkRoomId, userIdInGroup);
+		userInGroupLogic.validationNotJoinGroup(talkRoomId, userIdInGroup);
 		
 		//データ取得
 		Integer lastIndex = groupLogic.getGroupNonThrows(talkRoomId)
@@ -64,9 +68,11 @@ public class UserInGroupService {
 	 * @param talkRoomId グループトークルームId
 	 * @return レスポンス用のグループに加入しているユーザーリスト
 	 * @throws NotJoinGroupException
+	 * @throws NotFoundException 
 	 */
-	public List<UserInGroupResponse> getUsersInGroup(UserDetailsImp user, Integer talkRoomId) throws NotJoinGroupException {
+	public List<UserInGroupResponse> getUsersInGroup(UserDetailsImp user, Integer talkRoomId) throws NotJoinGroupException, NotFoundException {
 		//チェック
+		groupLogic.validationIsFound(talkRoomId);
 		userInGroupLogic.validationJoinGroup(talkRoomId,user.getUserId());
 		
 		//データ取得・宣言
@@ -94,6 +100,7 @@ public class UserInGroupService {
 	@Transactional(rollbackForClassName = "Exception")
 	public void deleteUserInGroup(UserDetailsImp user, Integer talkRoomId, String userIdNameInGroup) throws NotFoundException, NotJoinGroupException {
 		//チェック
+		groupLogic.validationIsFound(talkRoomId);
 		userInGroupLogic.validationJoinGroup(talkRoomId,user.getUserId());
 		Integer userIdInGroup = userLogic.getUserByUserIdName(userIdNameInGroup)
 				.getUserId();
@@ -108,10 +115,12 @@ public class UserInGroupService {
 	 * @param user ユーザー情報
 	 * @param talkRoomId グループトークルームId
 	 * @throws NotJoinGroupException
+	 * @throws NotFoundException 
 	 */
 	@Transactional(rollbackForClassName = "Exception")
-	public void exitGroup(UserDetailsImp user, Integer talkRoomId) throws NotJoinGroupException {
+	public void exitGroup(UserDetailsImp user, Integer talkRoomId) throws NotJoinGroupException, NotFoundException {
 		//チェック
+		groupLogic.validationIsFound(talkRoomId);
 		userInGroupLogic.validationJoinGroup(talkRoomId,user.getUserId());
 		
 		//処理

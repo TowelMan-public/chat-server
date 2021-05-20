@@ -17,8 +17,6 @@ import com.example.demo.exception.NotFoundException;
 import com.example.demo.exception.NotHaveUserException;
 import com.example.demo.security.UserDetailsImp;
 import com.example.demo.service.DialogueService;
-import com.github.springtestdbunit.annotation.ExpectedDatabase;
-import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 
 @SpringBootTest
 class DialogueServiceTest {
@@ -29,22 +27,10 @@ class DialogueServiceTest {
 	
 	private static final String CONTENT_TEXT_FIREST = "test";
 	
-	/*
-	 * @BeforeEach
-	 * @Test
-	 * @Transactional
-	 * @ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/DialogueServiceTest/T01.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-	 */
-	
 	//getDiarogueTalks
 	//正常　申請されているユーザー
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/DialogueServiceTest/T01.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T01_getDiarogueTalks_1() {
 		//テストパラメータ作成
 		final String DESIRE_HAVE_USER_ID_NAME = "1";
@@ -76,9 +62,6 @@ class DialogueServiceTest {
 	//正常 過去・ラストトークインデックスの更新無
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/DialogueServiceTest/T02.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T02_getDiarogueTalks_2() {
 		//テストパラメータ作成
 		final String DESIRE_HAVE_USER_ID_NAME = "3";
@@ -110,9 +93,6 @@ class DialogueServiceTest {
 	//正常 範囲外で0件の取得
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/DialogueServiceTest/T03.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T03_getDiarogueTalks_3() {
 		//テストパラメータ作成
 		final String DESIRE_HAVE_USER_ID_NAME = "3";
@@ -135,9 +115,6 @@ class DialogueServiceTest {
 	//正常 トークルームのラストトークインデックス以下で、ユーザーのラストトークインデックスが更新される
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/DialogueServiceTest/T04.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T04_getDiarogueTalks_4() {
 		//テストパラメータ作成
 		final String DESIRE_HAVE_USER_ID_NAME = "70";
@@ -171,9 +148,6 @@ class DialogueServiceTest {
 	//正常 トークルームのラストトークインデックスを超えて、ユーザーのラストトークインデックスが更新される
 	@Test
 	@Transactional
-	@ExpectedDatabase(
-            value = "classpath:src/test/resources/expectations/DialogueServiceTest/T05.xlsx",
-             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
 	void T05_getDiarogueTalks_5() {
 		//テストパラメータ作成
 		final String DESIRE_HAVE_USER_ID_NAME = "70";

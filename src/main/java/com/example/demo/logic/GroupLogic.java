@@ -119,7 +119,7 @@ public class GroupLogic {
 	 * @throws NotFoundException 見つからない
 	 */
 	public void validationIsFound(Integer talkRoomId) throws NotFoundException {
-		if(isFound(talkRoomId))
+		if(!isFound(talkRoomId))
 			throw new NotFoundException("talkRoomId");
 	}
 	
