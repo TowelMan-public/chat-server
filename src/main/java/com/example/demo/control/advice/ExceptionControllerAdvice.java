@@ -8,7 +8,16 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.example.demo.exception.*;
+import com.example.demo.exception.AlreadyHaveUserException;
+import com.example.demo.exception.AlreadyInsertedGroupDesireException;
+import com.example.demo.exception.AlreadyInsertedGroupException;
+import com.example.demo.exception.AlreadyUsedUserIdNameException;
+import com.example.demo.exception.BadRequestFormException;
+import com.example.demo.exception.LoginException;
+import com.example.demo.exception.NotFoundException;
+import com.example.demo.exception.NotHaveUserException;
+import com.example.demo.exception.NotInsertedGroupDesireException;
+import com.example.demo.exception.NotJoinGroupException;
 
 import lombok.Value;
 
