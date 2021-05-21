@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.repository.EraseMapper">
+	<delete id="eraseUnabledHaveUser">
+		DELETE delete_table 
+		FROM 
+			have_user_list AS delete_table
+		INNER JOIN users_details AS user_details_table
+			ON user_details_table.user_id = delete_table.user_id
+		INNER JOIN users_details AS have_user_details_table
+			ON user_details_table.user_id = delete_table.have_user_id
+		WHERE
+			user_details_table.is_enabled = 0
+		  OR
+		   	have_user_details_table.is_enabled = 0;
+	</delete>
+	
+	<delete id="eraseUnabledDesireHaveUser">
+		DELETE delete_table
+		FROM 
+			have_user_desire_list AS delete_table
+		INNER JOIN users_details AS user_details_table
+			ON user_details_table.user_id = delete_table.user_id
+		INNER JOIN users_details AS have_user_details_table
+			ON user_details_table.user_id = delete_table.have_user_id
+		WHERE
+			user_details_table.is_enabled = 0
+		  OR
+		   	have_user_details_table.is_enabled = 0
+	</delete>
+	
+	<delete id="eraseUnabledUserInGroupByUnabledUser">
+		DELETE delete_table
+		FROM 
+			user_in_group AS delete_table
+		INNER JOIN users_details
+			USING(user_id)
+		WHERE
+			users_details.is_enabled = 0
+	</delete>
+	
+	<delete id="eraseUnabledGroupDesireByUnabledUser">
+		DELETE delete_table
+		FROM 
+			group_desire AS delete_table
+		INNER JOIN users_details
+			USING(user_id)
+		WHERE
+			users_details.is_enabled = 0
+	</delete>
+	
+	<delete id="eraseUnabledTalkByUnabledUser">
+		DELETE delete_table
+		FROM 
+			talk AS delete_table
+		INNER JOIN users_details
+			USING(user_id)
+		WHERE
+			users_details.is_enabled = 0
+	</delete>
+	
+	<delete id="eraseUnabledUser">
+		DELETE FROM users_details
+		WHERE
+			users_details.is_enabled = 0
+	</delete>
+	
+	<update id="setUnabledDialogueTalkRoom">
+		UPDATE dialogue
+		LEFT JOIN have_user_list
+			USING(talk_room_id)
+		SET is_enabled = 0
+		WHERE
+			have_user_list.talk_room_id IS NULL
+	</update>
+	
+	<update id="setUnabledGroupTalkRoom">
+		UPDATE groups
+		LEFT JOIN (
+			SELECT
+				user_in_group.talk_room_id AS record_talk_room_id
+			FROM
+				user_in_group
+			UNION 
+				SELECT
+					user_in_group.talk_room_id AS record_talk_room_id
+				FROM
+					user_in_group
+			) AS user_in_group_and_desire_table
+			ON groups.talk_room_id = user_in_group_and_desire_table.record_talk_room_id
+		SET is_enabled = 0
+		WHERE
+			user_in_group_and_desire_table.record_talk_room_id IS NULL
+	</update>
+	
+	<delete id="eraseUnabledGroupDesireByUnabledGroup">
+		DELETE delete_table
+		FROM 
+			group_desire AS delete_table
+		INNER JOIN groups
+			USING(talk_room_id)
+		WHERE
+			groups.is_enabled = 0
+	</delete>
+	
+	<delete id="eraseUnabledUserInGroup">
+		DELETE delete_table
+		FROM
+			user_in_group AS delete_table
+		INNER JOIN groups
+			USING(talk_room_id)
+		WHERE
+			groups.is_enabled = 0
+	</delete>
+	
+	<delete id="eraseUnabledTalkByGroup">
+		DELETE delete_table
+		FROM
+			talk AS delete_table
+		INNER JOIN groups
+			USING(talk_room_id)
+		WHERE
+			groups.is_enabled = 0
+	</delete>
+
+	<delete id="eraseUnabledTalkByDialogue">
+		DELETE delete_table
+		FROM 
+			talk AS delete_table
+		INNER JOIN dialogue
+			USING(talk_room_id)
+		WHERE
+			dialogue.is_enabled = 0
+	</delete>
+	
+	<delete id="eraseUnabledGroup">
+		DELETE FROM groups
+		WHERE
+			groups.is_enabled = 0
+	</delete>
+	
+	<delete id="eraseUnabledDialogue">
+		DELETE FROM dialogue
+		WHERE
+			dialogue.is_enabled = 0
+	</delete>
+	
+	<delete id="eraseUnabledParentUser">
+		DELETE delete_table
+		FROM 
+			users AS delete_table
+		LEFT JOIN users_details
+			USING(user_id)
+		WHERE
+			users_details.user_id IS NULL
+	</delete>
+	
+	<delete id="eraseUnabledParentTalkRoom">
+		DELETE delete_table
+		FROM 
+			talk_room AS delete_table
+		LEFT JOIN(
+				SELECT
+					dialogue.talk_room_id AS record_talk_room_id
+				FROM
+					dialogue
+				UNION
+					SELECT
+						groups.talk_room_id AS record_talk_room_id
+					FROM
+						groups
+			) AS dialogue_and_group_table
+			ON delete_table.talk_room_id = dialogue_and_group_table.record_talk_room_id
+		WHERE
+			dialogue_and_group_table.record_talk_room_id IS NULL
+	</delete>
+</mapper>
