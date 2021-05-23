@@ -5,6 +5,9 @@ import com.example.demo.entity.UserInGroupEntity;
 
 import lombok.Data;
 
+/**
+ * グループを取得するAPIのレスポンスとして返すエンティティー
+ */
 @Data
 public class GroupTalkRoomResponse {
 	private Integer talkRoomId;
