@@ -113,4 +113,23 @@ public class DesireUserLogic {
 		//処理
 		desireHaveUserEntityMapper.updateByExampleSelective(entity, dto);
 	}
+
+	/**
+	 * 友達追加申請を登録する
+	 * @param userId ユーザーID
+	 * @param haveUserId 申請を出してるユーザーのID
+	 * @param dialogueTalkRoomId 友達トークID
+	 * @param lastTalkIndex ラストトークインデックス
+	 */
+	public void insert(Integer userId, Integer haveUserId, Integer dialogueTalkRoomId, Integer lastTalkIndex) {
+		//データ作成
+		var entity = new DesireHaveUserEntity();
+		entity.setUserId(userId);
+		entity.setHaveUserId(haveUserId);
+		entity.setTalkRoomId(dialogueTalkRoomId);
+		entity.setLastTalkIndex(lastTalkIndex);
+		
+		//処理
+		desireHaveUserEntityMapper.insert(entity);
+	}
 }

@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -49,11 +50,10 @@ public class UserInDialogueControl {
 	 * 	ここで入力ﾁｪｯｸも行う
 	 * @throws NotFoundException
 	 * @throws AlreadyHaveUserException
-	 * @throws NotHaveUserException
 	 */
 	@PostMapping("insert")
-	public void insertUserInDiarogue(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Insert.class) UserInDialogueForm form)
-			throws NotFoundException, AlreadyHaveUserException, NotHaveUserException {
+	public void insertUserInDiarogue(@AuthenticationPrincipal UserDetailsImp user, @RequestBody @Validated(Groups.Insert.class) UserInDialogueForm form)
+			throws NotFoundException, AlreadyHaveUserException {
 		userInDialogueService.insertUserInDiarogue(user,form.getUserIdName());
 	}
 	
@@ -67,7 +67,7 @@ public class UserInDialogueControl {
 	 * @throws NotHaveUserException
 	 */
 	@PostMapping("delete")
-	public void deleteUserInDiarogue(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Delete.class) UserInDialogueForm form) 
+	public void deleteUserInDiarogue(@AuthenticationPrincipal UserDetailsImp user, @RequestBody @Validated(Groups.Delete.class) UserInDialogueForm form) 
 			throws NotFoundException, NotHaveUserException {
 		userInDialogueService.deleteUserInDiarogue(user,form.getUserIdName());
 	}

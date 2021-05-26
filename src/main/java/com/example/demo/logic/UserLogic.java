@@ -34,6 +34,8 @@ public class UserLogic {
 		var entity = new UserEntity();
 		entity.setUserId(userId);
 		entity.setIsEnabled(false);
+		
+		userEntityMapper.updateByPrimaryKeySelective(entity);
 	}
 
 	/**

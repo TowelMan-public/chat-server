@@ -88,6 +88,8 @@ public class UserInDialogueService {
 			//相手も友達に追加してない
 			lastTalkIndex = 0;
 			dialogueTalkRoomId = dialogueLogic.createTalkRoom();
+			
+			desireUserLogic.insert(haveUserId,user.getUserId(),dialogueTalkRoomId,lastTalkIndex);
 		}
 		
 		//処理

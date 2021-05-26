@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -49,7 +50,8 @@ public class DesireGroupControl {
 	 * @throws NotInsertedGroupDesireException 
 	 */
 	@PostMapping("delete")
-	public void deleteDesireGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Delete.class) DesireGroupForm form) throws NotFoundException, NotInsertedGroupDesireException {
+	public void deleteDesireGroup(@AuthenticationPrincipal UserDetailsImp user, @RequestBody @Validated(Groups.Delete.class) DesireGroupForm form)
+			throws NotFoundException, NotInsertedGroupDesireException {
 		desireGroupService.deleteDesireGroup(user,form.getTalkRoomId());
 	}
 	
@@ -63,7 +65,8 @@ public class DesireGroupControl {
 	 * @throws NotInsertedGroupDesireException 
 	 */
 	@PostMapping("join")
-	public void joinGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Join.class) DesireGroupForm form) throws NotFoundException, NotInsertedGroupDesireException {
+	public void joinGroup(@AuthenticationPrincipal UserDetailsImp user, @RequestBody @Validated(Groups.Join.class) DesireGroupForm form)
+			throws NotFoundException, NotInsertedGroupDesireException {
 		desireGroupService.joinGroup(user,form.getTalkRoomId());
 	}
 }

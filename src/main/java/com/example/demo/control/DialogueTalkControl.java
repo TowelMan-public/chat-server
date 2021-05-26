@@ -5,6 +5,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,7 +38,7 @@ public class DialogueTalkControl {
 	 * @throws NotHaveUserException
 	 */
 	@PostMapping("insert")
-	public void insertTalk(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Insert.class) DiarogueTalkForm form) 
+	public void insertTalk(@AuthenticationPrincipal UserDetailsImp user, @RequestBody @Validated(Groups.Insert.class) DiarogueTalkForm form) 
 			throws NotFoundException, NotHaveUserException {
 		dialogueTalkService.insertTalk(user, form.getHaveUserIdName(), form.getTalkContentText());
 	}
@@ -69,7 +70,7 @@ public class DialogueTalkControl {
 	 * @throws BadRequestFormException
 	 */
 	@PostMapping("update")
-	public void updateTalk(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Update.class) DiarogueTalkForm form) 
+	public void updateTalk(@AuthenticationPrincipal UserDetailsImp user, @RequestBody @Validated(Groups.Update.class) DiarogueTalkForm form) 
 			throws NotFoundException, NotHaveUserException, BadRequestFormException {
 		dialogueTalkService.updateTalk(user, form.getHaveUserIdName(), form.getTalkIndex(), form.getTalkContentText());
 	}
@@ -85,7 +86,7 @@ public class DialogueTalkControl {
 	 * @throws BadRequestFormException
 	 */
 	@PostMapping("delete")
-	public void deleteTalk(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Delete.class) DiarogueTalkForm form) 
+	public void deleteTalk(@AuthenticationPrincipal UserDetailsImp user, @RequestBody @Validated(Groups.Delete.class) DiarogueTalkForm form) 
 			throws NotFoundException, NotHaveUserException, BadRequestFormException {
 		dialogueTalkService.deleteTalk(user, form.getHaveUserIdName(), form.getTalkIndex());
 	}

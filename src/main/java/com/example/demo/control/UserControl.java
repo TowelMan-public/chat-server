@@ -37,7 +37,8 @@ public class UserControl {
 	 * @throws AlreadyUsedUserIdNameException 
 	*/
 	@PostMapping("insert")
-	public void insertUser(@RequestBody @Validated(Groups.Insert.class) UserForm form) throws AlreadyUsedUserIdNameException {
+	public void insertUser(@RequestBody @Validated(Groups.Insert.class) UserForm form)
+			throws AlreadyUsedUserIdNameException {
 		userService.insertUser(form);
 	}
 	
@@ -51,7 +52,8 @@ public class UserControl {
 	 * @throws UnEnableException
 	 */
 	@GetMapping("get")
-	public UserEntity getUser(@Validated(Groups.Get.class) UserForm form) throws NotFoundException {
+	public UserEntity getUser(@Validated(Groups.Get.class) UserForm form)
+			throws NotFoundException {
 		return userService.getUser(form.getUserIdName());
 	}
 	
@@ -64,7 +66,8 @@ public class UserControl {
 	 * @throws AlreadyUsedUserIdNameException 
 	 */
 	@PostMapping("update/id-name")
-	public void updateUserIdName(@AuthenticationPrincipal UserDetailsImp user,@RequestBody @Validated(Groups.UpdateIdName.class) UserForm form) throws AlreadyUsedUserIdNameException {
+	public void updateUserIdName(@AuthenticationPrincipal UserDetailsImp user,@RequestBody @Validated(Groups.UpdateIdName.class) UserForm form)
+			throws AlreadyUsedUserIdNameException {
 		userService.updateUserIdName(user,form.getUserIdName());
 	}
 	

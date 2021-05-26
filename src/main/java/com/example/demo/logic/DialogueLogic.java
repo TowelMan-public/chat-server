@@ -25,10 +25,20 @@ public class DialogueLogic {
 	 * @return トークルームID
 	 */
 	public Integer createTalkRoom() {
-		var entity = new ParentTalkRoomEntity();
-		parentTalkRoomEntityMapper.insertSelective(entity);
+		//トークルーム作成・データ取得
+		var parentEntity = new ParentTalkRoomEntity();
+		parentTalkRoomEntityMapper.insertSelective(parentEntity);
 		
-		return entity.getTalkRoomId();
+		//トークルームを友達トークに登録
+		var dialogueEntity = new DialogueTalkRoomEntity();
+		dialogueEntity.setTalkRoomId(
+				parentEntity.getTalkRoomId());
+		dialogueEntity.setLastTalkIndex(0);
+		dialogueEntity.setIsEnabled(true);
+		
+		dialogueTalkRoomEntityMapper.insert(dialogueEntity);
+		
+		return parentEntity.getTalkRoomId();
 	}
 
 	/**

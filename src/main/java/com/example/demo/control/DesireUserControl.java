@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,7 +48,8 @@ public class DesireUserControl {
 	 * @throws NotFoundException
 	 */
 	@PostMapping("delete")
-	public void deleteDesireUser(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Delete.class) DesireUserForm form) throws NotFoundException {
+	public void deleteDesireUser(@AuthenticationPrincipal UserDetailsImp user, @RequestBody @Validated(Groups.Delete.class) DesireUserForm form)
+			throws NotFoundException {
 		desireUserService.deleteDesireUser(user,form.getUserIdName());
 	}
 	
@@ -60,7 +62,8 @@ public class DesireUserControl {
 	 * @throws NotFoundException
 	 */
 	@PostMapping("join")
-	public void joinUser(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Join.class) DesireUserForm form) throws NotFoundException {
+	public void joinUser(@AuthenticationPrincipal UserDetailsImp user, @RequestBody @Validated(Groups.Join.class) DesireUserForm form)
+			throws NotFoundException {
 		desireUserService.joinUser(user,form.getUserIdName());
 	}
 }

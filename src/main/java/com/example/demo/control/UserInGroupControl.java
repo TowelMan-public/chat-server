@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,7 +43,7 @@ public class UserInGroupControl {
 	 * @throws AlreadyInsertedGroupException 
 	 */
 	@PostMapping("insert")
-	public void insertUserInGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Insert.class) UserInGroupForm form)
+	public void insertUserInGroup(@AuthenticationPrincipal UserDetailsImp user, @RequestBody @Validated(Groups.Insert.class) UserInGroupForm form)
 			throws NotFoundException, NotJoinGroupException, AlreadyInsertedGroupDesireException, AlreadyInsertedGroupException {
 		userInGroupService.insertUserInGroup(user,form.getTalkRoomId(),form.getUserIdName());
 	}
@@ -69,7 +70,7 @@ public class UserInGroupControl {
 	 * @throws NotJoinGroupException
 	 */
 	@PostMapping("delete")
-	public void deleteUserInGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Delete.class) UserInGroupForm form)
+	public void deleteUserInGroup(@AuthenticationPrincipal UserDetailsImp user, @RequestBody @Validated(Groups.Delete.class) UserInGroupForm form)
 			throws NotFoundException, NotJoinGroupException {
 		userInGroupService.deleteUserInGroup(user,form.getTalkRoomId(),form.getUserIdName());
 	}
@@ -83,7 +84,7 @@ public class UserInGroupControl {
 	 * @throws NotFoundException 
 	 */
 	@PostMapping("exit")
-	public void exitGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Exit.class) UserInGroupForm form)
+	public void exitGroup(@AuthenticationPrincipal UserDetailsImp user, @RequestBody @Validated(Groups.Exit.class) UserInGroupForm form)
 			throws NotJoinGroupException, NotFoundException {
 		userInGroupService.exitGroup(user,form.getTalkRoomId());
 	}

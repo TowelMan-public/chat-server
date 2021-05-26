@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -68,7 +69,7 @@ public class GroupControl {
 	 * @throws NotFoundException
 	 */
 	@PostMapping("update/name")
-	public void updateGroupName(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.UpdateName.class) GroupForm form) 
+	public void updateGroupName(@AuthenticationPrincipal UserDetailsImp user, @RequestBody @Validated(Groups.UpdateName.class) GroupForm form) 
 			throws NotJoinGroupException, NotFoundException {
 		groupService.updateGroupName(user, form.getTalkRoomId(), form.getGroupName());
 	}
@@ -99,7 +100,7 @@ public class GroupControl {
 	 * @throws NotFoundException
 	 */
 	@PostMapping("delete")
-	public void deleteGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Delete.class) GroupForm form) 
+	public void deleteGroup(@AuthenticationPrincipal UserDetailsImp user, @RequestBody @Validated(Groups.Delete.class) GroupForm form) 
 			throws NotJoinGroupException, NotFoundException {
 		groupService.deleteGroup(user, form.getTalkRoomId());
 	}
@@ -112,7 +113,7 @@ public class GroupControl {
 	 * 	ここで入力ﾁｪｯｸも行う
 	 */
 	@PostMapping("insert")
-	public void insertGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Insert.class) GroupForm form) {
+	public void insertGroup(@AuthenticationPrincipal UserDetailsImp user, @RequestBody @Validated(Groups.Insert.class) GroupForm form) {
 		groupService.insertGroup(user,form.getGroupName());
 	}
 }
