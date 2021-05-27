@@ -10,7 +10,7 @@ import lombok.Data;
 
 @Data
 public class GroupForm {
-	@NotBlank(message=RegexpMessage.EMPTY,groups= {Groups.Gets.class,Groups.Get.class,UpdateName.class,Groups.Delete.class})
+	@NotNull(message=RegexpMessage.EMPTY,groups= {Groups.Gets.class,Groups.Get.class,UpdateName.class,Groups.Delete.class})
 	private Integer talkRoomId;
 	@NotBlank(message=RegexpMessage.EMPTY,groups= {Groups.Insert.class,Groups.UpdateName.class})
 	private String groupName;

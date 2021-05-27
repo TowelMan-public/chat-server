@@ -13,6 +13,7 @@ public class UserInGroupResponse {
 	private Integer talkRoomId;
 	private Integer lastTalkIndex;
 	private String userIdName;
+	private String userName;
 	
 	/**
 	 * コンストラクタ<br>
@@ -24,6 +25,7 @@ public class UserInGroupResponse {
 		talkRoomId = userInGroupEntity.getTalkRoomId();
 		lastTalkIndex = userInGroupEntity.getLastTalkIndex();
 		userIdName = userEntity.getUserIdName();
+		userName = userEntity.getUserName();
 	}
 
 	/**
