@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.configurer.UrlConfing;
-import com.example.demo.entity.GroupTalkRoomEntity;
 import com.example.demo.entity.response.GroupTalkRoomResponse;
 import com.example.demo.entity.response.TalkResponse;
 import com.example.demo.exception.NotFoundException;
@@ -43,7 +42,7 @@ public class GroupControl {
 	 * @throws NotFoundException
 	 */
 	@GetMapping("get")
-	public GroupTalkRoomEntity getGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Get.class) GroupForm form)
+	public GroupTalkRoomResponse getGroup(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Get.class) GroupForm form)
 			throws NotJoinGroupException, NotFoundException {
 		return groupService.getGroup(user, form.getTalkRoomId());
 	}

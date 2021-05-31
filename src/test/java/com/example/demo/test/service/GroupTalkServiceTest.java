@@ -78,6 +78,7 @@ class GroupTalkServiceTest {
 		//期待値作成
 		var expect = new TalkResponse();
 		expect.setUserIdName("1");
+		expect.setUserName("1");
 		expect.setTimestampString(TIMESTAMP_STRING_TEMPLATE);
 		expect.setTalkIndex(2);
 		expect.setContent(CONTENT_TEXT_FIREST + 2);

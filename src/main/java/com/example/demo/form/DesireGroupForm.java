@@ -8,6 +8,6 @@ import lombok.Data;
 
 @Data
 public class DesireGroupForm {
-	@NotNull(message=RegexpMessage.EMPTY,groups= {Groups.Delete.class,Groups.Join.class})
+	@NotNull(message=RegexpMessage.EMPTY,groups= {Groups.Delete.class,Groups.Join.class,Groups.Get.class})
 	private Integer talkRoomId;
 }

@@ -130,12 +130,14 @@ class UserInGroupServiceTest {
 		var entity = new UserInGroupResponse();
 		entity.setTalkRoomId(GROUP_TALK_ROOM_ID);
 		entity.setUserIdName("1");
+		entity.setUserName("1");
 		entity.setLastTalkIndex(2);
 		expect.add(entity);
 		
 		entity = new UserInGroupResponse();
 		entity.setTalkRoomId(GROUP_TALK_ROOM_ID);
 		entity.setUserIdName("3");
+		entity.setUserName("1");
 		entity.setLastTalkIndex(7);
 		expect.add(entity);
 		

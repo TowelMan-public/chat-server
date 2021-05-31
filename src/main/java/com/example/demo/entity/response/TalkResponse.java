@@ -14,6 +14,7 @@ import lombok.Data;
 public class TalkResponse {
 	private Integer talkIndex;
 	private String userIdName;
+	private String userName;
 	private String content;
 	private String timestampString;
 	
@@ -26,6 +27,7 @@ public class TalkResponse {
 	public TalkResponse(TalkEntity talkEntity, UserEntity userEntity) {
 		talkIndex = talkEntity.getTalkIndex();
 		userIdName = userEntity.getUserIdName();
+		userName = userEntity.getUserName();
 		content = talkEntity.getContent();
 		var format = new SimpleDateFormat("yyyy/M/d/HH/mm");
 		timestampString = format.format(talkEntity.getTimestamp());

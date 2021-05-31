@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.DesireHaveUserEntity;
+import com.example.demo.entity.UserEntity;
 import com.example.demo.entity.response.DesireHaveUserResponse;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.logic.DesireUserLogic;
@@ -33,7 +34,7 @@ public class DesireUserService {
 	 * @param user ユーザー情報
 	 * @return レスポンス用の友達追加申請リスト
 	 */
-	public List<DesireHaveUserResponse> getDesireUser(UserDetailsImp user) {
+	public List<DesireHaveUserResponse> getDesireUserList(UserDetailsImp user) {
 		//データ取得・宣言
 		List<DesireHaveUserEntity> desireEntityList = desireUserLogic.getDesireUserList(user.getUserId());
 		List<DesireHaveUserResponse> responceEntityList = new ArrayList<>();
@@ -79,6 +80,21 @@ public class DesireUserService {
 		var desireEntity = desireUserLogic.getDesireUser(user.getUserId(), userEntity.getUserId());
 		desireUserLogic.delete(user.getUserId(), userEntity.getUserId());
 		haveUserLogic.join(desireEntity);
+	}
+
+	/**
+	 * 友達追加申請の取得
+	 * @param user ユーザー情報
+	 * @param haveUserIdName 申請を出しているユーザーのID名
+	 * @return レスポンス向け友達追加申請
+	 * @throws NotFoundException
+	 */
+	public DesireHaveUserResponse getDesireUser(UserDetailsImp user, String haveUserIdName) throws NotFoundException {
+		//ﾁｪｯｸ・データ取得
+		UserEntity haveUserEntity = userLogic.getUserByUserIdName(haveUserIdName);
+		DesireHaveUserEntity desireHaveUserEntity = desireUserLogic.getDesireUser(user.getUserId(), haveUserEntity.getUserId());
+		
+		return new DesireHaveUserResponse(desireHaveUserEntity, haveUserEntity);
 	}
 
 }

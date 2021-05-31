@@ -32,11 +32,26 @@ public class DesireUserControl {
 	 * APIの呼び出し: /desire/user/gets(GET)<br>
 	 * 友達追加申請一覧取得
 	 * @param user アクセスしたユーザーの情報
-	 * @return
+	 * @return 友達追加申請一覧
 	 */
 	@GetMapping("gets")
-	public List<DesireHaveUserResponse> getDesireUser(@AuthenticationPrincipal UserDetailsImp user) {
-		return desireUserService.getDesireUser(user);
+	public List<DesireHaveUserResponse> getDesireUserList(@AuthenticationPrincipal UserDetailsImp user) {
+		return desireUserService.getDesireUserList(user);
+	}
+	
+	/**
+	 * APIの呼び出し: /desire/user/get(GET)<br>
+	 * 友達追加申請取得
+	 * @param user アクセスしたユーザーの情報
+	 * @param form リクエストのパラメター<br>
+	 * 	ここで入力ﾁｪｯｸも行う
+	 * @return 友達追加申請
+	 * @throws NotFoundException 
+	 */
+	@GetMapping("get")
+	public DesireHaveUserResponse getDesireUser(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Get.class) DesireUserForm form)
+			throws NotFoundException {
+		return desireUserService.getDesireUser(user, form.getUserIdName());
 	}
 	
 	/**

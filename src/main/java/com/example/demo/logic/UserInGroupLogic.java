@@ -151,5 +151,20 @@ public class UserInGroupLogic {
 		if(isJoinGroup(talkRoomId, userId))
 			throw new AlreadyInsertedGroupException();
 	}
+
+	/**
+	 * ユーザーが加入しているグループの内一つを取得する1
+	 * @param talkRoomId グループトークルームID
+	 * @param userId ユーザーID
+	 * @return グループ
+	 * @throws NotJoinGroupException 加入してない
+	 */
+	public UserInGroupEntity getGroup(Integer talkRoomId, Integer userId) throws NotJoinGroupException {
+		UserInGroupEntity entity = userInGroupEntityMapper.selectByPrimaryKey(talkRoomId, userId);
+		if(entity == null)
+			throw new NotJoinGroupException();
+		else
+			return entity;
+	}
 	
 }

@@ -114,4 +114,22 @@ public class UserInDialogueService {
 		desireUserLogic.delete(haveUserId, user.getUserId());
 		haveUserLogic.delete(user.getUserId(), haveUserId);
 	}
+
+	/**
+	 *レスポンス向けの友達リストを取得
+	 * @param user ユーザー情報
+	 * @param haveUserIdName ユーザーID名
+	 * @return レスポンス向けの友達リスト
+	 * @throws NotFoundException 
+	 * @throws NotHaveUserException 
+	 */
+	public HaveUserResponse getUserInDiarogue(UserDetailsImp user, String haveUserIdName) throws NotFoundException, NotHaveUserException {
+		
+		//必要データ取得
+		UserEntity haveUserEntity = userLogic.getUserByUserIdName(haveUserIdName);		
+		HaveUserEntity userInDialogueEntity = haveUserLogic.getHaveUser(user.getUserId(), haveUserEntity.getUserId());		
+		DialogueTalkRoomEntity talkRoomEntity = dialogueLogic.getDialogue(userInDialogueEntity.getTalkRoomId());
+		
+		return new HaveUserResponse(userInDialogueEntity, haveUserEntity, talkRoomEntity);
+	}
 }

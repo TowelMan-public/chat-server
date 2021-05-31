@@ -8,6 +8,6 @@ import lombok.Data;
 
 @Data
 public class DesireUserForm {
-	@NotBlank(message=RegexpMessage.EMPTY,groups= {Groups.Delete.class,Groups.Join.class})
+	@NotBlank(message=RegexpMessage.EMPTY,groups= {Groups.Delete.class,Groups.Join.class,Groups.Get.class})
 	private String userIdName;
 }

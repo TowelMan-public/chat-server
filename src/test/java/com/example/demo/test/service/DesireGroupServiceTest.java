@@ -42,7 +42,7 @@ class DesireGroupServiceTest {
 		expect.add(entity);
 		
 		//実行
-		List<DesireUserInGroupResponce> result = desireGroupService.getDesireGroup(user);
+		List<DesireUserInGroupResponce> result = desireGroupService.getDesireGroupList(user);
 		assertThat(result).containsExactlyElementsOf(expect);
 	}
 	
@@ -65,7 +65,7 @@ class DesireGroupServiceTest {
 		expect.add(entity);
 		
 		//実行
-		List<DesireUserInGroupResponce> result = desireGroupService.getDesireGroup(user);
+		List<DesireUserInGroupResponce> result = desireGroupService.getDesireGroupList(user);
 		assertThat(result).containsExactlyElementsOf(expect);
 	}
 	
@@ -171,5 +171,46 @@ class DesireGroupServiceTest {
 		//実行
 		assertThrows(NotInsertedGroupDesireException.class ,
 				() -> desireGroupService.joinGroup(user, GROUP_TALK_ROOM_ID));
+	}
+	
+	//getDesireGroup
+	//正常
+	@Test
+	@Transactional
+	void T08_getDesireGroup_1() {
+		//テストパラメータ作成
+		final Integer GROUP_TALK_ROOM_ID = 7;
+		final Integer USER_ID = 3;
+		var user = new UserDetailsImp();
+		user.setUserId(USER_ID);
+		
+		//期待値作成
+		var expect = new DesireUserInGroupResponce();
+		expect.setTalkRoomId(GROUP_TALK_ROOM_ID);
+		expect.setGroupName("test_group4");
+		expect.setLastTalkIndex(4);
+		
+		try {
+			DesireUserInGroupResponce result = desireGroupService.getDesireGroup(user, GROUP_TALK_ROOM_ID);
+			assertThat(result).isEqualTo(expect);
+		} catch (NotFoundException e) {
+			assertTrue(false);
+		}
+	}
+	
+	//getDesireGroup
+	//異常 申請出てない
+	@Test
+	@Transactional
+	void T09_getDesireGroup_2() {
+		//テストパラメータ作成
+		final Integer GROUP_TALK_ROOM_ID = 5;
+		final Integer USER_ID = 70;
+		var user = new UserDetailsImp();
+		user.setUserId(USER_ID);
+		
+		//実行
+		assertThrows(NotFoundException.class ,
+				() -> desireGroupService.getDesireGroup(user, GROUP_TALK_ROOM_ID));
 	}
 }

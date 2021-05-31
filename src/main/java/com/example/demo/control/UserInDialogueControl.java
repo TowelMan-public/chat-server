@@ -43,6 +43,22 @@ public class UserInDialogueControl {
 	}
 	
 	/**
+	 * APIの呼び出し: /dialogue/user/get(GET)<br>
+	 * 友達取得
+	 * @param user アクセスしたユーザーの情報
+	 * @param form リクエストのパラメター<br>
+	 * 	ここで入力ﾁｪｯｸも行う
+	 * @return 友達
+	 * @throws NotHaveUserException 
+	 * @throws NotFoundException 
+	 */
+	@GetMapping("get")
+	public HaveUserResponse getUserInDiarogue(@AuthenticationPrincipal UserDetailsImp user, @Validated(Groups.Get.class) UserInDialogueForm form) 
+			throws NotFoundException, NotHaveUserException {
+		return userInDialogueService.getUserInDiarogue(user,form.getUserIdName());
+	}
+	
+	/**
 	 * APIの呼び出し: /dialogue/user/insert(POST)<br>
 	 * 友達追加
 	 * @param user アクセスしたユーザーの情報

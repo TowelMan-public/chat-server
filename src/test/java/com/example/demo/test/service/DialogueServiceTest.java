@@ -44,6 +44,7 @@ class DialogueServiceTest {
 		List<TalkResponse> expect = new ArrayList<>();
 		var entity = new TalkResponse();
 		entity.setUserIdName("1");
+		entity.setUserName("1");
 		entity.setTimestampString(TIMESTAMP_STRING_TEMPLATE);
 		entity.setTalkIndex(1);
 		entity.setContent(CONTENT_TEXT_FIREST + "1");
@@ -75,6 +76,7 @@ class DialogueServiceTest {
 		List<TalkResponse> expect = new ArrayList<>();
 		var entity = new TalkResponse();
 		entity.setUserIdName("1");
+		entity.setUserName("1");
 		entity.setTimestampString(TIMESTAMP_STRING_TEMPLATE);
 		entity.setTalkIndex(1);
 		entity.setContent(CONTENT_TEXT_FIREST + "1");
@@ -129,6 +131,7 @@ class DialogueServiceTest {
 		for(Integer i = 21;i <= 25; i++) {
 			var entity = new TalkResponse();
 			entity.setUserIdName("70");
+			entity.setUserName("1");
 			entity.setTimestampString(TIMESTAMP_STRING_TEMPLATE);
 			entity.setTalkIndex(i);
 			entity.setContent(CONTENT_TEXT_FIREST + i.toString());
@@ -162,6 +165,7 @@ class DialogueServiceTest {
 		for(Integer i = 21;i <= 30; i++) {
 			var entity = new TalkResponse();
 			entity.setUserIdName("70");
+			entity.setUserName("1");
 			entity.setTimestampString(TIMESTAMP_STRING_TEMPLATE);
 			entity.setTalkIndex(i);
 			entity.setContent(CONTENT_TEXT_FIREST + i.toString());

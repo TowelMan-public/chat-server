@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.entity.GroupTalkRoomEntity;
 import com.example.demo.entity.response.GroupTalkRoomResponse;
 import com.example.demo.entity.response.TalkResponse;
 import com.example.demo.exception.NotFoundException;
@@ -41,15 +40,15 @@ class GroupServiceTest {
 		user.setUserId(USER_ID);
 		
 		//期待値作成
-		var expect = new GroupTalkRoomEntity();
+		var expect = new GroupTalkRoomResponse();
 		expect.setTalkRoomId(5);
 		expect.setGroupName("test_group1");
-		expect.setIsEnabled(true);
-		expect.setLastTalkIndex(7);
+		expect.setUserLastTalkIndex(2);
+		expect.setGroupLastTalkIndex(7);
 		
 		//実行
 		try {
-			GroupTalkRoomEntity result = groupService.getGroup(user, GROUP_TALK_ROOM_ID);
+			GroupTalkRoomResponse result = groupService.getGroup(user, GROUP_TALK_ROOM_ID);
 			assertThat(result).isEqualTo(expect);
 		} catch (NotJoinGroupException | NotFoundException e) {
 			assertTrue(false);
@@ -158,6 +157,7 @@ class GroupServiceTest {
 		List<TalkResponse> expect = new ArrayList<>();
 		var entity = new TalkResponse();
 		entity.setUserIdName("3");
+		entity.setUserName("1");
 		entity.setTimestampString(TIMESTAMP_STRING_TEMPLATE);
 		entity.setTalkIndex(1);
 		entity.setContent(CONTENT_TEXT_FIREST + "1");
@@ -165,6 +165,7 @@ class GroupServiceTest {
 		
 		entity = new TalkResponse();
 		entity.setUserIdName("3");
+		entity.setUserName("1");
 		entity.setTimestampString(TIMESTAMP_STRING_TEMPLATE);
 		entity.setTalkIndex(2);
 		entity.setContent(CONTENT_TEXT_FIREST + "2");
@@ -196,6 +197,7 @@ class GroupServiceTest {
 		List<TalkResponse> expect = new ArrayList<>();
 		var entity = new TalkResponse();
 		entity.setUserIdName("3");
+		entity.setUserName("1");
 		entity.setTimestampString(TIMESTAMP_STRING_TEMPLATE);
 		entity.setTalkIndex(2);
 		entity.setContent(CONTENT_TEXT_FIREST + "2");
@@ -249,6 +251,7 @@ class GroupServiceTest {
 		List<TalkResponse> expect = new ArrayList<>();
 		var entity = new TalkResponse();
 		entity.setUserIdName("3");
+		entity.setUserName("1");
 		entity.setTimestampString(TIMESTAMP_STRING_TEMPLATE);
 		entity.setTalkIndex(4);
 		entity.setContent(CONTENT_TEXT_FIREST + "4");
@@ -280,6 +283,7 @@ class GroupServiceTest {
 		List<TalkResponse> expect = new ArrayList<>();
 		var entity = new TalkResponse();
 		entity.setUserIdName("3");
+		entity.setUserName("1");
 		entity.setTimestampString(TIMESTAMP_STRING_TEMPLATE);
 		entity.setTalkIndex(4);
 		entity.setContent(CONTENT_TEXT_FIREST + "4");
@@ -287,6 +291,7 @@ class GroupServiceTest {
 		
 		entity = new TalkResponse();
 		entity.setUserIdName("3");
+		entity.setUserName("1");
 		entity.setTimestampString(TIMESTAMP_STRING_TEMPLATE);
 		entity.setTalkIndex(5);
 		entity.setContent(CONTENT_TEXT_FIREST + "5");
@@ -294,6 +299,7 @@ class GroupServiceTest {
 		
 		entity = new TalkResponse();
 		entity.setUserIdName("3");
+		entity.setUserName("1");
 		entity.setTimestampString(TIMESTAMP_STRING_TEMPLATE);
 		entity.setTalkIndex(6);
 		entity.setContent(CONTENT_TEXT_FIREST + "6");
@@ -301,6 +307,7 @@ class GroupServiceTest {
 		
 		entity = new TalkResponse();
 		entity.setUserIdName("3");
+		entity.setUserName("1");
 		entity.setTimestampString(TIMESTAMP_STRING_TEMPLATE);
 		entity.setTalkIndex(7);
 		entity.setContent(CONTENT_TEXT_FIREST + "7");

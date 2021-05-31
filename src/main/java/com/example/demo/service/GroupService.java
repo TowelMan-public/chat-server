@@ -48,13 +48,14 @@ public class GroupService {
 	 * @throws NotJoinGroupException
 	 * @throws NotFoundException
 	 */
-	public GroupTalkRoomEntity getGroup(UserDetailsImp user, Integer talkRoomId) throws NotJoinGroupException, NotFoundException {
+	public GroupTalkRoomResponse getGroup(UserDetailsImp user, Integer talkRoomId) throws NotJoinGroupException, NotFoundException {
 		//チェック
-		groupLogic.validationIsFound(talkRoomId);
-		userInGroupLogic.validationJoinGroup(talkRoomId, user.getUserId());
+		GroupTalkRoomEntity groupEntity = groupLogic.getGroup(talkRoomId);
+		UserInGroupEntity userInGroupEntity = userInGroupLogic.getGroup(talkRoomId, user.getUserId());
+		
 		
 		//処理
-		return groupLogic.getGroupNonThrows(talkRoomId);
+		return new GroupTalkRoomResponse(groupEntity, userInGroupEntity);
 	}
 	
 	/**

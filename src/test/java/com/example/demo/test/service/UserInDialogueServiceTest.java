@@ -181,4 +181,47 @@ class UserInDialogueServiceTest {
 		assertThrows(NotHaveUserException.class ,
 				() -> userInDialogueService.deleteUserInDiarogue(user, HAVE_USER_ID_NAME));
 	}
+	
+	//getUserInDiarogue
+	//正常
+	@Test
+	@Transactional
+	void T08_getUserInDiarogue_1() {
+		//テストパラメータ作成
+		final String HAVE_USER_ID_NAME = "3";
+		final Integer USER_ID = 1;
+		var user = new UserDetailsImp();
+		user.setUserId(USER_ID);
+		
+		//期待値の作成
+		var expect = new HaveUserResponse();
+		expect.setHaveUserIdName(HAVE_USER_ID_NAME);
+		expect.setHaveUserName("1");
+		expect.setMyLastTalkIndex(1);
+		expect.setTalkLastTalkIndex(1);
+		expect.setTalkRoomId(3);
+		
+		try {
+			HaveUserResponse result = userInDialogueService.getUserInDiarogue(user, HAVE_USER_ID_NAME);
+			assertThat(result).isEqualTo(expect);
+		} catch (NotFoundException | NotHaveUserException e) {
+			Assertions.assertTrue(false);
+		}
+	}
+	
+	//getUserInDiarogue
+	//異常 友達登録してない
+	@Test
+	@Transactional
+	void T09_getUserInDiarogue_2() {
+		//テストパラメータ作成
+		final String HAVE_USER_ID_NAME = "3";
+		final Integer USER_ID = 70;
+		var user = new UserDetailsImp();
+		user.setUserId(USER_ID);
+		
+		//実行
+		assertThrows(NotHaveUserException.class ,
+				() -> userInDialogueService.getUserInDiarogue(user, HAVE_USER_ID_NAME));
+	}
 }

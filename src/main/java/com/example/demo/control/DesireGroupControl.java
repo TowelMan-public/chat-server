@@ -36,8 +36,21 @@ public class DesireGroupControl {
 	 * @return グループ加入申請一覧
 	 */
 	@GetMapping("gets")
-	public List<DesireUserInGroupResponce> getDesireGroup(@AuthenticationPrincipal UserDetailsImp user) {
-		return desireGroupService.getDesireGroup(user);
+	public List<DesireUserInGroupResponce> getDesireGroupList(@AuthenticationPrincipal UserDetailsImp user) {
+		return desireGroupService.getDesireGroupList(user);
+	}
+	
+	/**
+	 * APIの呼び出し: /desire/group/get(GET)<br>
+	 * グループ加入申請取得<br>
+	 * @param user アクセスしたユーザーの情報
+	 * @return グループ加入申請
+	 * @throws NotFoundException 
+	 */
+	@GetMapping("get")
+	public DesireUserInGroupResponce getDesireGroup(@AuthenticationPrincipal UserDetailsImp user,@Validated(Groups.Get.class) DesireGroupForm form)
+			throws NotFoundException {
+		return desireGroupService.getDesireGroup(user, form.getTalkRoomId());
 	}
 	
 	/**

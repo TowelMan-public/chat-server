@@ -33,7 +33,7 @@ class DesireUserServiceTest {
 		user.setUserId(USER_ID);
 		
 		//実行
-		List<DesireHaveUserResponse> result = desireUserService.getDesireUser(user);
+		List<DesireHaveUserResponse> result = desireUserService.getDesireUserList(user);
 		assertThat(result).isEmpty();
 	}
 	
@@ -57,7 +57,7 @@ class DesireUserServiceTest {
 		expect.add(entity);
 		
 		//実行
-		List<DesireHaveUserResponse> result = desireUserService.getDesireUser(user);
+		List<DesireHaveUserResponse> result = desireUserService.getDesireUserList(user);
 		assertThat(result).containsExactlyElementsOf(expect);
 	}
 	
@@ -163,5 +163,47 @@ class DesireUserServiceTest {
 		//実行
 		assertThrows(NotFoundException.class ,
 				() -> desireUserService.joinUser(user, DESIRE_HAVE_USER_ID_NAME));
+	}
+	
+	//getDesireUser
+	//正常
+	@Test
+	@Transactional
+	void T08_getDesireUser_1() {
+		//テストパラメータ作成
+		final String DESIRE_HAVE_USER_ID_NAME = "1";
+		final Integer USER_ID = 3;
+		var user = new UserDetailsImp();
+		user.setUserId(USER_ID);
+		
+		//期待値
+		var expect = new DesireHaveUserResponse();
+		expect.setHaveUserIdName(DESIRE_HAVE_USER_ID_NAME);
+		expect.setHaveUserName("1");
+		expect.setTalkRoomId(3);
+		expect.setLastTalkIndex(0);
+		
+		try {
+			DesireHaveUserResponse result = desireUserService.getDesireUser(user, DESIRE_HAVE_USER_ID_NAME);
+			assertThat(result).isEqualTo(expect);
+		} catch (NotFoundException e) {
+			assertTrue(false);
+		}
+	}
+	
+	//getDesireUser
+	//異常 ユーザー見つからない（元からない）
+	@Test
+	@Transactional
+	void T09_getDesireUser_2() {
+		//テストパラメータ作成
+		final String DESIRE_HAVE_USER_ID_NAME = "nothing";
+		final Integer USER_ID = 1;
+		var user = new UserDetailsImp();
+		user.setUserId(USER_ID);
+		
+		//実行
+		assertThrows(NotFoundException.class ,
+				() -> desireUserService.getDesireUser(user, DESIRE_HAVE_USER_ID_NAME));
 	}
 }

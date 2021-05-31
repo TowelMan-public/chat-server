@@ -38,7 +38,7 @@ public class DesireGroupService {
 	 * @param user ユーザー情報
 	 * @return レスポンス用のグループに加入してほしい申請リスト
 	 */
-	public List<DesireUserInGroupResponce> getDesireGroup(UserDetailsImp user) {
+	public List<DesireUserInGroupResponce> getDesireGroupList(UserDetailsImp user) {
 		//データ取得・宣言
 		List<DesireUserInGroupEntity> desireEntityList = desireUserInGroupLogic.getDesireGroupList(user.getUserId());
 		List<DesireUserInGroupResponce> responceEntityList = new ArrayList<>();
@@ -87,6 +87,20 @@ public class DesireGroupService {
 		DesireUserInGroupEntity desireEntity = desireUserInGroupLogic.getDesireGroup(user.getUserId(), talkRoomId);
 		desireUserInGroupLogic.delete(user.getUserId(),talkRoomId);
 		userInGroupLogic.joinGroup(desireEntity);
+	}
+
+	/**
+	 * グループ加入してほしい申請が出されているユーザーのためのグループ情報の樹徳
+	 * @param user ユーザー情報
+	 * @param talkRoomId グループトークルームID
+	 * @return グループ加入してほしい申請が出されているユーザーのためのグループ情報
+	 * @throws NotFoundException
+	 */
+	public DesireUserInGroupResponce getDesireGroup(UserDetailsImp user, Integer talkRoomId) throws NotFoundException {
+		GroupTalkRoomEntity groupEntity = groupLogic.getGroup(talkRoomId);
+		DesireUserInGroupEntity desireEntity = desireUserInGroupLogic.getDesireGroup(user.getUserId(), talkRoomId);
+		
+		return new DesireUserInGroupResponce(desireEntity, groupEntity);
 	}
 	
 }
