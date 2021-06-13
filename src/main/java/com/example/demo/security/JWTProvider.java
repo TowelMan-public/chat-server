@@ -28,7 +28,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JWTProvider {
 
     // Signatureのエンコードに使うシークレットキー
-    public static final String TOKEN_SECRET_KEY = "aeryrt27jiy2574eartaz";
+    public static final String TOKEN_SECRET_KEY = "aq347[@op6y@p-sz]";
     
     public static final String USER_NAME = "userName";
     public static final String USER_ID_NAME = "userIdName";

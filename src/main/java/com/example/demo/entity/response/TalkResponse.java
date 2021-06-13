@@ -29,7 +29,7 @@ public class TalkResponse {
 		userIdName = userEntity.getUserIdName();
 		userName = userEntity.getUserName();
 		content = talkEntity.getContent();
-		var format = new SimpleDateFormat("yyyy/M/d/HH/mm");
+		var format = new SimpleDateFormat("yyyy/M/d  HH:mm");
 		timestampString = format.format(talkEntity.getTimestamp());
 	}
 
