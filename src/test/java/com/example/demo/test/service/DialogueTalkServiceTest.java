@@ -22,7 +22,7 @@ class DialogueTalkServiceTest {
 	DialogueTalkService dialogueTalkService;
 	
 	
-	private static final String TIMESTAMP_STRING_TEMPLATE = "2020/9/9/00/00";
+	private static final String TIMESTAMP_STRING_TEMPLATE = "2020/9/9  00:00";
 	
 	private static final String CONTENT_TEXT_FIREST = "test";
 	
